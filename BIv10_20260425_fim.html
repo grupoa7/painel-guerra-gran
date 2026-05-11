@@ -196,6 +196,7 @@ body { font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI'
 .ancora-delta-green { background: rgba(22,163,74,0.15); color: #15803d; }
 .ancora-delta-red { background: rgba(220,38,38,0.12); color: #991b1b; }
 
+/* DESTAQUES SEM VENDA v5 — linguagem 'agora · dia' igual âncoras v5 */
 .destaques-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
 .destaque-card { background: var(--sem-vermelho-bg); border: 2px solid #fca5a5;
                    border-radius: 10px; padding: 14px 14px 12px; }
@@ -203,18 +204,20 @@ body { font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI'
                      letter-spacing: 1px; margin-bottom: 6px; }
 .destaque-desc { font-size: 1rem; font-weight: 800; color: var(--gran-quase-preto);
                    line-height: 1.25; min-height: 2.5em; margin-bottom: 4px; }
-.destaque-row { display: flex; justify-content: space-between; align-items: center; gap: 6px;
-                  font-size: 0.7rem; margin-bottom: 8px; }
-.destaque-cod { font-weight: 700; color: var(--gran-cinza-claro);
-                  font-family: 'JetBrains Mono', monospace; }
-.destaque-curva { background: var(--sem-vermelho); color: white; padding: 2px 8px; border-radius: 4px;
-                    font-size: 0.65rem; font-weight: 800; }
-.destaque-esperado { display: flex; justify-content: space-between; align-items: center;
-                       padding-top: 8px; border-top: 1px solid rgba(220,38,38,0.2); gap: 6px; }
-.destaque-qtd { font-size: 0.85rem; color: var(--gran-quase-preto); font-weight: 600; }
-.destaque-qtd strong { color: var(--sem-vermelho); font-family: 'JetBrains Mono', monospace; font-size: 1.05rem; }
-.destaque-val { font-size: 0.75rem; color: var(--gran-cinza); font-weight: 600;
-                  font-family: 'JetBrains Mono', monospace; }
+.destaque-cod { font-size: 0.68rem; font-weight: 700; color: var(--gran-cinza-claro);
+                  letter-spacing: 0.3px; font-family: 'JetBrains Mono', monospace; margin-bottom: 8px; }
+.destaque-numbers { margin-top: 6px; padding-top: 8px; border-top: 1px solid rgba(220,38,38,0.2); }
+.destaque-line { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.destaque-agora { font-size: 1.1rem; font-weight: 900;
+                    font-family: 'JetBrains Mono', monospace; color: var(--sem-vermelho); }
+.destaque-unid { font-size: 0.7rem; font-weight: 700; color: var(--gran-cinza); }
+.destaque-dia { font-weight: 800; color: var(--gran-verde-escuro);
+                  background: var(--gran-creme); padding: 2px 8px; border-radius: 4px;
+                  font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; }
+.destaque-delta { margin-top: 8px; font-size: 0.8rem; font-weight: 800;
+                    padding: 4px 8px; border-radius: 6px; display: inline-block;
+                    font-family: 'JetBrains Mono', monospace;
+                    background: rgba(220,38,38,0.12); color: #991b1b; }
 
 .info-stripe { background: var(--gran-creme); padding: 12px 24px; font-size: 0.9rem;
                  color: var(--gran-quase-preto); text-align: center; font-weight: 700;
@@ -353,194 +356,98 @@ body { font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI'
   <div class="destaques-grid">
         <div class="destaque-card">
           <div class="destaque-status">⚠️ ZERO VENDAS</div>
-          <div class="destaque-desc">CERV AMSTEL LT 350ML</div>
-          <div class="destaque-row">
-            <span class="destaque-cod">cód 3075</span>
-            <span class="destaque-curva">A*</span>
-          </div>
-          <div class="destaque-esperado">
-            <span class="destaque-qtd">📊 esperado: <strong>36 UN</strong></span>
-            <span class="destaque-val">R$ 158</span>
-          </div>
-        </div>
-        <div class="destaque-card">
-          <div class="destaque-status">⚠️ ZERO VENDAS</div>
-          <div class="destaque-desc">BANANA PRATA KG</div>
-          <div class="destaque-row">
-            <span class="destaque-cod">cód 15</span>
-            <span class="destaque-curva">A*</span>
-          </div>
-          <div class="destaque-esperado">
-            <span class="destaque-qtd">📊 esperado: <strong>26 KG</strong></span>
-            <span class="destaque-val">R$ 292</span>
-          </div>
-        </div>
-        <div class="destaque-card">
-          <div class="destaque-status">⚠️ ZERO VENDAS</div>
-          <div class="destaque-desc">PAO TRADICIONAL KG</div>
-          <div class="destaque-row">
-            <span class="destaque-cod">cód 1</span>
-            <span class="destaque-curva">A*</span>
-          </div>
-          <div class="destaque-esperado">
-            <span class="destaque-qtd">📊 esperado: <strong>23 KG</strong></span>
-            <span class="destaque-val">R$ 463</span>
-          </div>
-        </div>
-        <div class="destaque-card">
-          <div class="destaque-status">⚠️ ZERO VENDAS</div>
-          <div class="destaque-desc">BRIGAD COLHER GOODIES 180G</div>
-          <div class="destaque-row">
-            <span class="destaque-cod">cód 4604</span>
-            <span class="destaque-curva">A*</span>
-          </div>
-          <div class="destaque-esperado">
-            <span class="destaque-qtd">📊 esperado: <strong>19 UN</strong></span>
-            <span class="destaque-val">R$ 432</span>
-          </div>
-        </div>
-        <div class="destaque-card">
-          <div class="destaque-status">⚠️ ZERO VENDAS</div>
-          <div class="destaque-desc">CERV ORIGI ANTAR PILSEN LT 350ML</div>
-          <div class="destaque-row">
-            <span class="destaque-cod">cód 3781</span>
-            <span class="destaque-curva">A*</span>
-          </div>
-          <div class="destaque-esperado">
-            <span class="destaque-qtd">📊 esperado: <strong>19 UN</strong></span>
-            <span class="destaque-val">R$ 101</span>
+          <div class="destaque-desc">TANGERINA IMPORTADA KG</div>
+          <div class="destaque-cod">cód 84</div>
+          <div class="destaque-numbers">
+            <div class="destaque-line">
+              <span class="destaque-agora">0 <span class="destaque-unid">KG</span> agora</span>
+              <span class="destaque-dia">6 KG dia</span>
+            </div>
+            <div class="destaque-delta">−R$ 193 perdidos até agora</div>
           </div>
         </div>
         <div class="destaque-card">
           <div class="destaque-status">⚠️ ZERO VENDAS</div>
           <div class="destaque-desc">BANANA TERRA KG</div>
-          <div class="destaque-row">
-            <span class="destaque-cod">cód 16</span>
-            <span class="destaque-curva">A*</span>
-          </div>
-          <div class="destaque-esperado">
-            <span class="destaque-qtd">📊 esperado: <strong>15 KG</strong></span>
-            <span class="destaque-val">R$ 167</span>
-          </div>
-        </div>
-        <div class="destaque-card">
-          <div class="destaque-status">⚠️ ZERO VENDAS</div>
-          <div class="destaque-desc">LIMAO TAHITI KG</div>
-          <div class="destaque-row">
-            <span class="destaque-cod">cód 44</span>
-            <span class="destaque-curva">A*</span>
-          </div>
-          <div class="destaque-esperado">
-            <span class="destaque-qtd">📊 esperado: <strong>15 KG</strong></span>
-            <span class="destaque-val">R$ 100</span>
+          <div class="destaque-cod">cód 16</div>
+          <div class="destaque-numbers">
+            <div class="destaque-line">
+              <span class="destaque-agora">0 <span class="destaque-unid">KG</span> agora</span>
+              <span class="destaque-dia">15 KG dia</span>
+            </div>
+            <div class="destaque-delta">−R$ 167 perdidos até agora</div>
           </div>
         </div>
         <div class="destaque-card">
           <div class="destaque-status">⚠️ ZERO VENDAS</div>
-          <div class="destaque-desc">LARANJA PERA KG</div>
-          <div class="destaque-row">
-            <span class="destaque-cod">cód 40</span>
-            <span class="destaque-curva">A*</span>
-          </div>
-          <div class="destaque-esperado">
-            <span class="destaque-qtd">📊 esperado: <strong>12 KG</strong></span>
-            <span class="destaque-val">R$ 59</span>
-          </div>
-        </div>
-        <div class="destaque-card">
-          <div class="destaque-status">⚠️ ZERO VENDAS</div>
-          <div class="destaque-desc">COENTRO UND</div>
-          <div class="destaque-row">
-            <span class="destaque-cod">cód 213</span>
-            <span class="destaque-curva">A*</span>
-          </div>
-          <div class="destaque-esperado">
-            <span class="destaque-qtd">📊 esperado: <strong>12 UN</strong></span>
-            <span class="destaque-val">R$ 40</span>
-          </div>
-        </div>
-        <div class="destaque-card">
-          <div class="destaque-status">⚠️ ZERO VENDAS</div>
-          <div class="destaque-desc">CERV HEINEKEN LT 350ML</div>
-          <div class="destaque-row">
-            <span class="destaque-cod">cód 2488</span>
-            <span class="destaque-curva">A*</span>
-          </div>
-          <div class="destaque-esperado">
-            <span class="destaque-qtd">📊 esperado: <strong>11 UN</strong></span>
-            <span class="destaque-val">R$ 69</span>
-          </div>
-        </div>
-        <div class="destaque-card">
-          <div class="destaque-status">⚠️ ZERO VENDAS</div>
-          <div class="destaque-desc">ALFACE CRESPA SUPREMA 120G</div>
-          <div class="destaque-row">
-            <span class="destaque-cod">cód 526</span>
-            <span class="destaque-curva">A*</span>
-          </div>
-          <div class="destaque-esperado">
-            <span class="destaque-qtd">📊 esperado: <strong>11 UN</strong></span>
-            <span class="destaque-val">R$ 53</span>
-          </div>
-        </div>
-        <div class="destaque-card">
-          <div class="destaque-status">⚠️ ZERO VENDAS</div>
-          <div class="destaque-desc">REFRIG COCA COLA S ACUC 350ML</div>
-          <div class="destaque-row">
-            <span class="destaque-cod">cód 2469</span>
-            <span class="destaque-curva">A*</span>
-          </div>
-          <div class="destaque-esperado">
-            <span class="destaque-qtd">📊 esperado: <strong>11 UN</strong></span>
-            <span class="destaque-val">R$ 45</span>
-          </div>
-        </div>
-        <div class="destaque-card">
-          <div class="destaque-status">⚠️ ZERO VENDAS</div>
-          <div class="destaque-desc">REFRIG COCA COLA S ACUC 1L</div>
-          <div class="destaque-row">
-            <span class="destaque-cod">cód 3627</span>
-            <span class="destaque-curva">A*</span>
-          </div>
-          <div class="destaque-esperado">
-            <span class="destaque-qtd">📊 esperado: <strong>11 UN</strong></span>
-            <span class="destaque-val">R$ 72</span>
-          </div>
-        </div>
-        <div class="destaque-card">
-          <div class="destaque-status">⚠️ ZERO VENDAS</div>
-          <div class="destaque-desc">OVOS BCO GDE C30</div>
-          <div class="destaque-row">
-            <span class="destaque-cod">cód 6152</span>
-            <span class="destaque-curva">A*</span>
-          </div>
-          <div class="destaque-esperado">
-            <span class="destaque-qtd">📊 esperado: <strong>11 UN</strong></span>
-            <span class="destaque-val">R$ 235</span>
+          <div class="destaque-desc">CERV AMSTEL LT 350ML</div>
+          <div class="destaque-cod">cód 3075</div>
+          <div class="destaque-numbers">
+            <div class="destaque-line">
+              <span class="destaque-agora">0 <span class="destaque-unid">UN</span> agora</span>
+              <span class="destaque-dia">36 UN dia</span>
+            </div>
+            <div class="destaque-delta">−R$ 158 perdidos até agora</div>
           </div>
         </div>
         <div class="destaque-card">
           <div class="destaque-status">⚠️ ZERO VENDAS</div>
           <div class="destaque-desc">MAMAO PAPAYA KG</div>
-          <div class="destaque-row">
-            <span class="destaque-cod">cód 3394</span>
-            <span class="destaque-curva">A*</span>
-          </div>
-          <div class="destaque-esperado">
-            <span class="destaque-qtd">📊 esperado: <strong>10 KG</strong></span>
-            <span class="destaque-val">R$ 152</span>
+          <div class="destaque-cod">cód 3394</div>
+          <div class="destaque-numbers">
+            <div class="destaque-line">
+              <span class="destaque-agora">0 <span class="destaque-unid">KG</span> agora</span>
+              <span class="destaque-dia">10 KG dia</span>
+            </div>
+            <div class="destaque-delta">−R$ 152 perdidos até agora</div>
           </div>
         </div>
         <div class="destaque-card">
           <div class="destaque-status">⚠️ ZERO VENDAS</div>
-          <div class="destaque-desc">GALETO ASSADO GRAN KG</div>
-          <div class="destaque-row">
-            <span class="destaque-cod">cód 4324</span>
-            <span class="destaque-curva">A*</span>
+          <div class="destaque-desc">MORANGO 250G</div>
+          <div class="destaque-cod">cód 68</div>
+          <div class="destaque-numbers">
+            <div class="destaque-line">
+              <span class="destaque-agora">0 <span class="destaque-unid">UN</span> agora</span>
+              <span class="destaque-dia">9 UN dia</span>
+            </div>
+            <div class="destaque-delta">−R$ 144 perdidos até agora</div>
           </div>
-          <div class="destaque-esperado">
-            <span class="destaque-qtd">📊 esperado: <strong>10 KG</strong></span>
-            <span class="destaque-val">R$ 405</span>
+        </div>
+        <div class="destaque-card">
+          <div class="destaque-status">⚠️ ZERO VENDAS</div>
+          <div class="destaque-desc">BATATA INGLESA KG</div>
+          <div class="destaque-cod">cód 108</div>
+          <div class="destaque-numbers">
+            <div class="destaque-line">
+              <span class="destaque-agora">0 <span class="destaque-unid">KG</span> agora</span>
+              <span class="destaque-dia">10 KG dia</span>
+            </div>
+            <div class="destaque-delta">−R$ 116 perdidos até agora</div>
+          </div>
+        </div>
+        <div class="destaque-card">
+          <div class="destaque-status">⚠️ ZERO VENDAS</div>
+          <div class="destaque-desc">QJ MUSS TIROLEZ KG</div>
+          <div class="destaque-cod">cód 506</div>
+          <div class="destaque-numbers">
+            <div class="destaque-line">
+              <span class="destaque-agora">0 <span class="destaque-unid">KG</span> agora</span>
+              <span class="destaque-dia">1 KG dia</span>
+            </div>
+            <div class="destaque-delta">−R$ 100 perdidos até agora</div>
+          </div>
+        </div>
+        <div class="destaque-card">
+          <div class="destaque-status">⚠️ ZERO VENDAS</div>
+          <div class="destaque-desc">LIMAO TAHITI KG</div>
+          <div class="destaque-cod">cód 44</div>
+          <div class="destaque-numbers">
+            <div class="destaque-line">
+              <span class="destaque-agora">0 <span class="destaque-unid">KG</span> agora</span>
+              <span class="destaque-dia">15 KG dia</span>
+            </div>
+            <div class="destaque-delta">−R$ 100 perdidos até agora</div>
           </div>
         </div></div>
 </section>
@@ -1115,7 +1022,7 @@ body { font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI'
 
 <div class="footer">
   Painel de Guerra Gran Hortifruti — motor v7 (MAPE 11%) · render v10 (âncoras v5)<br>
-  Atualizado em 11/05/2026 às 16:05
+  Atualizado em 11/05/2026 às 16:16
 </div>
 
 </div>
