@@ -1236,7 +1236,7 @@ body { font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI'
 
 <div class="footer">
   Painel de Guerra Gran Hortifruti — motor v7 (MAPE 11%) · render v11 (dropdown + cup1 baseline + tornados)<br>
-  Atualizado em 12/05/2026 às 11:11
+  Atualizado em 12/05/2026 às 11:21
 </div>
 
 </div>
@@ -1252,7 +1252,7 @@ function shareWhatsapp() {
 }
 
 // === v11: Ritmo intra-dia com dropdown 4 KPIs ===
-const SERIES = {"faturamento": {"real": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "baseline": [281.0, 1150.0, 2086.0, 3067.0, 4194.0, 5730.0, 7519.0, 8710.0, 9760.0, 10720.0, 12058.0, 13976.0, 16012.0, 17412.0, 18267.0, 18468.0], "label_real": "Real acumulado", "label_baseline": "Alvo (motor v7)", "tooltip_prefix": "R$ ", "tooltip_format": "rs", "y_format": "rs"}, "ticket_medio": {"real": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "baseline": [30.2, 33.72, 35.3, 35.5, 41.0, 41.0, 41.0, 41.0, 41.0, 41.0, 41.0, 41.0, 41.0, 41.0, 41.0, 41.0], "label_real": "Ticket M\u00e9dio real", "label_baseline": "Baseline L4W sexta", "tooltip_prefix": "R$ ", "tooltip_format": "rs2", "y_format": "rs2"}, "n_cupons": {"real": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "baseline": [5.0, 25.0, 48.0, 69.0, 86.0, 86.0, 86.0, 86.0, 86.0, 86.0, 86.0, 86.0, 86.0, 86.0, 86.0, 86.0], "label_real": "Cupons real", "label_baseline": "Baseline L4W sexta", "tooltip_prefix": "", "tooltip_format": "int", "y_format": "int"}, "itens_cupom": {"real": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "baseline": [2.8, 2.99, 3.24, 3.42, 3.8, 3.8, 3.8, 3.8, 3.8, 3.8, 3.8, 3.8, 3.8, 3.8, 3.8, 3.8], "label_real": "Itens/Cupom real", "label_baseline": "Baseline L4W sexta", "tooltip_prefix": "", "tooltip_format": "dec2", "y_format": "dec2"}};
+const SERIES = {"faturamento": {"real": [0, 0, 0, 0, 0, null, null, null, null, null, null, null, null, null, null, null], "baseline": [281.0, 1150.0, 2086.0, 3067.0, 4194.0, 5730.0, 7519.0, 8710.0, 9760.0, 10720.0, 12058.0, 13976.0, 16012.0, 17412.0, 18267.0, 18468.0], "label_real": "Real acumulado", "label_baseline": "Alvo (motor v7)", "tooltip_prefix": "R$ ", "tooltip_format": "rs", "y_format": "rs"}, "ticket_medio": {"real": [0, 0, 0, 0, 0, null, null, null, null, null, null, null, null, null, null, null], "baseline": [30.2, 33.72, 35.3, 35.5, 41.0, 41.0, 41.0, 41.0, 41.0, 41.0, 41.0, 41.0, 41.0, 41.0, 41.0, 41.0], "label_real": "Ticket M\u00e9dio real", "label_baseline": "Baseline L4W sexta", "tooltip_prefix": "R$ ", "tooltip_format": "rs2", "y_format": "rs2"}, "n_cupons": {"real": [0, 0, 0, 0, 0, null, null, null, null, null, null, null, null, null, null, null], "baseline": [5.0, 25.0, 48.0, 69.0, 86.0, 86.0, 86.0, 86.0, 86.0, 86.0, 86.0, 86.0, 86.0, 86.0, 86.0, 86.0], "label_real": "Cupons real", "label_baseline": "Baseline L4W sexta", "tooltip_prefix": "", "tooltip_format": "int", "y_format": "int"}, "itens_cupom": {"real": [0, 0, 0, 0, 0, null, null, null, null, null, null, null, null, null, null, null], "baseline": [2.8, 2.99, 3.24, 3.42, 3.8, 3.8, 3.8, 3.8, 3.8, 3.8, 3.8, 3.8, 3.8, 3.8, 3.8, 3.8], "label_real": "Itens/Cupom real", "label_baseline": "Baseline L4W sexta", "tooltip_prefix": "", "tooltip_format": "dec2", "y_format": "dec2"}};
 const CHART_LABELS = ["06h", "07h", "08h", "09h", "10h", "11h", "12h", "13h", "14h", "15h", "16h", "17h", "18h", "19h", "20h", "21h"];
 
 function fmtTooltip(val, fmt) {
