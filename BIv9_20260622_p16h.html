@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
+/* PALETA INSTITUCIONAL GRAN */
 :root {
   --gran-verde-escuro: #1e4d2b;
   --gran-verde-medio: #2d6a3f;
@@ -22,15 +23,13 @@
   --gran-cinza: #4a5248;
   --gran-cinza-claro: #8b8f86;
   --gran-quase-preto: #1a1f1a;
+  /* SEMÁFORO RIGOROSO (Hugo) */
   --sem-verde: #16a34a;
   --sem-verde-bg: #dcfce7;
   --sem-amarelo: #d97706;
   --sem-amarelo-bg: #fef3c7;
   --sem-vermelho: #dc2626;
   --sem-vermelho-bg: #fee2e2;
-  --tag-fixo: #1e4d2b;
-  --tag-dow:  #b48a00;
-  --tag-asc:  #0e6e8a;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -38,7 +37,10 @@ html { font-size: 16px; }
 body { font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         background: var(--gran-verde-fundo); color: var(--gran-quase-preto);
         line-height: 1.5; padding-bottom: 32px; }
+
 .num { font-family: 'JetBrains Mono', monospace; font-feature-settings: 'tnum'; }
+
+/* Cores semáforo */
 .bg-green { background: linear-gradient(135deg, #15803d, #22c55e); color: white; }
 .bg-yellow { background: linear-gradient(135deg, #b45309, #f59e0b); color: white; }
 .bg-red { background: linear-gradient(135deg, #991b1b, #dc2626); color: white; }
@@ -47,6 +49,7 @@ body { font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI'
 .text-yellow { color: var(--sem-amarelo); }
 .text-red { color: var(--sem-vermelho); }
 
+/* HEADER GRAN */
 .header { background: var(--gran-verde-escuro); color: white; padding: 18px 24px;
             position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(30,77,43,0.25); }
 .header-content { max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between;
@@ -57,8 +60,10 @@ body { font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI'
 .header .hora-corte { font-size: 0.75rem; background: rgba(255,255,255,0.15); padding: 4px 10px;
                         border-radius: 4px; font-weight: 600; letter-spacing: 0.5px; }
 
+/* CONTAINER */
 .container { max-width: 1280px; margin: 0 auto; padding: 0; }
 
+/* HERO ESTADO GERAL */
 .hero { padding: 36px 24px; text-align: center; position: relative; overflow: hidden; }
 .hero::before { content: ""; position: absolute; top: -50%; right: -20%; width: 250px; height: 250px;
                   background: radial-gradient(circle, rgba(255,255,255,0.15), transparent); border-radius: 50%; }
@@ -72,6 +77,7 @@ body { font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI'
               font-size: 1rem; font-weight: 700; margin: 16px auto 0; max-width: 600px;
               backdrop-filter: blur(8px); }
 
+/* PROGRESS DESAFIO */
 .progress-section { background: white; padding: 20px 24px; border-bottom: 2px solid var(--gran-bege); }
 .progress-info { display: flex; justify-content: space-between; align-items: baseline;
                    margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
@@ -90,11 +96,13 @@ body { font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI'
 .progress-marks { display: flex; justify-content: space-between; margin-top: 8px;
                     font-size: 0.75rem; color: var(--gran-cinza-claro); }
 
+/* INSIGHT BOX */
 .insight-box { background: var(--gran-creme); border-left: 5px solid var(--gran-dourado);
                  padding: 14px 18px; margin: 16px; border-radius: 8px;
                  font-size: 0.95rem; line-height: 1.6; color: var(--gran-quase-preto); }
 .insight-box strong { font-weight: 800; color: var(--gran-verde-escuro); }
 
+/* QUICK STATS */
 .quick-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 16px; }
 .quick-stat { background: white; border-radius: 12px; padding: 18px;
                 border: 1px solid var(--gran-bege); }
@@ -104,19 +112,20 @@ body { font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI'
                       font-family: 'JetBrains Mono', monospace; }
 .quick-stat .sub { font-size: 0.8rem; color: var(--gran-cinza); margin-top: 6px; font-weight: 600; }
 
+/* SECTIONS */
 .section { background: white; padding: 22px 24px; margin: 16px;
             border-radius: 16px; border: 1px solid var(--gran-bege); }
 .section-title { font-size: 1.15rem; font-weight: 800; margin-bottom: 18px;
                    color: var(--gran-verde-escuro); display: flex; align-items: center; gap: 10px; }
-.section-sub { font-size: 0.82rem; color: var(--gran-cinza); font-weight: 600;
-                margin-top: -10px; margin-bottom: 16px; }
 
+/* CHART */
 .chart-wrap { position: relative; height: 280px; }
 .chart-legend { display: flex; gap: 18px; justify-content: center; margin-top: 12px; font-size: 0.85rem;
                   color: var(--gran-cinza); font-weight: 600; }
 .chart-legend span { display: inline-flex; align-items: center; gap: 6px; }
 .chart-legend .dot { width: 12px; height: 12px; border-radius: 50%; }
 
+/* KPI CARDS */
 .kpi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 .kpi-card { padding: 16px; border-radius: 12px; text-align: center; color: white; }
 .kpi-icon { font-size: 1.7rem; margin-bottom: 6px; }
@@ -132,6 +141,7 @@ body { font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI'
 .kpi-red { background: linear-gradient(135deg, #991b1b, #dc2626); }
 .kpi-gray, .kpi-neutral { background: linear-gradient(135deg, var(--gran-cinza), var(--gran-cinza-claro)); }
 
+/* DEPARTAMENTOS */
 .dept-row { display: grid; grid-template-columns: 1fr 80px; gap: 14px; align-items: center;
               padding: 14px 0; border-bottom: 1px solid var(--gran-verde-fundo); }
 .dept-row:last-child { border-bottom: none; }
@@ -154,7 +164,7 @@ body { font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI'
 .dept-pct-red { background: var(--sem-vermelho-bg); color: var(--sem-vermelho); }
 .dept-pct-gray { background: var(--gran-bege); color: var(--gran-cinza); }
 
-/* ÂNCORAS V5 — base do v9 + ajustes (tags F/D/A + alvo agora/dia) */
+/* ÂNCORAS — descrição GRANDE no topo, código pequeno embaixo (Hugo's order) */
 .ancora-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 .ancora-card { padding: 14px 14px 12px; border-radius: 12px; border: 2px solid; position: relative;
                  background: white; }
@@ -171,32 +181,20 @@ body { font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI'
 .ancora-gray .ancora-pct { color: var(--gran-cinza); border: 2px solid var(--gran-cinza-claro); }
 .ancora-desc { font-size: 1rem; font-weight: 800; color: var(--gran-quase-preto);
                  line-height: 1.25; min-height: 2.4em; padding-right: 60px; margin-bottom: 4px; }
-.ancora-cod-line { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
 .ancora-cod { font-size: 0.68rem; font-weight: 700; color: var(--gran-cinza-claro);
-                letter-spacing: 0.3px; font-family: 'JetBrains Mono', monospace; }
-.tag { display: inline-flex; align-items: center; justify-content: center;
-        width: 18px; height: 18px; border-radius: 4px;
-        font-size: 0.62rem; font-weight: 800; color: white; }
-.tag-F { background: var(--tag-fixo); }
-.tag-D { background: var(--tag-dow); }
-.tag-A { background: var(--tag-asc); }
+                letter-spacing: 0.3px; font-family: 'JetBrains Mono', monospace; margin-bottom: 8px; }
 .ancora-numbers { margin-top: 6px; padding-top: 8px; border-top: 1px solid rgba(0,0,0,0.08); }
 .ancora-real { font-size: 1.4rem; font-weight: 900; line-height: 1;
                  font-family: 'JetBrains Mono', monospace; color: var(--gran-quase-preto); }
 .ancora-unid { font-size: 0.7rem; font-weight: 700; color: var(--gran-cinza); }
 .ancora-alvo { font-size: 0.75rem; color: var(--gran-cinza); margin-top: 2px; font-weight: 600; }
-.ancora-alvo .agora { font-weight: 700; color: var(--gran-cinza); }
-.ancora-alvo .dia { font-weight: 800; color: var(--gran-verde-escuro);
-                      background: var(--gran-creme); padding: 1px 6px; border-radius: 4px;
-                      font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
-                      margin-left: 4px; }
 .ancora-delta { margin-top: 8px; font-size: 0.8rem; font-weight: 800;
                   padding: 4px 8px; border-radius: 6px; display: inline-block;
                   font-family: 'JetBrains Mono', monospace; }
 .ancora-delta-green { background: rgba(22,163,74,0.15); color: #15803d; }
 .ancora-delta-red { background: rgba(220,38,38,0.12); color: #991b1b; }
 
-/* DESTAQUES SEM VENDA v5 — linguagem 'agora · dia' igual âncoras v5 */
+/* DESTAQUES SEM VENDA — descrição grande, qtd esperada destacada */
 .destaques-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
 .destaque-card { background: var(--sem-vermelho-bg); border: 2px solid #fca5a5;
                    border-radius: 10px; padding: 14px 14px 12px; }
@@ -204,25 +202,25 @@ body { font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI'
                      letter-spacing: 1px; margin-bottom: 6px; }
 .destaque-desc { font-size: 1rem; font-weight: 800; color: var(--gran-quase-preto);
                    line-height: 1.25; min-height: 2.5em; margin-bottom: 4px; }
-.destaque-cod { font-size: 0.68rem; font-weight: 700; color: var(--gran-cinza-claro);
-                  letter-spacing: 0.3px; font-family: 'JetBrains Mono', monospace; margin-bottom: 8px; }
-.destaque-numbers { margin-top: 6px; padding-top: 8px; border-top: 1px solid rgba(220,38,38,0.2); }
-.destaque-line { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-.destaque-agora { font-size: 1.1rem; font-weight: 900;
-                    font-family: 'JetBrains Mono', monospace; color: var(--sem-vermelho); }
-.destaque-unid { font-size: 0.7rem; font-weight: 700; color: var(--gran-cinza); }
-.destaque-dia { font-weight: 800; color: var(--gran-verde-escuro);
-                  background: var(--gran-creme); padding: 2px 8px; border-radius: 4px;
-                  font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; }
-.destaque-delta { margin-top: 8px; font-size: 0.8rem; font-weight: 800;
-                    padding: 4px 8px; border-radius: 6px; display: inline-block;
-                    font-family: 'JetBrains Mono', monospace;
-                    background: rgba(220,38,38,0.12); color: #991b1b; }
+.destaque-row { display: flex; justify-content: space-between; align-items: center; gap: 6px;
+                  font-size: 0.7rem; margin-bottom: 8px; }
+.destaque-cod { font-weight: 700; color: var(--gran-cinza-claro);
+                  font-family: 'JetBrains Mono', monospace; }
+.destaque-curva { background: var(--sem-vermelho); color: white; padding: 2px 8px; border-radius: 4px;
+                    font-size: 0.65rem; font-weight: 800; }
+.destaque-esperado { display: flex; justify-content: space-between; align-items: center;
+                       padding-top: 8px; border-top: 1px solid rgba(220,38,38,0.2); gap: 6px; }
+.destaque-qtd { font-size: 0.85rem; color: var(--gran-quase-preto); font-weight: 600; }
+.destaque-qtd strong { color: var(--sem-vermelho); font-family: 'JetBrains Mono', monospace; font-size: 1.05rem; }
+.destaque-val { font-size: 0.75rem; color: var(--gran-cinza); font-weight: 600;
+                  font-family: 'JetBrains Mono', monospace; }
 
+/* INFO STRIPE */
 .info-stripe { background: var(--gran-creme); padding: 12px 24px; font-size: 0.9rem;
                  color: var(--gran-quase-preto); text-align: center; font-weight: 700;
                  border-bottom: 2px solid var(--gran-dourado); }
 
+/* SHARE BUTTON */
 .share-btn { width: 100%; padding: 16px; background: #25d366; color: white; border: none;
               border-radius: 12px; font-size: 1.05rem; font-weight: 800; cursor: pointer;
               box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3); transition: transform 0.1s;
@@ -231,18 +229,28 @@ body { font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI'
 
 .footer { text-align: center; padding: 20px; font-size: 0.75rem; color: var(--gran-cinza-claro); }
 
+/* === RESPONSIVO VERDADEIRO === */
+
+/* TABLET (768px - 1279px): 2 colunas */
 @media (min-width: 768px) {
   .quick-stats { grid-template-columns: repeat(2, 1fr); }
   .kpi-grid { grid-template-columns: repeat(4, 1fr); }
   .ancora-grid { grid-template-columns: repeat(3, 1fr); }
   .destaques-grid { grid-template-columns: repeat(3, 1fr); }
   .hero .venda-grande { font-size: 4rem; }
+  
+  .layout-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
 }
 
+/* DESKTOP (≥1280px): 3 colunas, dashboard completo visível */
 @media (min-width: 1280px) {
   .container { padding: 0 16px; }
   .ancora-grid { grid-template-columns: repeat(5, 1fr); }
   .destaques-grid { grid-template-columns: repeat(4, 1fr); }
+  
+  .layout-3col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .layout-3col .section { margin: 0; }
+  
   .hero { padding: 48px 32px; }
   .hero .venda-grande { font-size: 5rem; }
 }
@@ -257,7 +265,7 @@ body { font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI'
     <div>
       <div class="data">Segunda, 22 de Junho de 2026</div>
     </div>
-    <div class="hora-corte">PARCIAL ATÉ 11:00</div>
+    <div class="hora-corte">PARCIAL ATÉ 16:00</div>
   </div>
 </header>
 
@@ -265,21 +273,23 @@ body { font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI'
 
 <div class="info-stripe">📅 Hoje é OK • IMPACTO 1</div>
 
+<!-- HERO ESTADO GERAL -->
 <section class="hero bg-red">
   <div class="label">VENDA REAL ATÉ AGORA</div>
-  <div class="venda-grande">R$ 2.848</div>
-  <div class="meta-line">de R$ 3.719 esperado pra esta hora</div>
-  <div class="delta">⚠️ R$ 871 abaixo do alvo</div>
-  <div class="msg">Atenção time! Faltam R$ 13,265 pra bater o desafio.</div>
+  <div class="venda-grande">R$ 8.105</div>
+  <div class="meta-line">de R$ 9.600 esperado pra esta hora</div>
+  <div class="delta">⚠️ R$ 1.495 abaixo do alvo</div>
+  <div class="msg">Atenção time! Faltam R$ 8,008 pra bater o desafio.</div>
 </section>
 
+<!-- PROGRESS DESAFIO -->
 <section class="progress-section">
   <div class="progress-info">
-    <span class="progress-label">🎯 18% do desafio</span>
-    <span class="progress-sub">faltam R$ 13.265</span>
+    <span class="progress-label">🎯 50% do desafio</span>
+    <span class="progress-sub">faltam R$ 8.008</span>
   </div>
   <div class="progress-bar-wrap">
-    <div class="progress-bar progress-bar-red" style="width:17.7%"></div>
+    <div class="progress-bar progress-bar-red" style="width:50.3%"></div>
   </div>
   <div class="progress-marks">
     <span>R$ 0</span><span>R$ 16.113</span>
@@ -289,11 +299,12 @@ body { font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI'
 
         <div class="insight-box">
           <strong>💡 Foco do time:</strong>
-          🟢 <span class="text-green">Carnes, Aves & Pescados</span> em 209%
+          🟢 <span class="text-green">Gran Mesa</span> em 194%
           &nbsp;|&nbsp;
-          🔴 <span class="text-red">Granel</span> em 11%
+          🔴 <span class="text-red">Granel</span> em 32%
         </div>
 
+<!-- QUICK STATS -->
 <section class="quick-stats">
   <div class="quick-stat">
     <div class="label">📅 Mesmo segunda passado</div>
@@ -303,10 +314,11 @@ body { font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI'
   <div class="quick-stat">
     <div class="label">🏁 Desafio do dia</div>
     <div class="valor">R$ 16.113</div>
-    <div class="sub">faltam R$ 13.265</div>
+    <div class="sub">faltam R$ 8.008</div>
   </div>
 </section>
 
+<!-- GRÁFICO INTRA-DIA -->
 <section class="section">
   <h2 class="section-title">📈 Ritmo intra-dia (acumulado)</h2>
   <div class="chart-wrap"><canvas id="chartRitmo"></canvas></div>
@@ -316,6 +328,7 @@ body { font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI'
   </div>
 </section>
 
+<!-- KPIs -->
 <section class="section">
   <h2 class="section-title">📊 Indicadores Chave</h2>
   <div class="kpi-grid">
@@ -323,730 +336,779 @@ body { font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI'
         <div class="kpi-card kpi-red">
           <div class="kpi-icon">👥</div>
           <div class="kpi-titulo">Clientes</div>
-          <div class="kpi-real">59</div>
-          <div class="kpi-alvo">alvo: 86</div>
-          <div class="kpi-pct">68%</div>
+          <div class="kpi-real">140</div>
+          <div class="kpi-alvo">alvo: 180</div>
+          <div class="kpi-pct">78%</div>
         </div>
         <div class="kpi-card kpi-green">
           <div class="kpi-icon">🛒</div>
           <div class="kpi-titulo">Ticket Médio</div>
-          <div class="kpi-real">R$ 48,27</div>
-          <div class="kpi-alvo">alvo: R$ 43,00</div>
-          <div class="kpi-pct">112%</div>
+          <div class="kpi-real">R$ 57,90</div>
+          <div class="kpi-alvo">alvo: R$ 53,36</div>
+          <div class="kpi-pct">108%</div>
         </div>
         <div class="kpi-card kpi-green">
           <div class="kpi-icon">📦</div>
           <div class="kpi-titulo">Itens/Cupom</div>
-          <div class="kpi-real">4,56</div>
+          <div class="kpi-real">4,95</div>
           <div class="kpi-alvo">alvo: 3,90</div>
-          <div class="kpi-pct">117%</div>
+          <div class="kpi-pct">127%</div>
         </div>
         <div class="kpi-card kpi-neutral">
           <div class="kpi-icon">🎫</div>
           <div class="kpi-titulo">Cupons 1 item</div>
-          <div class="kpi-real">24%</div>
+          <div class="kpi-real">25%</div>
           <div class="kpi-alvo">menor é melhor</div>
-          <div class="kpi-pct kpi-info">23.7%</div>
+          <div class="kpi-pct kpi-info">25.0%</div>
         </div>
   </div>
 </section>
 
+<!-- DESTAQUES SEM VENDA — primeiro depois do hero (Hugo's order) -->
 <section class="section">
   <h2 class="section-title">⚠️ Destaques Sem Venda <span style="font-weight:600;font-size:0.85rem;color:var(--gran-cinza)">— ordenados do mais esperado pro menos</span></h2>
   <div class="destaques-grid">
         <div class="destaque-card">
           <div class="destaque-status">⚠️ ZERO VENDAS</div>
-          <div class="destaque-desc">FILE PTO FGO SADIA BDJ 1KG</div>
-          <div class="destaque-cod">cód 3359</div>
-          <div class="destaque-numbers">
-            <div class="destaque-line">
-              <span class="destaque-agora">0 <span class="destaque-unid">KG</span> agora</span>
-              <span class="destaque-dia">2 KG dia</span>
-            </div>
-            <div class="destaque-delta">−R$ 18 perdidos até agora</div>
+          <div class="destaque-desc">GALETO ASSADO GRAN KG</div>
+          <div class="destaque-row">
+            <span class="destaque-cod">cód 4324</span>
+            <span class="destaque-curva">A*</span>
+          </div>
+          <div class="destaque-esperado">
+            <span class="destaque-qtd">📊 esperado: <strong>21 KG</strong></span>
+            <span class="destaque-val">R$ 844</span>
           </div>
         </div>
         <div class="destaque-card">
           <div class="destaque-status">⚠️ ZERO VENDAS</div>
-          <div class="destaque-desc">MELANCIA KG</div>
-          <div class="destaque-cod">cód 57</div>
-          <div class="destaque-numbers">
-            <div class="destaque-line">
-              <span class="destaque-agora">0 <span class="destaque-unid">KG</span> agora</span>
-              <span class="destaque-dia">7 KG dia</span>
-            </div>
-            <div class="destaque-delta">−R$ 14 perdidos até agora</div>
+          <div class="destaque-desc">BRIGAD COLHER GOODIES 180G</div>
+          <div class="destaque-row">
+            <span class="destaque-cod">cód 4604</span>
+            <span class="destaque-curva">A*</span>
+          </div>
+          <div class="destaque-esperado">
+            <span class="destaque-qtd">📊 esperado: <strong>14 UN</strong></span>
+            <span class="destaque-val">R$ 308</span>
           </div>
         </div>
         <div class="destaque-card">
           <div class="destaque-status">⚠️ ZERO VENDAS</div>
-          <div class="destaque-desc">MANGA TOMMY KG</div>
-          <div class="destaque-cod">cód 54</div>
-          <div class="destaque-numbers">
-            <div class="destaque-line">
-              <span class="destaque-agora">0 <span class="destaque-unid">KG</span> agora</span>
-              <span class="destaque-dia">5 KG dia</span>
-            </div>
-            <div class="destaque-delta">−R$ 14 perdidos até agora</div>
+          <div class="destaque-desc">TOMATE GRAPE 180G</div>
+          <div class="destaque-row">
+            <span class="destaque-cod">cód 171</span>
+            <span class="destaque-curva">A*</span>
+          </div>
+          <div class="destaque-esperado">
+            <span class="destaque-qtd">📊 esperado: <strong>7 UN</strong></span>
+            <span class="destaque-val">R$ 55</span>
           </div>
         </div>
         <div class="destaque-card">
           <div class="destaque-status">⚠️ ZERO VENDAS</div>
-          <div class="destaque-desc">QJ PRATO SADIA FAT 150G</div>
-          <div class="destaque-cod">cód 50087</div>
-          <div class="destaque-numbers">
-            <div class="destaque-line">
-              <span class="destaque-agora">0 <span class="destaque-unid">UN</span> agora</span>
-              <span class="destaque-dia">4 UN dia</span>
-            </div>
-            <div class="destaque-delta">−R$ 13 perdidos até agora</div>
+          <div class="destaque-desc">MORANGO 250G</div>
+          <div class="destaque-row">
+            <span class="destaque-cod">cód 68</span>
+            <span class="destaque-curva">A*</span>
+          </div>
+          <div class="destaque-esperado">
+            <span class="destaque-qtd">📊 esperado: <strong>6 UN</strong></span>
+            <span class="destaque-val">R$ 101</span>
           </div>
         </div>
         <div class="destaque-card">
           <div class="destaque-status">⚠️ ZERO VENDAS</div>
           <div class="destaque-desc">ABOBORA MARANHAO KG</div>
-          <div class="destaque-cod">cód 96</div>
-          <div class="destaque-numbers">
-            <div class="destaque-line">
-              <span class="destaque-agora">0 <span class="destaque-unid">KG</span> agora</span>
-              <span class="destaque-dia">5 KG dia</span>
-            </div>
-            <div class="destaque-delta">−R$ 11 perdidos até agora</div>
+          <div class="destaque-row">
+            <span class="destaque-cod">cód 96</span>
+            <span class="destaque-curva">A*</span>
+          </div>
+          <div class="destaque-esperado">
+            <span class="destaque-qtd">📊 esperado: <strong>5 KG</strong></span>
+            <span class="destaque-val">R$ 28</span>
           </div>
         </div>
         <div class="destaque-card">
           <div class="destaque-status">⚠️ ZERO VENDAS</div>
-          <div class="destaque-desc">LEITE LIQ DESN LEITISSIMO 1L</div>
-          <div class="destaque-cod">cód 2405</div>
-          <div class="destaque-numbers">
-            <div class="destaque-line">
-              <span class="destaque-agora">0 <span class="destaque-unid">UN</span> agora</span>
-              <span class="destaque-dia">3 UN dia</span>
-            </div>
-            <div class="destaque-delta">−R$ 8 perdidos até agora</div>
+          <div class="destaque-desc">AGUA MIN INDAIA S GAS 1,5L</div>
+          <div class="destaque-row">
+            <span class="destaque-cod">cód 5120</span>
+            <span class="destaque-curva">A*</span>
+          </div>
+          <div class="destaque-esperado">
+            <span class="destaque-qtd">📊 esperado: <strong>5 UN</strong></span>
+            <span class="destaque-val">R$ 18</span>
           </div>
         </div>
         <div class="destaque-card">
           <div class="destaque-status">⚠️ ZERO VENDAS</div>
-          <div class="destaque-desc">LEITE PO ITAMBE INT SACHE 200G</div>
-          <div class="destaque-cod">cód 3581</div>
-          <div class="destaque-numbers">
-            <div class="destaque-line">
-              <span class="destaque-agora">0 <span class="destaque-unid">UN</span> agora</span>
-              <span class="destaque-dia">3 UN dia</span>
-            </div>
-            <div class="destaque-delta">−R$ 7 perdidos até agora</div>
+          <div class="destaque-desc">AGUA MIN CRYSTAL C GAS 500ML</div>
+          <div class="destaque-row">
+            <span class="destaque-cod">cód 2694</span>
+            <span class="destaque-curva">A*</span>
+          </div>
+          <div class="destaque-esperado">
+            <span class="destaque-qtd">📊 esperado: <strong>4 UN</strong></span>
+            <span class="destaque-val">R$ 13</span>
           </div>
         </div>
         <div class="destaque-card">
           <div class="destaque-status">⚠️ ZERO VENDAS</div>
-          <div class="destaque-desc">ABOBRINHA KG</div>
-          <div class="destaque-cod">cód 98</div>
-          <div class="destaque-numbers">
-            <div class="destaque-line">
-              <span class="destaque-agora">0 <span class="destaque-unid">KG</span> agora</span>
-              <span class="destaque-dia">3 KG dia</span>
-            </div>
-            <div class="destaque-delta">−R$ 5 perdidos até agora</div>
+          <div class="destaque-desc">IOG GREGO DANONE ORIG 90G</div>
+          <div class="destaque-row">
+            <span class="destaque-cod">cód 6009</span>
+            <span class="destaque-curva">A</span>
+          </div>
+          <div class="destaque-esperado">
+            <span class="destaque-qtd">📊 esperado: <strong>4 UN</strong></span>
+            <span class="destaque-val">R$ 14</span>
           </div>
         </div>
         <div class="destaque-card">
           <div class="destaque-status">⚠️ ZERO VENDAS</div>
-          <div class="destaque-desc">RUCULA UND</div>
-          <div class="destaque-cod">cód 227</div>
-          <div class="destaque-numbers">
-            <div class="destaque-line">
-              <span class="destaque-agora">0 <span class="destaque-unid">UN</span> agora</span>
-              <span class="destaque-dia">3 UN dia</span>
-            </div>
-            <div class="destaque-delta">−R$ 4 perdidos até agora</div>
+          <div class="destaque-desc">REFRIG G ANTARCTICA DIET 350ML</div>
+          <div class="destaque-row">
+            <span class="destaque-cod">cód 2376</span>
+            <span class="destaque-curva">A</span>
+          </div>
+          <div class="destaque-esperado">
+            <span class="destaque-qtd">📊 esperado: <strong>4 UN</strong></span>
+            <span class="destaque-val">R$ 14</span>
           </div>
         </div>
         <div class="destaque-card">
           <div class="destaque-status">⚠️ ZERO VENDAS</div>
-          <div class="destaque-desc">SALSA UND</div>
-          <div class="destaque-cod">cód 228</div>
-          <div class="destaque-numbers">
-            <div class="destaque-line">
-              <span class="destaque-agora">0 <span class="destaque-unid">UN</span> agora</span>
-              <span class="destaque-dia">3 UN dia</span>
-            </div>
-            <div class="destaque-delta">−R$ 3 perdidos até agora</div>
+          <div class="destaque-desc">LEITE LIQ BETANIA INT 1LT</div>
+          <div class="destaque-row">
+            <span class="destaque-cod">cód 50633</span>
+            <span class="destaque-curva">A</span>
+          </div>
+          <div class="destaque-esperado">
+            <span class="destaque-qtd">📊 esperado: <strong>4 UN</strong></span>
+            <span class="destaque-val">R$ 27</span>
+          </div>
+        </div>
+        <div class="destaque-card">
+          <div class="destaque-status">⚠️ ZERO VENDAS</div>
+          <div class="destaque-desc">BISC AVOADOR RIO C TRAD 160G</div>
+          <div class="destaque-row">
+            <span class="destaque-cod">cód 50381</span>
+            <span class="destaque-curva">A</span>
+          </div>
+          <div class="destaque-esperado">
+            <span class="destaque-qtd">📊 esperado: <strong>4 UN</strong></span>
+            <span class="destaque-val">R$ 52</span>
+          </div>
+        </div>
+        <div class="destaque-card">
+          <div class="destaque-status">⚠️ ZERO VENDAS</div>
+          <div class="destaque-desc">IOG ITAMBE MILK NAT 170G</div>
+          <div class="destaque-row">
+            <span class="destaque-cod">cód 3118</span>
+            <span class="destaque-curva">A</span>
+          </div>
+          <div class="destaque-esperado">
+            <span class="destaque-qtd">📊 esperado: <strong>4 UN</strong></span>
+            <span class="destaque-val">R$ 16</span>
+          </div>
+        </div>
+        <div class="destaque-card">
+          <div class="destaque-status">⚠️ ZERO VENDAS</div>
+          <div class="destaque-desc">QJ PRATO SADIA FAT 150G</div>
+          <div class="destaque-row">
+            <span class="destaque-cod">cód 50087</span>
+            <span class="destaque-curva">A</span>
+          </div>
+          <div class="destaque-esperado">
+            <span class="destaque-qtd">📊 esperado: <strong>4 UN</strong></span>
+            <span class="destaque-val">R$ 43</span>
+          </div>
+        </div>
+        <div class="destaque-card">
+          <div class="destaque-status">⚠️ ZERO VENDAS</div>
+          <div class="destaque-desc">ALFACE CRESPA HIDROP UN</div>
+          <div class="destaque-row">
+            <span class="destaque-cod">cód 232</span>
+            <span class="destaque-curva">A*</span>
+          </div>
+          <div class="destaque-esperado">
+            <span class="destaque-qtd">📊 esperado: <strong>4 UN</strong></span>
+            <span class="destaque-val">R$ 16</span>
+          </div>
+        </div>
+        <div class="destaque-card">
+          <div class="destaque-status">⚠️ ZERO VENDAS</div>
+          <div class="destaque-desc">QJ MUSS SADIA FAT 150G</div>
+          <div class="destaque-row">
+            <span class="destaque-cod">cód 6355</span>
+            <span class="destaque-curva">A*</span>
+          </div>
+          <div class="destaque-esperado">
+            <span class="destaque-qtd">📊 esperado: <strong>3 UN</strong></span>
+            <span class="destaque-val">R$ 47</span>
+          </div>
+        </div>
+        <div class="destaque-card">
+          <div class="destaque-status">⚠️ ZERO VENDAS</div>
+          <div class="destaque-desc">REFRIG COCA COLA LT 350 ML</div>
+          <div class="destaque-row">
+            <span class="destaque-cod">cód 3088</span>
+            <span class="destaque-curva">A*</span>
+          </div>
+          <div class="destaque-esperado">
+            <span class="destaque-qtd">📊 esperado: <strong>3 UN</strong></span>
+            <span class="destaque-val">R$ 14</span>
           </div>
         </div></div>
 </section>
 
+<!-- ÂNCORAS -->
 
-    <section class="section">
-      <h2 class="section-title">🎯 Âncoras <span style="font-weight:600;font-size:0.8rem;color:var(--gran-cinza)">— maior perda em R$ → ganhos</span></h2>
-      <div class="section-sub">24 cards · 15 fixos elegíveis · 5 top do dia · 4 em ascensão</div>
-      <div class="ancora-grid">
+        <section class="section">
+          <h2 class="section-title">🎯 Âncoras Dia Inteiro (QTD) <span style="font-weight:600;font-size:0.8rem;color:var(--gran-cinza)">— pior → melhor</span></h2>
+          <div class="ancora-grid">
         <div class="ancora-card ancora-red">
           <div class="ancora-pct">0%</div>
-          <div class="ancora-desc">Brigad Colher Goodies 180g</div>
-          <div class="ancora-cod-line">
-            <span class="ancora-cod">cód 4604</span>
-            <span class="tag tag-F" title="Fixo">F</span>
-          </div>
+          <div class="ancora-desc">Morango 250g</div>
+          <div class="ancora-cod">cód 68</div>
           <div class="ancora-numbers">
             <div class="ancora-real">0,0 <span class="ancora-unid">UN</span></div>
-            <div class="ancora-alvo">
-              <span class="agora">de 2 UN agora</span>
-              <span class="dia">14 UN dia</span>
-            </div>
+            <div class="ancora-alvo">de 6 UN esperado</div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 101 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-red">
+          <div class="ancora-pct">0%</div>
+          <div class="ancora-desc">QJ Muss Tirolez</div>
+          <div class="ancora-cod">cód 506</div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">0,0 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">de 1 KG esperado</div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 80 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-red">
+          <div class="ancora-pct">0%</div>
+          <div class="ancora-desc">Filé Pto Fgo Sadia BDJ 1kg</div>
+          <div class="ancora-cod">cód 3359</div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">0,0 <span class="ancora-unid">UN</span></div>
+            <div class="ancora-alvo">de 2 UN esperado</div>
           </div>
           <div class="ancora-delta ancora-delta-red">
             −R$ 46 perdidos
           </div>
         </div>
         <div class="ancora-card ancora-red">
-          <div class="ancora-pct">78%</div>
-          <div class="ancora-desc">Pão Tradicional</div>
-          <div class="ancora-cod-line">
-            <span class="ancora-cod">cód 1</span>
-            <span class="tag tag-F" title="Fixo">F</span>
-          </div>
+          <div class="ancora-pct">30%</div>
+          <div class="ancora-desc">Maçã Nacional</div>
+          <div class="ancora-cod">cód 45</div>
           <div class="ancora-numbers">
-            <div class="ancora-real">6,8 <span class="ancora-unid">KG</span></div>
-            <div class="ancora-alvo">
-              <span class="agora">de 9 KG agora</span>
-              <span class="dia">33 KG dia</span>
-            </div>
+            <div class="ancora-real">1,2 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">de 4 KG esperado</div>
           </div>
           <div class="ancora-delta ancora-delta-red">
-            −R$ 39 perdidos
+            −R$ 51 perdidos
           </div>
         </div>
         <div class="ancora-card ancora-red">
-          <div class="ancora-pct">56%</div>
+          <div class="ancora-pct">41%</div>
           <div class="ancora-desc">Banana Prata</div>
-          <div class="ancora-cod-line">
-            <span class="ancora-cod">cód 15</span>
-            <span class="tag tag-F" title="Fixo">F</span>
-          </div>
+          <div class="ancora-cod">cód 15</div>
           <div class="ancora-numbers">
-            <div class="ancora-real">4,7 <span class="ancora-unid">KG</span></div>
-            <div class="ancora-alvo">
-              <span class="agora">de 8 KG agora</span>
-              <span class="dia">31 KG dia</span>
-            </div>
+            <div class="ancora-real">12,6 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">de 31 KG esperado</div>
           </div>
           <div class="ancora-delta ancora-delta-red">
-            −R$ 37 perdidos
+            −R$ 177 perdidos
           </div>
         </div>
         <div class="ancora-card ancora-red">
-          <div class="ancora-pct">56%</div>
+          <div class="ancora-pct">44%</div>
           <div class="ancora-desc">Ovos Bco GDE C30</div>
-          <div class="ancora-cod-line">
-            <span class="ancora-cod">cód 6152</span>
-            <span class="tag tag-F" title="Fixo">F</span>
-          </div>
+          <div class="ancora-cod">cód 6152</div>
           <div class="ancora-numbers">
-            <div class="ancora-real">2,0 <span class="ancora-unid">UN</span></div>
-            <div class="ancora-alvo">
-              <span class="agora">de 4 UN agora</span>
-              <span class="dia">11 UN dia</span>
-            </div>
+            <div class="ancora-real">5,0 <span class="ancora-unid">UN</span></div>
+            <div class="ancora-alvo">de 11 UN esperado</div>
           </div>
           <div class="ancora-delta ancora-delta-red">
-            −R$ 33 perdidos
+            −R$ 123 perdidos
           </div>
         </div>
         <div class="ancora-card ancora-red">
-          <div class="ancora-pct">0%</div>
-          <div class="ancora-desc">Wrap Frango Chipotle</div>
-          <div class="ancora-cod-line">
-            <span class="ancora-cod">cód 5048</span>
-            <span class="tag tag-F" title="Fixo">F</span>
-          </div>
+          <div class="ancora-pct">57%</div>
+          <div class="ancora-desc">Mamão Papaya</div>
+          <div class="ancora-cod">cód 3394</div>
           <div class="ancora-numbers">
-            <div class="ancora-real">0,0 <span class="ancora-unid">UN</span></div>
-            <div class="ancora-alvo">
-              <span class="agora">de 0 UN agora</span>
-              <span class="dia">4 UN dia</span>
-            </div>
+            <div class="ancora-real">5,6 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">de 10 KG esperado</div>
           </div>
           <div class="ancora-delta ancora-delta-red">
-            −R$ 10 perdidos
+            −R$ 62 perdidos
           </div>
         </div>
         <div class="ancora-card ancora-red">
-          <div class="ancora-pct">0%</div>
-          <div class="ancora-desc">Refrig Coca Cola S/Açúcar 1L</div>
-          <div class="ancora-cod-line">
-            <span class="ancora-cod">cód 3627</span>
-            <span class="tag tag-F" title="Fixo">F</span>
-          </div>
+          <div class="ancora-pct">85%</div>
+          <div class="ancora-desc">Salada Frutas</div>
+          <div class="ancora-cod">cód 392</div>
           <div class="ancora-numbers">
-            <div class="ancora-real">0,0 <span class="ancora-unid">UN</span></div>
-            <div class="ancora-alvo">
-              <span class="agora">de 1 UN agora</span>
-              <span class="dia">9 UN dia</span>
-            </div>
+            <div class="ancora-real">2,5 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">de 3 KG esperado</div>
           </div>
           <div class="ancora-delta ancora-delta-red">
-            −R$ 8 perdidos
-          </div>
-        </div>
-        <div class="ancora-card ancora-red">
-          <div class="ancora-pct">0%</div>
-          <div class="ancora-desc">MANGA PALMER KG</div>
-          <div class="ancora-cod-line">
-            <span class="ancora-cod">cód 52</span>
-            <span class="tag tag-A" title="Em ascensão">A</span>
-          </div>
-          <div class="ancora-numbers">
-            <div class="ancora-real">0,0 <span class="ancora-unid">KG</span></div>
-            <div class="ancora-alvo">
-              <span class="agora">de 1 KG agora</span>
-              <span class="dia">2 KG dia</span>
-            </div>
-          </div>
-          <div class="ancora-delta ancora-delta-red">
-            −R$ 8 perdidos
+            −R$ 20 perdidos
           </div>
         </div>
         <div class="ancora-card ancora-yellow">
-          <div class="ancora-pct">88%</div>
-          <div class="ancora-desc">Batata Inglesa</div>
-          <div class="ancora-cod-line">
-            <span class="ancora-cod">cód 108</span>
-            <span class="tag tag-F" title="Fixo">F</span>
-          </div>
+          <div class="ancora-pct">100%</div>
+          <div class="ancora-desc">Alface Crespa Suprema</div>
+          <div class="ancora-cod">cód 526</div>
           <div class="ancora-numbers">
-            <div class="ancora-real">3,4 <span class="ancora-unid">KG</span></div>
-            <div class="ancora-alvo">
-              <span class="agora">de 4 KG agora</span>
-              <span class="dia">10 KG dia</span>
-            </div>
+            <div class="ancora-real">8,0 <span class="ancora-unid">UN</span></div>
+            <div class="ancora-alvo">de 8 UN esperado</div>
           </div>
           <div class="ancora-delta ancora-delta-red">
-            −R$ 8 perdidos
+            −R$ 0 perdidos
           </div>
         </div>
+        <div class="ancora-card ancora-green">
+          <div class="ancora-pct">192%</div>
+          <div class="ancora-desc">Iog Nat Nestlé Int 170g</div>
+          <div class="ancora-cod">cód 2029</div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">14,0 <span class="ancora-unid">UN</span></div>
+            <div class="ancora-alvo">de 7 UN esperado</div>
+          </div>
+          <div class="ancora-delta ancora-delta-green">
+            +R$ 44 a mais
+          </div>
+        </div></div>
+        </section>
+
+        <section class="section">
+          <h2 class="section-title">🌅 Âncoras Manhã (QTD) <span style="font-weight:600;font-size:0.8rem;color:var(--gran-cinza)">— pior → melhor</span></h2>
+          <div class="ancora-grid">
         <div class="ancora-card ancora-red">
           <div class="ancora-pct">0%</div>
-          <div class="ancora-desc">ESCOND BATATA DOCE FGO GRAN KG</div>
-          <div class="ancora-cod-line">
-            <span class="ancora-cod">cód 573</span>
-            <span class="tag tag-D" title="Top do dia (DOW)">D</span>
-          </div>
+          <div class="ancora-desc">Salgados Diversos</div>
+          <div class="ancora-cod">cód 6584</div>
           <div class="ancora-numbers">
             <div class="ancora-real">0,0 <span class="ancora-unid">KG</span></div>
-            <div class="ancora-alvo">
-              <span class="agora">de 0 KG agora</span>
-              <span class="dia">1 KG dia</span>
-            </div>
+            <div class="ancora-alvo">de 0 KG esperado</div>
           </div>
           <div class="ancora-delta ancora-delta-red">
-            −R$ 7 perdidos
+            −R$ 14 perdidos
           </div>
         </div>
-        <div class="ancora-card ancora-red">
-          <div class="ancora-pct">0%</div>
-          <div class="ancora-desc">Leite Líq Betânia INT 1L</div>
-          <div class="ancora-cod-line">
-            <span class="ancora-cod">cód 50633</span>
-            <span class="tag tag-F" title="Fixo">F</span>
-          </div>
-          <div class="ancora-numbers">
-            <div class="ancora-real">0,0 <span class="ancora-unid">UN</span></div>
-            <div class="ancora-alvo">
-              <span class="agora">de 1 UN agora</span>
-              <span class="dia">4 UN dia</span>
-            </div>
-          </div>
-          <div class="ancora-delta ancora-delta-red">
-            −R$ 7 perdidos
-          </div>
-        </div>
-        <div class="ancora-card ancora-red">
-          <div class="ancora-pct">0%</div>
-          <div class="ancora-desc">Café Melitta Trad VC 250g</div>
-          <div class="ancora-cod-line">
-            <span class="ancora-cod">cód 3908</span>
-            <span class="tag tag-F" title="Fixo">F</span>
-          </div>
-          <div class="ancora-numbers">
-            <div class="ancora-real">0,0 <span class="ancora-unid">UN</span></div>
-            <div class="ancora-alvo">
-              <span class="agora">de 0 UN agora</span>
-              <span class="dia">1 UN dia</span>
-            </div>
-          </div>
-          <div class="ancora-delta ancora-delta-red">
-            −R$ 6 perdidos
-          </div>
-        </div>
-        <div class="ancora-card ancora-red">
-          <div class="ancora-pct">0%</div>
-          <div class="ancora-desc">ALFACE CRESPA HIDROP</div>
-          <div class="ancora-cod-line">
-            <span class="ancora-cod">cód 232</span>
-            <span class="tag tag-D" title="Top do dia (DOW)">D</span>
-          </div>
-          <div class="ancora-numbers">
-            <div class="ancora-real">0,0 <span class="ancora-unid">UN</span></div>
-            <div class="ancora-alvo">
-              <span class="agora">de 1 UN agora</span>
-              <span class="dia">4 UN dia</span>
-            </div>
-          </div>
-          <div class="ancora-delta ancora-delta-red">
-            −R$ 6 perdidos
-          </div>
-        </div>
-        <div class="ancora-card ancora-red">
-          <div class="ancora-pct">0%</div>
-          <div class="ancora-desc">MIX ALFACE CENOURA N</div>
-          <div class="ancora-cod-line">
-            <span class="ancora-cod">cód 164</span>
-            <span class="tag tag-D" title="Top do dia (DOW)">D</span>
-          </div>
-          <div class="ancora-numbers">
-            <div class="ancora-real">0,0 <span class="ancora-unid">UN</span></div>
-            <div class="ancora-alvo">
-              <span class="agora">de 0 UN agora</span>
-              <span class="dia">1 UN dia</span>
-            </div>
-          </div>
-          <div class="ancora-delta ancora-delta-red">
-            −R$ 5 perdidos
-          </div>
-        </div>
-        <div class="ancora-card ancora-red">
-          <div class="ancora-pct">0%</div>
-          <div class="ancora-desc">ATUM SOL G COSTA NAT</div>
-          <div class="ancora-cod-line">
-            <span class="ancora-cod">cód 2814</span>
-            <span class="tag tag-D" title="Top do dia (DOW)">D</span>
-          </div>
-          <div class="ancora-numbers">
-            <div class="ancora-real">0,0 <span class="ancora-unid">UN</span></div>
-            <div class="ancora-alvo">
-              <span class="agora">de 0 UN agora</span>
-              <span class="dia">1 UN dia</span>
-            </div>
-          </div>
-          <div class="ancora-delta ancora-delta-red">
-            −R$ 4 perdidos
-          </div>
-        </div>
-        <div class="ancora-card ancora-red">
-          <div class="ancora-pct">0%</div>
-          <div class="ancora-desc">Iog Yopro17 Natural 160g</div>
-          <div class="ancora-cod-line">
-            <span class="ancora-cod">cód 5559</span>
-            <span class="tag tag-F" title="Fixo">F</span>
-          </div>
-          <div class="ancora-numbers">
-            <div class="ancora-real">0,0 <span class="ancora-unid">UN</span></div>
-            <div class="ancora-alvo">
-              <span class="agora">de 0 UN agora</span>
-              <span class="dia">1 UN dia</span>
-            </div>
-          </div>
-          <div class="ancora-delta ancora-delta-red">
-            −R$ 3 perdidos
-          </div>
-        </div>
-        <div class="ancora-card ancora-red">
-          <div class="ancora-pct">0%</div>
-          <div class="ancora-desc">AGUA COCO 500ML</div>
-          <div class="ancora-cod-line">
-            <span class="ancora-cod">cód 2867</span>
-            <span class="tag tag-A" title="Em ascensão">A</span>
-          </div>
-          <div class="ancora-numbers">
-            <div class="ancora-real">0,0 <span class="ancora-unid">UN</span></div>
-            <div class="ancora-alvo">
-              <span class="agora">de 0 UN agora</span>
-              <span class="dia">2 UN dia</span>
-            </div>
-          </div>
-          <div class="ancora-delta ancora-delta-red">
-            −R$ 3 perdidos
-          </div>
-        </div>
-        <div class="ancora-card ancora-red">
-          <div class="ancora-pct">0%</div>
-          <div class="ancora-desc">RUCULA SUPREMA 100G</div>
-          <div class="ancora-cod-line">
-            <span class="ancora-cod">cód 3457</span>
-            <span class="tag tag-A" title="Em ascensão">A</span>
-          </div>
-          <div class="ancora-numbers">
-            <div class="ancora-real">0,0 <span class="ancora-unid">UN</span></div>
-            <div class="ancora-alvo">
-              <span class="agora">de 1 UN agora</span>
-              <span class="dia">2 UN dia</span>
-            </div>
-          </div>
-          <div class="ancora-delta ancora-delta-red">
-            −R$ 2 perdidos
-          </div>
-        </div>
-        <div class="ancora-card ancora-red">
-          <div class="ancora-pct">0%</div>
-          <div class="ancora-desc">SALGADINHO MAGRELITA CEBOLA</div>
-          <div class="ancora-cod-line">
-            <span class="ancora-cod">cód 50081</span>
-            <span class="tag tag-A" title="Em ascensão">A</span>
-          </div>
-          <div class="ancora-numbers">
-            <div class="ancora-real">0,0 <span class="ancora-unid">UN</span></div>
-            <div class="ancora-alvo">
-              <span class="agora">de 0 UN agora</span>
-              <span class="dia">2 UN dia</span>
-            </div>
-          </div>
-          <div class="ancora-delta ancora-delta-red">
-            −R$ 2 perdidos
-          </div>
-        </div>
-        <div class="ancora-card ancora-green">
-          <div class="ancora-pct">105%</div>
+        <div class="ancora-card ancora-yellow">
+          <div class="ancora-pct">94%</div>
           <div class="ancora-desc">Coentro</div>
-          <div class="ancora-cod-line">
-            <span class="ancora-cod">cód 213</span>
-            <span class="tag tag-F" title="Fixo">F</span>
-          </div>
+          <div class="ancora-cod">cód 213</div>
           <div class="ancora-numbers">
-            <div class="ancora-real">4,0 <span class="ancora-unid">UN</span></div>
-            <div class="ancora-alvo">
-              <span class="agora">de 4 UN agora</span>
-              <span class="dia">9 UN dia</span>
-            </div>
+            <div class="ancora-real">5,0 <span class="ancora-unid">UN</span></div>
+            <div class="ancora-alvo">de 5 UN esperado</div>
           </div>
-          <div class="ancora-delta ancora-delta-green">
-            +R$ 1 a mais
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 1 perdidos
           </div>
         </div>
         <div class="ancora-card ancora-green">
-          <div class="ancora-pct">152%</div>
-          <div class="ancora-desc">Laranja Pera</div>
-          <div class="ancora-cod-line">
-            <span class="ancora-cod">cód 40</span>
-            <span class="tag tag-F" title="Fixo">F</span>
-          </div>
+          <div class="ancora-pct">163%</div>
+          <div class="ancora-desc">Batata Inglesa</div>
+          <div class="ancora-cod">cód 108</div>
           <div class="ancora-numbers">
-            <div class="ancora-real">3,0 <span class="ancora-unid">KG</span></div>
-            <div class="ancora-alvo">
-              <span class="agora">de 2 KG agora</span>
-              <span class="dia">8 KG dia</span>
-            </div>
+            <div class="ancora-real">8,4 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">de 5 KG esperado</div>
           </div>
           <div class="ancora-delta ancora-delta-green">
-            +R$ 4 a mais
+            +R$ 55 a mais
           </div>
         </div>
         <div class="ancora-card ancora-green">
-          <div class="ancora-pct">120%</div>
+          <div class="ancora-pct">204%</div>
           <div class="ancora-desc">Cebola</div>
-          <div class="ancora-cod-line">
-            <span class="ancora-cod">cód 111</span>
-            <span class="tag tag-F" title="Fixo">F</span>
-          </div>
+          <div class="ancora-cod">cód 111</div>
           <div class="ancora-numbers">
-            <div class="ancora-real">4,2 <span class="ancora-unid">KG</span></div>
-            <div class="ancora-alvo">
-              <span class="agora">de 3 KG agora</span>
-              <span class="dia">9 KG dia</span>
-            </div>
+            <div class="ancora-real">9,8 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">de 5 KG esperado</div>
           </div>
           <div class="ancora-delta ancora-delta-green">
-            +R$ 7 a mais
+            +R$ 48 a mais
           </div>
         </div>
         <div class="ancora-card ancora-green">
-          <div class="ancora-pct">165%</div>
+          <div class="ancora-pct">421%</div>
           <div class="ancora-desc">Tomate Italiano</div>
-          <div class="ancora-cod-line">
-            <span class="ancora-cod">cód 138</span>
-            <span class="tag tag-F" title="Fixo">F</span>
-          </div>
+          <div class="ancora-cod">cód 138</div>
           <div class="ancora-numbers">
-            <div class="ancora-real">5,7 <span class="ancora-unid">KG</span></div>
-            <div class="ancora-alvo">
-              <span class="agora">de 3 KG agora</span>
-              <span class="dia">9 KG dia</span>
-            </div>
+            <div class="ancora-real">19,1 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">de 5 KG esperado</div>
           </div>
           <div class="ancora-delta ancora-delta-green">
-            +R$ 30 a mais
+            +R$ 190 a mais
+          </div>
+        </div></div>
+        </section>
+
+        <section class="section">
+          <h2 class="section-title">☀️ Âncoras Tarde (QTD) <span style="font-weight:600;font-size:0.8rem;color:var(--gran-cinza)">— pior → melhor</span></h2>
+          <div class="ancora-grid">
+        <div class="ancora-card ancora-red">
+          <div class="ancora-pct">0%</div>
+          <div class="ancora-desc">Galeto Assado Gran</div>
+          <div class="ancora-cod">cód 4324</div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">0,0 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">de 16 KG esperado</div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 636 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-red">
+          <div class="ancora-pct">0%</div>
+          <div class="ancora-desc">Castanha Caju Nat</div>
+          <div class="ancora-cod">cód 324</div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">0,0 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">de 0 KG esperado</div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 40 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-red">
+          <div class="ancora-pct">18%</div>
+          <div class="ancora-desc">Refrig Coca Cola S/Açúcar 1L</div>
+          <div class="ancora-cod">cód 3627</div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">1,0 <span class="ancora-unid">UN</span></div>
+            <div class="ancora-alvo">de 5 UN esperado</div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 35 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-red">
+          <div class="ancora-pct">65%</div>
+          <div class="ancora-desc">Limão Tahiti</div>
+          <div class="ancora-cod">cód 44</div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">5,3 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">de 8 KG esperado</div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 17 perdidos
           </div>
         </div>
         <div class="ancora-card ancora-green">
-          <div class="ancora-pct">1700%</div>
-          <div class="ancora-desc">Filé Pto Fgo Sadia BIO BDJ 1kg</div>
-          <div class="ancora-cod-line">
-            <span class="ancora-cod">cód 3977</span>
-            <span class="tag tag-F" title="Fixo">F</span>
+          <div class="ancora-pct">231%</div>
+          <div class="ancora-desc">Escond Aipim Carne Sol GM</div>
+          <div class="ancora-cod">cód 663</div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">1,0 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">de 0 KG esperado</div>
           </div>
+          <div class="ancora-delta ancora-delta-green">
+            +R$ 33 a mais
+          </div>
+        </div></div>
+        </section>
+
+        <section class="section">
+          <h2 class="section-title">🌙 Âncoras Noite (QTD) <span style="font-weight:600;font-size:0.8rem;color:var(--gran-cinza)">— pior → melhor</span></h2>
+          <div class="ancora-grid">
+        <div class="ancora-card ancora-red">
+          <div class="ancora-pct">0%</div>
+          <div class="ancora-desc">Bisc Avoador Rio C Trad 160g</div>
+          <div class="ancora-cod">cód 50381</div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">0,0 <span class="ancora-unid">UN</span></div>
+            <div class="ancora-alvo">de 2 UN esperado</div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 26 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-red">
+          <div class="ancora-pct">0%</div>
+          <div class="ancora-desc">Brigad Colher Goodies 180g</div>
+          <div class="ancora-cod">cód 4604</div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">0,0 <span class="ancora-unid">UN</span></div>
+            <div class="ancora-alvo">de 9 UN esperado</div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 192 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-red">
+          <div class="ancora-pct">81%</div>
+          <div class="ancora-desc">Pão Tradicional</div>
+          <div class="ancora-cod">cód 1</div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">9,6 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">de 12 KG esperado</div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 44 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-green">
+          <div class="ancora-pct">117%</div>
+          <div class="ancora-desc">Wrap Frango Chipotle</div>
+          <div class="ancora-cod">cód 5048</div>
           <div class="ancora-numbers">
             <div class="ancora-real">2,0 <span class="ancora-unid">UN</span></div>
-            <div class="ancora-alvo">
-              <span class="agora">de 0 UN agora</span>
-              <span class="dia">0 UN dia</span>
-            </div>
+            <div class="ancora-alvo">de 2 UN esperado</div>
           </div>
           <div class="ancora-delta ancora-delta-green">
-            +R$ 58 a mais
+            +R$ 8 a mais
           </div>
         </div>
         <div class="ancora-card ancora-gray">
           <div class="ancora-pct">—</div>
-          <div class="ancora-desc">PANQUECA GRAN MESA FRANGO 300G</div>
-          <div class="ancora-cod-line">
-            <span class="ancora-cod">cód 728</span>
-            <span class="tag tag-D" title="Top do dia (DOW)">D</span>
-          </div>
+          <div class="ancora-desc">Bisc Whey VIV Choc 45g</div>
+          <div class="ancora-cod">cód 3724</div>
           <div class="ancora-numbers">
             <div class="ancora-real">0,0 <span class="ancora-unid">UN</span></div>
-            <div class="ancora-alvo">
-              <span class="agora">de — UN agora</span>
-              <span class="dia">— UN dia</span>
-            </div>
+            <div class="ancora-alvo">de 0 UN esperado</div>
           </div>
-          <div class="ancora-delta ancora-delta-red">
-            −— perdidos
+          <div class="ancora-delta ancora-delta-green">
+            +R$ 0 a mais
           </div>
         </div></div>
-    </section>
+        </section>
 
+<!-- TICKET BOOSTER -->
+
+        <section class="section">
+          <h2 class="section-title">⚡ Ticket Booster — combine com âncoras vendendo! <span style="font-weight:600;font-size:0.8rem;color:var(--gran-cinza)">— pior → melhor</span></h2>
+          <div class="ancora-grid">
+        <div class="ancora-card ancora-red">
+          <div class="ancora-pct">0%</div>
+          <div class="ancora-desc">QJ Muss Tirolez</div>
+          <div class="ancora-cod">cód 506</div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">0,0 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">de 1 KG esperado</div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 80 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-red">
+          <div class="ancora-pct">0%</div>
+          <div class="ancora-desc">Brigad Colher Goodies 180g</div>
+          <div class="ancora-cod">cód 4604</div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">0,0 <span class="ancora-unid">UN</span></div>
+            <div class="ancora-alvo">de 14 UN esperado</div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 308 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-red">
+          <div class="ancora-pct">0%</div>
+          <div class="ancora-desc">Pres Coz Sem Capa Sadia</div>
+          <div class="ancora-cod">cód 3705</div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">0,0 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">de 0 KG esperado</div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 19 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-red">
+          <div class="ancora-pct">64%</div>
+          <div class="ancora-desc">Banana Terra</div>
+          <div class="ancora-cod">cód 16</div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">10,8 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">de 17 KG esperado</div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 68 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-red">
+          <div class="ancora-pct">73%</div>
+          <div class="ancora-desc">Tangerina Importada</div>
+          <div class="ancora-cod">cód 84</div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">3,8 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">de 5 KG esperado</div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 26 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-red">
+          <div class="ancora-pct">83%</div>
+          <div class="ancora-desc">Cenoura</div>
+          <div class="ancora-cod">cód 113</div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">5,2 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">de 6 KG esperado</div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 15 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-green">
+          <div class="ancora-pct">110%</div>
+          <div class="ancora-desc">Cebola</div>
+          <div class="ancora-cod">cód 111</div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">9,8 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">de 9 KG esperado</div>
+          </div>
+          <div class="ancora-delta ancora-delta-green">
+            +R$ 8 a mais
+          </div>
+        </div></div>
+        </section>
+
+<!-- DEPTOS — piores no topo (Hugo's order) -->
 <section class="section">
   <h2 class="section-title">🏆 Departamentos <span style="font-weight:600;font-size:0.85rem;color:var(--gran-cinza)">— ordenados do pior pro melhor</span></h2>
   
         <div class="dept-row">
           <div class="dept-info">
             <div class="dept-name">Granel</div>
-            <div class="dept-vals">R$ 13 <span class="muted">de R$ 119</span></div>
+            <div class="dept-vals">R$ 96 <span class="muted">de R$ 298</span></div>
             <div class="dept-bar-wrap">
-              <div class="dept-bar dept-bar-red" style="width:11.1%"></div>
+              <div class="dept-bar dept-bar-red" style="width:32.3%"></div>
             </div>
           </div>
-          <div class="dept-pct dept-pct-red">11%</div>
-        </div>
-        <div class="dept-row">
-          <div class="dept-info">
-            <div class="dept-name">Bazar, Higiene & Limpeza</div>
-            <div class="dept-vals">R$ 4 <span class="muted">de R$ 21</span></div>
-            <div class="dept-bar-wrap">
-              <div class="dept-bar dept-bar-red" style="width:20.0%"></div>
-            </div>
-          </div>
-          <div class="dept-pct dept-pct-red">20%</div>
-        </div>
-        <div class="dept-row">
-          <div class="dept-info">
-            <div class="dept-name">Congelados</div>
-            <div class="dept-vals">R$ 22 <span class="muted">de R$ 85</span></div>
-            <div class="dept-bar-wrap">
-              <div class="dept-bar dept-bar-red" style="width:25.7%"></div>
-            </div>
-          </div>
-          <div class="dept-pct dept-pct-red">26%</div>
-        </div>
-        <div class="dept-row">
-          <div class="dept-info">
-            <div class="dept-name">Frios & Laticínios</div>
-            <div class="dept-vals">R$ 147 <span class="muted">de R$ 428</span></div>
-            <div class="dept-bar-wrap">
-              <div class="dept-bar dept-bar-red" style="width:34.4%"></div>
-            </div>
-          </div>
-          <div class="dept-pct dept-pct-red">34%</div>
-        </div>
-        <div class="dept-row">
-          <div class="dept-info">
-            <div class="dept-name">Hortifruti — Hortaliças</div>
-            <div class="dept-vals">R$ 83 <span class="muted">de R$ 174</span></div>
-            <div class="dept-bar-wrap">
-              <div class="dept-bar dept-bar-red" style="width:47.8%"></div>
-            </div>
-          </div>
-          <div class="dept-pct dept-pct-red">48%</div>
-        </div>
-        <div class="dept-row">
-          <div class="dept-info">
-            <div class="dept-name">Gran Mesa</div>
-            <div class="dept-vals">R$ 87 <span class="muted">de R$ 139</span></div>
-            <div class="dept-bar-wrap">
-              <div class="dept-bar dept-bar-red" style="width:62.5%"></div>
-            </div>
-          </div>
-          <div class="dept-pct dept-pct-red">63%</div>
+          <div class="dept-pct dept-pct-red">32%</div>
         </div>
         <div class="dept-row">
           <div class="dept-info">
             <div class="dept-name">Bebidas</div>
-            <div class="dept-vals">R$ 160 <span class="muted">de R$ 252</span></div>
+            <div class="dept-vals">R$ 433 <span class="muted">de R$ 806</span></div>
             <div class="dept-bar-wrap">
-              <div class="dept-bar dept-bar-red" style="width:63.4%"></div>
+              <div class="dept-bar dept-bar-red" style="width:53.8%"></div>
             </div>
           </div>
-          <div class="dept-pct dept-pct-red">63%</div>
+          <div class="dept-pct dept-pct-red">54%</div>
+        </div>
+        <div class="dept-row">
+          <div class="dept-info">
+            <div class="dept-name">Hortifruti — Hortaliças</div>
+            <div class="dept-vals">R$ 297 <span class="muted">de R$ 509</span></div>
+            <div class="dept-bar-wrap">
+              <div class="dept-bar dept-bar-red" style="width:58.4%"></div>
+            </div>
+          </div>
+          <div class="dept-pct dept-pct-red">58%</div>
+        </div>
+        <div class="dept-row">
+          <div class="dept-info">
+            <div class="dept-name">Frios & Laticínios</div>
+            <div class="dept-vals">R$ 607 <span class="muted">de R$ 1.007</span></div>
+            <div class="dept-bar-wrap">
+              <div class="dept-bar dept-bar-red" style="width:60.3%"></div>
+            </div>
+          </div>
+          <div class="dept-pct dept-pct-red">60%</div>
         </div>
         <div class="dept-row">
           <div class="dept-info">
             <div class="dept-name">Hortifruti — Frutas</div>
-            <div class="dept-vals">R$ 518 <span class="muted">de R$ 808</span></div>
+            <div class="dept-vals">R$ 1.367 <span class="muted">de R$ 2.252</span></div>
             <div class="dept-bar-wrap">
-              <div class="dept-bar dept-bar-red" style="width:64.1%"></div>
+              <div class="dept-bar dept-bar-red" style="width:60.7%"></div>
             </div>
           </div>
-          <div class="dept-pct dept-pct-red">64%</div>
+          <div class="dept-pct dept-pct-red">61%</div>
+        </div>
+        <div class="dept-row">
+          <div class="dept-info">
+            <div class="dept-name">Bazar, Higiene & Limpeza</div>
+            <div class="dept-vals">R$ 32 <span class="muted">de R$ 43</span></div>
+            <div class="dept-bar-wrap">
+              <div class="dept-bar dept-bar-red" style="width:73.0%"></div>
+            </div>
+          </div>
+          <div class="dept-pct dept-pct-red">73%</div>
         </div>
         <div class="dept-row">
           <div class="dept-info">
             <div class="dept-name">Hortifruti — Legumes & Granjeiros</div>
-            <div class="dept-vals">R$ 548 <span class="muted">de R$ 665</span></div>
+            <div class="dept-vals">R$ 1.346 <span class="muted">de R$ 1.783</span></div>
             <div class="dept-bar-wrap">
-              <div class="dept-bar dept-bar-red" style="width:82.4%"></div>
+              <div class="dept-bar dept-bar-red" style="width:75.5%"></div>
             </div>
           </div>
-          <div class="dept-pct dept-pct-red">82%</div>
-        </div>
-        <div class="dept-row">
-          <div class="dept-info">
-            <div class="dept-name">Padaria</div>
-            <div class="dept-vals">R$ 282 <span class="muted">de R$ 252</span></div>
-            <div class="dept-bar-wrap">
-              <div class="dept-bar dept-bar-green" style="width:100.0%"></div>
-            </div>
-          </div>
-          <div class="dept-pct dept-pct-green">112%</div>
+          <div class="dept-pct dept-pct-red">76%</div>
         </div>
         <div class="dept-row">
           <div class="dept-info">
             <div class="dept-name">Mercearia</div>
-            <div class="dept-vals">R$ 755 <span class="muted">de R$ 666</span></div>
+            <div class="dept-vals">R$ 1.767 <span class="muted">de R$ 1.531</span></div>
             <div class="dept-bar-wrap">
               <div class="dept-bar dept-bar-green" style="width:100.0%"></div>
             </div>
           </div>
-          <div class="dept-pct dept-pct-green">113%</div>
+          <div class="dept-pct dept-pct-green">115%</div>
+        </div>
+        <div class="dept-row">
+          <div class="dept-info">
+            <div class="dept-name">Congelados</div>
+            <div class="dept-vals">R$ 244 <span class="muted">de R$ 201</span></div>
+            <div class="dept-bar-wrap">
+              <div class="dept-bar dept-bar-green" style="width:100.0%"></div>
+            </div>
+          </div>
+          <div class="dept-pct dept-pct-green">121%</div>
+        </div>
+        <div class="dept-row">
+          <div class="dept-info">
+            <div class="dept-name">Padaria</div>
+            <div class="dept-vals">R$ 566 <span class="muted">de R$ 423</span></div>
+            <div class="dept-bar-wrap">
+              <div class="dept-bar dept-bar-green" style="width:100.0%"></div>
+            </div>
+          </div>
+          <div class="dept-pct dept-pct-green">134%</div>
         </div>
         <div class="dept-row">
           <div class="dept-info">
             <div class="dept-name">Carnes, Aves & Pescados</div>
-            <div class="dept-vals">R$ 228 <span class="muted">de R$ 109</span></div>
+            <div class="dept-vals">R$ 362 <span class="muted">de R$ 240</span></div>
             <div class="dept-bar-wrap">
               <div class="dept-bar dept-bar-green" style="width:100.0%"></div>
             </div>
           </div>
-          <div class="dept-pct dept-pct-green">209%</div>
+          <div class="dept-pct dept-pct-green">151%</div>
+        </div>
+        <div class="dept-row">
+          <div class="dept-info">
+            <div class="dept-name">Gran Mesa</div>
+            <div class="dept-vals">R$ 988 <span class="muted">de R$ 509</span></div>
+            <div class="dept-bar-wrap">
+              <div class="dept-bar dept-bar-green" style="width:100.0%"></div>
+            </div>
+          </div>
+          <div class="dept-pct dept-pct-green">194%</div>
         </div>
 </section>
 
+<!-- SHARE -->
 <div style="padding: 16px;">
   <button onclick="shareWhatsapp()" class="share-btn">📱 Compartilhar resumo no WhatsApp</button>
 </div>
 
 <div class="footer">
-  Painel de Guerra Gran Hortifruti — motor v7 (MAPE 11%) · render v10 (âncoras v5)<br>
-  Atualizado em 22/06/2026 às 16:06
+  Painel de Guerra Gran Hortifruti — motor v7 (MAPE 11%)<br>
+  Atualizado em 22/06/2026 às 16:05
 </div>
 
 </div>
@@ -1054,10 +1116,10 @@ body { font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI'
 <script>
 function shareWhatsapp() {
   const txt = `🎯 *PAINEL DE GUERRA GRAN* — Segunda, 22 de Junho de 2026\n\n` +
-              `💰 Venda: *R$ 2.848* (de R$ 3.719 esperado)\n` +
+              `💰 Venda: *R$ 8.105* (de R$ 9.600 esperado)\n` +
               `🏁 Desafio: R$ 16.113\n` +
               `📊 vs segunda passado: R$ 0\n\n` +
-              `Atenção time! Faltam R$ 13,265 pra bater o desafio.`;
+              `Atenção time! Faltam R$ 8,008 pra bater o desafio.`;
   window.open('https://wa.me/?text=' + encodeURIComponent(txt), '_blank');
 }
 
