@@ -1,0 +1,1690 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel de Guerra — Sexta, 21 de Agosto de 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root {
+  --gran-verde-escuro: #1e4d2b;
+  --gran-verde-medio: #2d6a3f;
+  --gran-verde-claro: #3f8654;
+  --gran-verde-suave: #7fb07d;
+  --gran-verde-fundo: #e7f0e9;
+  --gran-bege: #e8e3d4;
+  --gran-creme: #f0e4c0;
+  --gran-dourado: #c9a227;
+  --gran-tijolo: #b8362f;
+  --gran-cinza: #4a5248;
+  --gran-cinza-claro: #8b8f86;
+  --gran-quase-preto: #1a1f1a;
+  --sem-verde: #16a34a;
+  --sem-verde-bg: #dcfce7;
+  --sem-amarelo: #d97706;
+  --sem-amarelo-bg: #fef3c7;
+  --sem-vermelho: #dc2626;
+  --sem-vermelho-bg: #fee2e2;
+  --tag-fixo: #1e4d2b;
+  --tag-dow:  #b48a00;
+  --tag-asc:  #0e6e8a;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html { font-size: 16px; }
+body { font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        background: var(--gran-verde-fundo); color: var(--gran-quase-preto);
+        line-height: 1.5; padding-bottom: 32px; }
+.num { font-family: 'JetBrains Mono', monospace; font-feature-settings: 'tnum'; }
+.bg-green { background: linear-gradient(135deg, #15803d, #22c55e); color: white; }
+.bg-yellow { background: linear-gradient(135deg, #b45309, #f59e0b); color: white; }
+.bg-red { background: linear-gradient(135deg, #991b1b, #dc2626); color: white; }
+.bg-gray { background: linear-gradient(135deg, var(--gran-cinza), var(--gran-cinza-claro)); color: white; }
+.text-green { color: var(--sem-verde); }
+.text-yellow { color: var(--sem-amarelo); }
+.text-red { color: var(--sem-vermelho); }
+
+.header { background: var(--gran-verde-escuro); color: white; padding: 18px 24px;
+            position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(30,77,43,0.25); }
+.header-content { max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between;
+                    align-items: center; gap: 16px; flex-wrap: wrap; }
+.header h1 { font-size: 1.2rem; font-weight: 900; letter-spacing: 1.5px; color: white; }
+.header h1 .accent { color: var(--gran-dourado); }
+.header .data { font-size: 0.9rem; opacity: 0.9; }
+.header .hora-corte { font-size: 0.75rem; background: rgba(255,255,255,0.15); padding: 4px 10px;
+                        border-radius: 4px; font-weight: 600; letter-spacing: 0.5px; }
+
+.container { max-width: 1280px; margin: 0 auto; padding: 0; }
+
+.hero { padding: 36px 24px; text-align: center; position: relative; overflow: hidden; }
+.hero::before { content: ""; position: absolute; top: -50%; right: -20%; width: 250px; height: 250px;
+                  background: radial-gradient(circle, rgba(255,255,255,0.15), transparent); border-radius: 50%; }
+.hero .label { font-size: 0.85rem; opacity: 0.9; text-transform: uppercase; letter-spacing: 2px;
+                 margin-bottom: 8px; font-weight: 700; }
+.hero .venda-grande { font-size: 3.5rem; font-weight: 900; line-height: 1; margin-bottom: 8px;
+                         font-family: 'JetBrains Mono', monospace; }
+.hero .meta-line { font-size: 1rem; opacity: 0.95; margin-bottom: 16px; }
+.hero .delta { font-size: 1.2rem; font-weight: 700; margin-top: 8px; }
+.hero .msg { background: rgba(0,0,0,0.25); padding: 12px 20px; border-radius: 12px;
+              font-size: 1rem; font-weight: 700; margin: 16px auto 0; max-width: 600px;
+              backdrop-filter: blur(8px); }
+
+.progress-section { background: white; padding: 20px 24px; border-bottom: 2px solid var(--gran-bege); }
+.progress-info { display: flex; justify-content: space-between; align-items: baseline;
+                   margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
+.progress-label { font-size: 1rem; font-weight: 800; color: var(--gran-verde-escuro); }
+.progress-sub { font-size: 0.85rem; color: var(--gran-cinza); font-weight: 700; }
+.progress-bar-wrap { height: 14px; background: var(--gran-bege); border-radius: 8px; overflow: hidden;
+                       position: relative; }
+.progress-bar { height: 100%; border-radius: 8px; transition: width 0.8s ease;
+                  background-image: linear-gradient(45deg, rgba(255,255,255,0.2) 25%, transparent 25%,
+                                                          transparent 50%, rgba(255,255,255,0.2) 50%,
+                                                          rgba(255,255,255,0.2) 75%, transparent 75%);
+                  background-size: 28px 28px; }
+.progress-bar-green { background-color: var(--sem-verde); }
+.progress-bar-yellow { background-color: var(--sem-amarelo); }
+.progress-bar-red { background-color: var(--sem-vermelho); }
+.progress-marks { display: flex; justify-content: space-between; margin-top: 8px;
+                    font-size: 0.75rem; color: var(--gran-cinza-claro); }
+
+.insight-box { background: var(--gran-creme); border-left: 5px solid var(--gran-dourado);
+                 padding: 14px 18px; margin: 16px; border-radius: 8px;
+                 font-size: 0.95rem; line-height: 1.6; color: var(--gran-quase-preto); }
+.insight-box strong { font-weight: 800; color: var(--gran-verde-escuro); }
+
+.quick-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 16px; }
+.quick-stat { background: white; border-radius: 12px; padding: 18px;
+                border: 1px solid var(--gran-bege); }
+.quick-stat .label { font-size: 0.7rem; text-transform: uppercase; color: var(--gran-cinza);
+                       letter-spacing: 1.5px; font-weight: 700; margin-bottom: 8px; }
+.quick-stat .valor { font-size: 1.5rem; font-weight: 900; line-height: 1; color: var(--gran-verde-escuro);
+                      font-family: 'JetBrains Mono', monospace; }
+.quick-stat .sub { font-size: 0.8rem; color: var(--gran-cinza); margin-top: 6px; font-weight: 600; }
+
+.section { background: white; padding: 22px 24px; margin: 16px;
+            border-radius: 16px; border: 1px solid var(--gran-bege); }
+.section-title { font-size: 1.15rem; font-weight: 800; margin-bottom: 18px;
+                   color: var(--gran-verde-escuro); display: flex; align-items: center; gap: 10px; }
+.section-sub { font-size: 0.82rem; color: var(--gran-cinza); font-weight: 600;
+                margin-top: -10px; margin-bottom: 16px; }
+
+.chart-wrap { position: relative; height: 280px; }
+.chart-legend { display: flex; gap: 18px; justify-content: center; margin-top: 12px; font-size: 0.85rem;
+                  color: var(--gran-cinza); font-weight: 600; }
+.chart-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.chart-legend .dot { width: 12px; height: 12px; border-radius: 50%; }
+
+.kpi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.kpi-card { padding: 16px; border-radius: 12px; text-align: center; color: white; }
+.kpi-icon { font-size: 1.7rem; margin-bottom: 6px; }
+.kpi-titulo { font-size: 0.75rem; text-transform: uppercase; opacity: 0.95; letter-spacing: 1px; font-weight: 800; }
+.kpi-real { font-size: 1.6rem; font-weight: 900; line-height: 1.1; margin-top: 6px;
+              font-family: 'JetBrains Mono', monospace; }
+.kpi-alvo { font-size: 0.7rem; opacity: 0.85; margin-top: 2px; font-weight: 600; }
+.kpi-pct { font-size: 1.1rem; font-weight: 800; margin-top: 8px;
+            background: rgba(0,0,0,0.25); padding: 3px 10px; border-radius: 6px; display: inline-block; }
+.kpi-pct.kpi-info { background: rgba(255,255,255,0.25); }
+.kpi-green { background: linear-gradient(135deg, #15803d, #22c55e); }
+.kpi-yellow { background: linear-gradient(135deg, #b45309, #f59e0b); }
+.kpi-red { background: linear-gradient(135deg, #991b1b, #dc2626); }
+.kpi-gray, .kpi-neutral { background: linear-gradient(135deg, var(--gran-cinza), var(--gran-cinza-claro)); }
+
+.dept-row { display: grid; grid-template-columns: 1fr 80px; gap: 14px; align-items: center;
+              padding: 14px 0; border-bottom: 1px solid var(--gran-verde-fundo); }
+.dept-row:last-child { border-bottom: none; }
+.dept-info { grid-column: 1; }
+.dept-name { font-size: 0.95rem; font-weight: 700; color: var(--gran-quase-preto); margin-bottom: 4px; }
+.dept-vals { font-size: 0.95rem; font-weight: 700; font-family: 'JetBrains Mono', monospace;
+              margin-bottom: 6px; color: var(--gran-cinza); }
+.dept-vals .muted { color: var(--gran-cinza-claro); font-weight: 500; font-size: 0.85rem; }
+.dept-bar-wrap { height: 8px; background: var(--gran-bege); border-radius: 4px; overflow: hidden; }
+.dept-bar { height: 100%; border-radius: 4px; transition: width 0.6s; }
+.dept-bar-green { background: linear-gradient(90deg, #15803d, #22c55e); }
+.dept-bar-yellow { background: linear-gradient(90deg, #b45309, #f59e0b); }
+.dept-bar-red { background: linear-gradient(90deg, #991b1b, #dc2626); }
+.dept-bar-gray { background: var(--gran-cinza-claro); }
+.dept-pct { grid-column: 2; font-size: 1.1rem; font-weight: 800; text-align: right;
+              padding: 8px 12px; border-radius: 8px; align-self: center;
+              font-family: 'JetBrains Mono', monospace; }
+.dept-pct-green { background: var(--sem-verde-bg); color: var(--sem-verde); }
+.dept-pct-yellow { background: var(--sem-amarelo-bg); color: var(--sem-amarelo); }
+.dept-pct-red { background: var(--sem-vermelho-bg); color: var(--sem-vermelho); }
+.dept-pct-gray { background: var(--gran-bege); color: var(--gran-cinza); }
+
+/* ÂNCORAS V5 — base do v9 + ajustes (tags F/D/A + alvo agora/dia) */
+.ancora-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.ancora-card { padding: 14px 14px 12px; border-radius: 12px; border: 2px solid; position: relative;
+                 background: white; }
+.ancora-green { border-color: var(--sem-verde); background: var(--sem-verde-bg); }
+.ancora-yellow { border-color: var(--sem-amarelo); background: var(--sem-amarelo-bg); }
+.ancora-red { border-color: var(--sem-vermelho); background: var(--sem-vermelho-bg); }
+.ancora-gray { border-color: var(--gran-cinza-claro); background: white; }
+.ancora-pct { position: absolute; top: 10px; right: 12px; font-size: 1.05rem; font-weight: 800;
+                padding: 5px 12px; border-radius: 8px; background: white;
+                font-family: 'JetBrains Mono', monospace; }
+.ancora-green .ancora-pct { color: var(--sem-verde); border: 2px solid var(--sem-verde); }
+.ancora-yellow .ancora-pct { color: var(--sem-amarelo); border: 2px solid var(--sem-amarelo); }
+.ancora-red .ancora-pct { color: var(--sem-vermelho); border: 2px solid var(--sem-vermelho); }
+.ancora-gray .ancora-pct { color: var(--gran-cinza); border: 2px solid var(--gran-cinza-claro); }
+.ancora-desc { font-size: 1rem; font-weight: 800; color: var(--gran-quase-preto);
+                 line-height: 1.25; min-height: 2.4em; padding-right: 60px; margin-bottom: 4px; }
+.ancora-cod-line { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+.ancora-cod { font-size: 0.68rem; font-weight: 700; color: var(--gran-cinza-claro);
+                letter-spacing: 0.3px; font-family: 'JetBrains Mono', monospace; }
+.tag { display: inline-flex; align-items: center; justify-content: center;
+        width: 18px; height: 18px; border-radius: 4px;
+        font-size: 0.62rem; font-weight: 800; color: white; }
+.tag-F { background: var(--tag-fixo); }
+.tag-D { background: var(--tag-dow); }
+.tag-A { background: var(--tag-asc); }
+.ancora-numbers { margin-top: 6px; padding-top: 8px; border-top: 1px solid rgba(0,0,0,0.08); }
+.ancora-real { font-size: 1.4rem; font-weight: 900; line-height: 1;
+                 font-family: 'JetBrains Mono', monospace; color: var(--gran-quase-preto); }
+.ancora-unid { font-size: 0.7rem; font-weight: 700; color: var(--gran-cinza); }
+.ancora-alvo { font-size: 0.75rem; color: var(--gran-cinza); margin-top: 2px; font-weight: 600; }
+.ancora-alvo .agora { font-weight: 700; color: var(--gran-cinza); }
+.ancora-alvo .dia { font-weight: 800; color: var(--gran-verde-escuro);
+                      background: var(--gran-creme); padding: 1px 6px; border-radius: 4px;
+                      font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+                      margin-left: 4px; }
+.ancora-delta { margin-top: 8px; font-size: 0.8rem; font-weight: 800;
+                  padding: 4px 8px; border-radius: 6px; display: inline-block;
+                  font-family: 'JetBrains Mono', monospace; }
+.ancora-delta-green { background: rgba(22,163,74,0.15); color: #15803d; }
+.ancora-delta-red { background: rgba(220,38,38,0.12); color: #991b1b; }
+
+/* DESTAQUES SEM VENDA v5 — linguagem 'agora · dia' igual âncoras v5 */
+.destaques-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.destaque-card { background: var(--sem-vermelho-bg); border: 2px solid #fca5a5;
+                   border-radius: 10px; padding: 14px 14px 12px; }
+.destaque-status { font-size: 0.7rem; font-weight: 800; color: var(--sem-vermelho);
+                     letter-spacing: 1px; margin-bottom: 6px; }
+.destaque-desc { font-size: 1rem; font-weight: 800; color: var(--gran-quase-preto);
+                   line-height: 1.25; min-height: 2.5em; margin-bottom: 4px; }
+.destaque-cod { font-size: 0.68rem; font-weight: 700; color: var(--gran-cinza-claro);
+                  letter-spacing: 0.3px; font-family: 'JetBrains Mono', monospace; margin-bottom: 8px; }
+.destaque-numbers { margin-top: 6px; padding-top: 8px; border-top: 1px solid rgba(220,38,38,0.2); }
+.destaque-line { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.destaque-agora { font-size: 1.1rem; font-weight: 900;
+                    font-family: 'JetBrains Mono', monospace; color: var(--sem-vermelho); }
+.destaque-unid { font-size: 0.7rem; font-weight: 700; color: var(--gran-cinza); }
+.destaque-dia { font-weight: 800; color: var(--gran-verde-escuro);
+                  background: var(--gran-creme); padding: 2px 8px; border-radius: 4px;
+                  font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; }
+.destaque-delta { margin-top: 8px; font-size: 0.8rem; font-weight: 800;
+                    padding: 4px 8px; border-radius: 6px; display: inline-block;
+                    font-family: 'JetBrains Mono', monospace;
+                    background: rgba(220,38,38,0.12); color: #991b1b; }
+
+.info-stripe { background: var(--gran-creme); padding: 12px 24px; font-size: 0.9rem;
+                 color: var(--gran-quase-preto); text-align: center; font-weight: 700;
+                 border-bottom: 2px solid var(--gran-dourado); }
+
+/* v11 — Ritmo intra-dia header com dropdown */
+.ritmo-header { display: flex; justify-content: space-between; align-items: center; gap: 12px;
+                  margin-bottom: 18px; flex-wrap: wrap; }
+.ritmo-header .section-title { margin-bottom: 0; }
+.ritmo-select { font-family: inherit; font-size: 0.9rem; font-weight: 700;
+                  padding: 8px 14px; border: 2px solid var(--gran-verde-medio); border-radius: 8px;
+                  background: white; color: var(--gran-verde-escuro); cursor: pointer;
+                  -webkit-appearance: none; appearance: none;
+                  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path fill='%231e4d2b' d='M6 8L0 0h12z'/></svg>");
+                  background-repeat: no-repeat; background-position: right 10px center;
+                  padding-right: 30px; }
+.ritmo-select:focus { outline: none; border-color: var(--gran-dourado); }
+
+/* v11 — Tornados (Top10 Campeões + Top10 Perdedores) */
+.tornado-aviso { background: #fef3c7; border: 1px solid #f59e0b; color: #92400e;
+  font-size: 0.8rem; font-weight: 600; line-height: 1.4; padding: 9px 12px;
+  border-radius: 8px; margin: 8px 0 16px; }
+.tornado-filtro { display: flex; align-items: center; gap: 10px; margin: 4px 0 18px; flex-wrap: wrap; }
+.tornado-filtro label { font-size: 0.85rem; font-weight: 700; color: var(--gran-cinza); }
+.tornado-filtro .ritmo-select { flex: 1; min-width: 180px; max-width: 320px; }
+.tornado-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+.tornado-side { }
+.tornado-title { font-size: 0.95rem; font-weight: 800; margin-bottom: 12px;
+                   padding: 8px 12px; border-radius: 8px; display: inline-block; }
+.tornado-title-win { background: var(--sem-verde-bg); color: #15803d; }
+.tornado-title-loss { background: var(--sem-vermelho-bg); color: var(--sem-vermelho); }
+.tornado-row { display: grid; grid-template-columns: 1fr; gap: 4px;
+                 padding: 10px 0; border-bottom: 1px solid var(--gran-verde-fundo); }
+.tornado-row:last-child { border-bottom: none; }
+.tornado-desc { font-size: 0.92rem; font-weight: 700; color: var(--gran-quase-preto);
+                  line-height: 1.2; }
+.tornado-cod { font-size: 0.68rem; font-weight: 700; color: var(--gran-cinza-claro);
+                 letter-spacing: 0.3px; font-family: 'JetBrains Mono', monospace; }
+.tornado-bar-wrap { height: 6px; background: var(--gran-bege); border-radius: 3px;
+                      overflow: hidden; margin: 4px 0 2px; }
+.tornado-bar { height: 100%; border-radius: 3px; transition: width 0.6s; }
+.tornado-bar-green { background: linear-gradient(90deg, #15803d, #22c55e); }
+.tornado-bar-red { background: linear-gradient(90deg, #991b1b, #dc2626); }
+.tornado-vals { display: flex; gap: 10px; font-size: 0.78rem; font-weight: 600;
+                  color: var(--gran-cinza); font-family: 'JetBrains Mono', monospace; flex-wrap: wrap; }
+.tornado-hoje { color: var(--gran-quase-preto); font-weight: 800; }
+.tornado-base { color: var(--gran-cinza-claro); }
+.tornado-delta { font-size: 0.92rem; font-weight: 900;
+                   font-family: 'JetBrains Mono', monospace;
+                   padding: 2px 8px; border-radius: 6px; display: inline-block;
+                   align-self: start; margin-top: 2px; }
+.tornado-delta-green { background: rgba(22,163,74,0.15); color: #15803d; }
+.tornado-delta-red { background: rgba(220,38,38,0.12); color: #991b1b; }
+.tornado-empty { font-size: 0.85rem; color: var(--gran-cinza-claro); font-style: italic;
+                   padding: 12px 0; }
+
+.share-btn { width: 100%; padding: 16px; background: #25d366; color: white; border: none;
+              border-radius: 12px; font-size: 1.05rem; font-weight: 800; cursor: pointer;
+              box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3); transition: transform 0.1s;
+              font-family: inherit; }
+.share-btn:active { transform: scale(0.98); }
+
+.footer { text-align: center; padding: 20px; font-size: 0.75rem; color: var(--gran-cinza-claro); }
+
+@media (min-width: 768px) {
+  .quick-stats { grid-template-columns: repeat(2, 1fr); }
+  .kpi-grid { grid-template-columns: repeat(4, 1fr); }
+  .ancora-grid { grid-template-columns: repeat(3, 1fr); }
+  .destaques-grid { grid-template-columns: repeat(3, 1fr); }
+  .tornado-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+  .hero .venda-grande { font-size: 4rem; }
+}
+
+@media (min-width: 1280px) {
+  .container { padding: 0 16px; }
+  .ancora-grid { grid-template-columns: repeat(5, 1fr); }
+  .destaques-grid { grid-template-columns: repeat(4, 1fr); }
+  .hero { padding: 48px 32px; }
+  .hero .venda-grande { font-size: 5rem; }
+}
+
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-content">
+    <h1>🎯 PAINEL DE GUERRA <span class="accent">GRAN</span></h1>
+    <div>
+      <div class="data">Sexta, 21 de Agosto de 2026</div>
+    </div>
+    <div class="hora-corte">FECHAMENTO DO DIA</div>
+  </div>
+</header>
+
+<div class="container">
+
+
+
+<section class="hero bg-green">
+  <div class="label">VENDA REAL ATÉ AGORA</div>
+  <div class="venda-grande">R$ 21.583</div>
+  <div class="meta-line">de R$ 17.790 esperado pra esta hora</div>
+  <div class="delta">🚀 R$ 3.793 acima do alvo</div>
+  <div class="msg">EQUIPE NOTA 10! Vamos manter!</div>
+</section>
+
+<section class="progress-section">
+  <div class="progress-info">
+    <span class="progress-label">🎯 🏆 BATEMOS O ALVO!</span>
+    <span class="progress-sub">+R$ 3.793 acima</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar progress-bar-green" style="width:100.0%"></div>
+  </div>
+  <div class="progress-marks">
+    <span>R$ 0</span><span>R$ 17.790</span>
+  </div>
+</section>
+
+
+        <div class="insight-box">
+          <strong>💡 Foco do time:</strong>
+          🟢 <span class="text-green">Carnes, Aves & Pescados</span> em 180%
+          &nbsp;|&nbsp;
+          🔴 <span class="text-red">Granel</span> em 88%
+        </div>
+
+<section class="section">
+  <h2 class="section-title">🥖 Exposição no Pico <span style="font-weight:600;font-size:0.85rem;color:var(--gran-cinza)">— pão e mussarela contra o padrão do 1º tri/2025</span></h2>
+  <div style="background:#171a21;border:1px solid #262b36;border-left:4px solid #3ecf8e;border-radius:10px;padding:14px;margin:12px 0"><div style="font-size:11px;letter-spacing:.5px;color:#98a0b3;text-transform:uppercase;margin-bottom:8px">Exposição no pico · util · fase 2</div><div style="font-size:15px;margin-bottom:8px">🥖 Pão no pico: <b>33%</b> <span style="opacity:.6;font-size:12px">meta 41% · áureo 46%</span></div><div style="display:flex;justify-content:space-between;font-size:12px;color:#98a0b3;padding:2px 0"><span>17h-18h</span><span>10min <span style="opacity:.6">/ 24</span></span></div><div style="display:flex;justify-content:space-between;font-size:12px;color:#98a0b3;padding:2px 0"><span>18h-19h</span><span>20min <span style="opacity:.6">/ 22</span></span></div><div style="display:flex;justify-content:space-between;font-size:12px;color:#98a0b3;padding:2px 0"><span>19h-20h</span><span>19min <span style="opacity:.6">/ 37</span></span></div><div style="font-size:15px;margin-top:8px">🧀 Mussarela: <b>—</b> <span style="opacity:.6;font-size:12px">meta 1.9% · áureo 2.7%</span></div></div>
+</section>
+
+<section class="quick-stats">
+  <div class="quick-stat">
+    <div class="label">📅 Mesmo sexta passado</div>
+    <div class="valor">R$ 18.087</div>
+    <div class="sub text-green">+19% vs sexta passado</div>
+  </div>
+  <div class="quick-stat">
+    <div class="label">🎯 Alvo do dia</div>
+    <div class="valor">R$ 17.790</div>
+    <div class="sub">batido</div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="ritmo-header">
+    <h2 class="section-title">📈 Ritmo intra-dia (acumulado)</h2>
+    <select id="ritmoKpiSelect" class="ritmo-select">
+      <option value="faturamento">💰 Faturamento</option>
+      <option value="ticket_medio">🛒 Ticket Médio</option>
+      <option value="n_cupons">👥 Nº Cupons</option>
+      <option value="itens_cupom">📦 Itens/Cupom</option>
+    </select>
+  </div>
+  <div class="chart-wrap"><canvas id="chartRitmo"></canvas></div>
+  <div class="chart-legend">
+    <span><span class="dot" style="background:#1e4d2b"></span><span id="legendaReal">Real acumulado</span></span>
+    <span><span class="dot" style="background:#8b8f86"></span><span id="legendaBaseline">Alvo acumulado</span></span>
+  </div>
+</section>
+
+<section class="section">
+  <h2 class="section-title">📊 Indicadores Chave</h2>
+  <div class="kpi-grid">
+    
+        <div class="kpi-card kpi-green">
+          <div class="kpi-icon">👥</div>
+          <div class="kpi-titulo">Clientes</div>
+          <div class="kpi-real">389</div>
+          <div class="kpi-alvo">alvo: 372</div>
+          <div class="kpi-pct">105%</div>
+        </div>
+        <div class="kpi-card kpi-green">
+          <div class="kpi-icon">🛒</div>
+          <div class="kpi-titulo">Ticket Médio</div>
+          <div class="kpi-real">R$ 55,48</div>
+          <div class="kpi-alvo">alvo: R$ 47,87</div>
+          <div class="kpi-pct">116%</div>
+        </div>
+        <div class="kpi-card kpi-green">
+          <div class="kpi-icon">📦</div>
+          <div class="kpi-titulo">Itens/Cupom</div>
+          <div class="kpi-real">4,04</div>
+          <div class="kpi-alvo">alvo: 3,67</div>
+          <div class="kpi-pct">110%</div>
+        </div>
+        <div class="kpi-card kpi-red">
+          <div class="kpi-icon">🎫</div>
+          <div class="kpi-titulo">Cupons 1 item</div>
+          <div class="kpi-real">29.3%</div>
+          <div class="kpi-alvo">base sexta L4W: 23.3%</div>
+          <div class="kpi-pct">+6.0pp vs base</div>
+        </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2 class="section-title">⚠️ Destaques Sem Venda <span style="font-weight:600;font-size:0.85rem;color:var(--gran-cinza)">— ordenados do mais esperado pro menos</span></h2>
+  <div class="destaques-grid">
+        <div class="destaque-card">
+          <div class="destaque-status">⚠️ ZERO VENDAS</div>
+          <div class="destaque-desc">MELANCIA KG</div>
+          <div class="destaque-cod">cód 57</div>
+          <div class="destaque-numbers">
+            <div class="destaque-line">
+              <span class="destaque-agora">0 <span class="destaque-unid">KG</span> agora</span>
+              <span class="destaque-dia">10 KG dia</span>
+            </div>
+            <div class="destaque-delta">−R$ 66 perdidos até agora</div>
+          </div>
+        </div>
+        <div class="destaque-card">
+          <div class="destaque-status">⚠️ ZERO VENDAS</div>
+          <div class="destaque-desc">CERV HEINEKEN LT 350ML</div>
+          <div class="destaque-cod">cód 2488</div>
+          <div class="destaque-numbers">
+            <div class="destaque-line">
+              <span class="destaque-agora">0 <span class="destaque-unid">UN</span> agora</span>
+              <span class="destaque-dia">8 UN dia</span>
+            </div>
+            <div class="destaque-delta">−R$ 52 perdidos até agora</div>
+          </div>
+        </div>
+        <div class="destaque-card">
+          <div class="destaque-status">⚠️ ZERO VENDAS</div>
+          <div class="destaque-desc">CERV BUDWEISER LT 350ML UNID</div>
+          <div class="destaque-cod">cód 2394</div>
+          <div class="destaque-numbers">
+            <div class="destaque-line">
+              <span class="destaque-agora">0 <span class="destaque-unid">UN</span> agora</span>
+              <span class="destaque-dia">7 UN dia</span>
+            </div>
+            <div class="destaque-delta">−R$ 32 perdidos até agora</div>
+          </div>
+        </div>
+        <div class="destaque-card">
+          <div class="destaque-status">⚠️ ZERO VENDAS</div>
+          <div class="destaque-desc">CERV HEINEKEN LN 330ML</div>
+          <div class="destaque-cod">cód 3074</div>
+          <div class="destaque-numbers">
+            <div class="destaque-line">
+              <span class="destaque-agora">0 <span class="destaque-unid">UN</span> agora</span>
+              <span class="destaque-dia">4 UN dia</span>
+            </div>
+            <div class="destaque-delta">−R$ 31 perdidos até agora</div>
+          </div>
+        </div>
+        <div class="destaque-card">
+          <div class="destaque-status">⚠️ ZERO VENDAS</div>
+          <div class="destaque-desc">IOG ITAMBE MILK NAT 170G</div>
+          <div class="destaque-cod">cód 3118</div>
+          <div class="destaque-numbers">
+            <div class="destaque-line">
+              <span class="destaque-agora">0 <span class="destaque-unid">UN</span> agora</span>
+              <span class="destaque-dia">5 UN dia</span>
+            </div>
+            <div class="destaque-delta">−R$ 21 perdidos até agora</div>
+          </div>
+        </div>
+        <div class="destaque-card">
+          <div class="destaque-status">⚠️ ZERO VENDAS</div>
+          <div class="destaque-desc">IOG GREGO DANONE ORIG 90G</div>
+          <div class="destaque-cod">cód 6009</div>
+          <div class="destaque-numbers">
+            <div class="destaque-line">
+              <span class="destaque-agora">0 <span class="destaque-unid">UN</span> agora</span>
+              <span class="destaque-dia">6 UN dia</span>
+            </div>
+            <div class="destaque-delta">−R$ 20 perdidos até agora</div>
+          </div>
+        </div>
+        <div class="destaque-card">
+          <div class="destaque-status">⚠️ ZERO VENDAS</div>
+          <div class="destaque-desc">ALFACE CRESPA HIDROP UN</div>
+          <div class="destaque-cod">cód 232</div>
+          <div class="destaque-numbers">
+            <div class="destaque-line">
+              <span class="destaque-agora">0 <span class="destaque-unid">UN</span> agora</span>
+              <span class="destaque-dia">4 UN dia</span>
+            </div>
+            <div class="destaque-delta">−R$ 18 perdidos até agora</div>
+          </div>
+        </div>
+        <div class="destaque-card">
+          <div class="destaque-status">⚠️ ZERO VENDAS</div>
+          <div class="destaque-desc">AGUA MIN CRYSTAL C GAS 500ML</div>
+          <div class="destaque-cod">cód 2694</div>
+          <div class="destaque-numbers">
+            <div class="destaque-line">
+              <span class="destaque-agora">0 <span class="destaque-unid">UN</span> agora</span>
+              <span class="destaque-dia">5 UN dia</span>
+            </div>
+            <div class="destaque-delta">−R$ 15 perdidos até agora</div>
+          </div>
+        </div>
+        <div class="destaque-card">
+          <div class="destaque-status">⚠️ ZERO VENDAS</div>
+          <div class="destaque-desc">COUVE FOLHA UND</div>
+          <div class="destaque-cod">cód 215</div>
+          <div class="destaque-numbers">
+            <div class="destaque-line">
+              <span class="destaque-agora">0 <span class="destaque-unid">UN</span> agora</span>
+              <span class="destaque-dia">4 UN dia</span>
+            </div>
+            <div class="destaque-delta">−R$ 12 perdidos até agora</div>
+          </div>
+        </div>
+        <div class="destaque-card">
+          <div class="destaque-status">⚠️ ZERO VENDAS</div>
+          <div class="destaque-desc">PACOQUITA SANTA H 18G</div>
+          <div class="destaque-cod">cód 4481</div>
+          <div class="destaque-numbers">
+            <div class="destaque-line">
+              <span class="destaque-agora">0 <span class="destaque-unid">UN</span> agora</span>
+              <span class="destaque-dia">5 UN dia</span>
+            </div>
+            <div class="destaque-delta">−R$ 7 perdidos até agora</div>
+          </div>
+        </div></div>
+</section>
+
+
+    <section class="section">
+      <h2 class="section-title">🎯 Âncoras <span style="font-weight:600;font-size:0.8rem;color:var(--gran-cinza)">— maior perda em R$ → ganhos</span></h2>
+      <div class="section-sub">34 cards · 24 fixos elegíveis · 5 top do dia · 5 em ascensão</div>
+      <div class="ancora-grid">
+        <div class="ancora-card ancora-red">
+          <div class="ancora-pct">65%</div>
+          <div class="ancora-desc">Ovos Bco GDE C30</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 6152</span>
+            <span class="tag tag-F" title="Fixo">F</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">8,0 <span class="ancora-unid">UN</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 12 UN agora</span>
+              <span class="dia">12 UN dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 91 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-red">
+          <div class="ancora-pct">62%</div>
+          <div class="ancora-desc">Mamão Papaya</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 3394</span>
+            <span class="tag tag-F" title="Fixo">F</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">8,0 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 13 KG agora</span>
+              <span class="dia">13 KG dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 79 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-red">
+          <div class="ancora-pct">0%</div>
+          <div class="ancora-desc">Esc Aipim Carne Desfiada Gran</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 572</span>
+            <span class="tag tag-F" title="Fixo">F</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">0,0 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 1 KG agora</span>
+              <span class="dia">1 KG dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 55 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-red">
+          <div class="ancora-pct">32%</div>
+          <div class="ancora-desc">CASTANHA CAJU NAT KG</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 324</span>
+            <span class="tag tag-A" title="Em ascensão">A</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">0,2 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 1 KG agora</span>
+              <span class="dia">1 KG dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 52 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-red">
+          <div class="ancora-pct">0%</div>
+          <div class="ancora-desc">Spaghetti Bolonhesa Gran</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 541</span>
+            <span class="tag tag-F" title="Fixo">F</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">0,0 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 1 KG agora</span>
+              <span class="dia">1 KG dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 44 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-red">
+          <div class="ancora-pct">30%</div>
+          <div class="ancora-desc">IOG NAT NESTLE INT 1</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 2029</span>
+            <span class="tag tag-A" title="Em ascensão">A</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">3,0 <span class="ancora-unid">UN</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 10 UN agora</span>
+              <span class="dia">10 UN dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 42 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-red">
+          <div class="ancora-pct">74%</div>
+          <div class="ancora-desc">Wrap Frango Chipotle</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 5048</span>
+            <span class="tag tag-F" title="Fixo">F</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">3,0 <span class="ancora-unid">UN</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 4 UN agora</span>
+              <span class="dia">4 UN dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 32 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-red">
+          <div class="ancora-pct">0%</div>
+          <div class="ancora-desc">Café Melitta Trad VC 250g</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 3908</span>
+            <span class="tag tag-F" title="Fixo">F</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">0,0 <span class="ancora-unid">UN</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 1 UN agora</span>
+              <span class="dia">1 UN dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 19 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-red">
+          <div class="ancora-pct">0%</div>
+          <div class="ancora-desc">Pão Plus Vita Artesano Int</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 2513</span>
+            <span class="tag tag-F" title="Fixo">F</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">0,0 <span class="ancora-unid">UN</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 1 UN agora</span>
+              <span class="dia">1 UN dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 19 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-red">
+          <div class="ancora-pct">84%</div>
+          <div class="ancora-desc">Refrig Coca Cola S/Açúcar 1L</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 3627</span>
+            <span class="tag tag-F" title="Fixo">F</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">11,0 <span class="ancora-unid">UN</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 13 UN agora</span>
+              <span class="dia">13 UN dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 18 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-red">
+          <div class="ancora-pct">0%</div>
+          <div class="ancora-desc">ENERG MONSTER ENERGY ZERO</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 50296</span>
+            <span class="tag tag-D" title="Top do dia (DOW)">D</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">0,0 <span class="ancora-unid">UN</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 1 UN agora</span>
+              <span class="dia">1 UN dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 15 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-yellow">
+          <div class="ancora-pct">87%</div>
+          <div class="ancora-desc">Tomate Italiano</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 138</span>
+            <span class="tag tag-F" title="Fixo">F</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">9,7 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 11 KG agora</span>
+              <span class="dia">11 KG dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 14 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-red">
+          <div class="ancora-pct">0%</div>
+          <div class="ancora-desc">Iog Yopro17 Natural 160g</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 5559</span>
+            <span class="tag tag-F" title="Fixo">F</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">0,0 <span class="ancora-unid">UN</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 1 UN agora</span>
+              <span class="dia">1 UN dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 14 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-red">
+          <div class="ancora-pct">30%</div>
+          <div class="ancora-desc">Choc Baton AO LEITE 16g</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 2261</span>
+            <span class="tag tag-F" title="Fixo">F</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">2,0 <span class="ancora-unid">UN</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 7 UN agora</span>
+              <span class="dia">7 UN dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 11 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-red">
+          <div class="ancora-pct">69%</div>
+          <div class="ancora-desc">AGUA MIN INDAIA S GA</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 5120</span>
+            <span class="tag tag-A" title="Em ascensão">A</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">4,0 <span class="ancora-unid">UN</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 6 UN agora</span>
+              <span class="dia">6 UN dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 6 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-red">
+          <div class="ancora-pct">0%</div>
+          <div class="ancora-desc">GOIABA KG</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 30</span>
+            <span class="tag tag-D" title="Top do dia (DOW)">D</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">0,0 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 0 KG agora</span>
+              <span class="dia">0 KG dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 5 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-yellow">
+          <div class="ancora-pct">93%</div>
+          <div class="ancora-desc">Sopa Gran Mesa 450ml</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 3958</span>
+            <span class="tag tag-F" title="Fixo">F</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">3,0 <span class="ancora-unid">UN</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 3 UN agora</span>
+              <span class="dia">3 UN dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 4 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-yellow">
+          <div class="ancora-pct">98%</div>
+          <div class="ancora-desc">Coentro</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 213</span>
+            <span class="tag tag-F" title="Fixo">F</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">17,0 <span class="ancora-unid">UN</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 17 UN agora</span>
+              <span class="dia">17 UN dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 1 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-yellow">
+          <div class="ancora-pct">95%</div>
+          <div class="ancora-desc">BARRA SOFT BAR CHOCO DARK 50G</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 50956</span>
+            <span class="tag tag-D" title="Top do dia (DOW)">D</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">1,0 <span class="ancora-unid">UN</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 1 UN agora</span>
+              <span class="dia">1 UN dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-red">
+            −R$ 1 perdidos
+          </div>
+        </div>
+        <div class="ancora-card ancora-green">
+          <div class="ancora-pct">160%</div>
+          <div class="ancora-desc">FEIJAO PRETO KICALDO</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 3064</span>
+            <span class="tag tag-D" title="Top do dia (DOW)">D</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">1,0 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 1 KG agora</span>
+              <span class="dia">1 KG dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-green">
+            +R$ 4 a mais
+          </div>
+        </div>
+        <div class="ancora-card ancora-green">
+          <div class="ancora-pct">107%</div>
+          <div class="ancora-desc">Salada Frutas Gran</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 392</span>
+            <span class="tag tag-F" title="Fixo">F</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">3,2 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 3 KG agora</span>
+              <span class="dia">3 KG dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-green">
+            +R$ 9 a mais
+          </div>
+        </div>
+        <div class="ancora-card ancora-green">
+          <div class="ancora-pct">139%</div>
+          <div class="ancora-desc">Leite Líq Betânia INT 1L</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 50633</span>
+            <span class="tag tag-F" title="Fixo">F</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">5,0 <span class="ancora-unid">UN</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 4 UN agora</span>
+              <span class="dia">4 UN dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-green">
+            +R$ 11 a mais
+          </div>
+        </div>
+        <div class="ancora-card ancora-green">
+          <div class="ancora-pct">107%</div>
+          <div class="ancora-desc">Batata Inglesa</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 108</span>
+            <span class="tag tag-F" title="Fixo">F</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">12,0 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 11 KG agora</span>
+              <span class="dia">11 KG dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-green">
+            +R$ 14 a mais
+          </div>
+        </div>
+        <div class="ancora-card ancora-green">
+          <div class="ancora-pct">141%</div>
+          <div class="ancora-desc">Laranja Pera</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 40</span>
+            <span class="tag tag-F" title="Fixo">F</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">17,8 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 13 KG agora</span>
+              <span class="dia">13 KG dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-green">
+            +R$ 15 a mais
+          </div>
+        </div>
+        <div class="ancora-card ancora-green">
+          <div class="ancora-pct">285%</div>
+          <div class="ancora-desc">Filé Pto Fgo Sadia BIO BDJ 1kg</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 3977</span>
+            <span class="tag tag-F" title="Fixo">F</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">1,0 <span class="ancora-unid">UN</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 0 UN agora</span>
+              <span class="dia">0 UN dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-green">
+            +R$ 21 a mais
+          </div>
+        </div>
+        <div class="ancora-card ancora-green">
+          <div class="ancora-pct">138%</div>
+          <div class="ancora-desc">Brócolis Ninja</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 209</span>
+            <span class="tag tag-F" title="Fixo">F</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">6,0 <span class="ancora-unid">UN</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 4 UN agora</span>
+              <span class="dia">4 UN dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-green">
+            +R$ 24 a mais
+          </div>
+        </div>
+        <div class="ancora-card ancora-green">
+          <div class="ancora-pct">181%</div>
+          <div class="ancora-desc">SALGADOS DIVERSOS KG</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 6584</span>
+            <span class="tag tag-A" title="Em ascensão">A</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">0,5 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 0 KG agora</span>
+              <span class="dia">0 KG dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-green">
+            +R$ 25 a mais
+          </div>
+        </div>
+        <div class="ancora-card ancora-green">
+          <div class="ancora-pct">118%</div>
+          <div class="ancora-desc">Cebola</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 111</span>
+            <span class="tag tag-F" title="Fixo">F</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">15,5 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 13 KG agora</span>
+              <span class="dia">13 KG dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-green">
+            +R$ 26 a mais
+          </div>
+        </div>
+        <div class="ancora-card ancora-green">
+          <div class="ancora-pct">342%</div>
+          <div class="ancora-desc">FAROFA GALETO GRAN MESA KG</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 599</span>
+            <span class="tag tag-D" title="Top do dia (DOW)">D</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">1,1 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 0 KG agora</span>
+              <span class="dia">0 KG dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-green">
+            +R$ 33 a mais
+          </div>
+        </div>
+        <div class="ancora-card ancora-green">
+          <div class="ancora-pct">119%</div>
+          <div class="ancora-desc">QJ Muss Tirolez</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 506</span>
+            <span class="tag tag-F" title="Fixo">F</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">2,9 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 2 KG agora</span>
+              <span class="dia">2 KG dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-green">
+            +R$ 33 a mais
+          </div>
+        </div>
+        <div class="ancora-card ancora-green">
+          <div class="ancora-pct">261%</div>
+          <div class="ancora-desc">HAMB BOV ANGUS CARAP</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 4224</span>
+            <span class="tag tag-A" title="Em ascensão">A</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">2,0 <span class="ancora-unid">UN</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 1 UN agora</span>
+              <span class="dia">1 UN dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-green">
+            +R$ 33 a mais
+          </div>
+        </div>
+        <div class="ancora-card ancora-green">
+          <div class="ancora-pct">119%</div>
+          <div class="ancora-desc">Banana Prata</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 15</span>
+            <span class="tag tag-F" title="Fixo">F</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">31,7 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 27 KG agora</span>
+              <span class="dia">27 KG dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-green">
+            +R$ 49 a mais
+          </div>
+        </div>
+        <div class="ancora-card ancora-green">
+          <div class="ancora-pct">116%</div>
+          <div class="ancora-desc">Pão Tradicional</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 1</span>
+            <span class="tag tag-F" title="Fixo">F</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">37,3 <span class="ancora-unid">KG</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 32 KG agora</span>
+              <span class="dia">32 KG dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-green">
+            +R$ 100 a mais
+          </div>
+        </div>
+        <div class="ancora-card ancora-green">
+          <div class="ancora-pct">183%</div>
+          <div class="ancora-desc">Brigad Colher Goodies 180g</div>
+          <div class="ancora-cod-line">
+            <span class="ancora-cod">cód 4604</span>
+            <span class="tag tag-F" title="Fixo">F</span>
+          </div>
+          <div class="ancora-numbers">
+            <div class="ancora-real">39,0 <span class="ancora-unid">UN</span></div>
+            <div class="ancora-alvo">
+              <span class="agora">de 21 UN agora</span>
+              <span class="dia">21 UN dia</span>
+            </div>
+          </div>
+          <div class="ancora-delta ancora-delta-green">
+            +R$ 383 a mais
+          </div>
+        </div></div>
+    </section>
+
+<section class="section">
+  <h2 class="section-title">🏆 Departamentos <span style="font-weight:600;font-size:0.85rem;color:var(--gran-cinza)">— ordenados do pior pro melhor</span></h2>
+  
+        <div class="dept-row">
+          <div class="dept-info">
+            <div class="dept-name">Granel</div>
+            <div class="dept-vals">R$ 329 <span class="muted">de R$ 374</span></div>
+            <div class="dept-bar-wrap">
+              <div class="dept-bar dept-bar-yellow" style="width:87.8%"></div>
+            </div>
+          </div>
+          <div class="dept-pct dept-pct-yellow">88%</div>
+        </div>
+        <div class="dept-row">
+          <div class="dept-info">
+            <div class="dept-name">Gran Mesa</div>
+            <div class="dept-vals">R$ 1.921 <span class="muted">de R$ 2.161</span></div>
+            <div class="dept-bar-wrap">
+              <div class="dept-bar dept-bar-yellow" style="width:88.9%"></div>
+            </div>
+          </div>
+          <div class="dept-pct dept-pct-yellow">89%</div>
+        </div>
+        <div class="dept-row">
+          <div class="dept-info">
+            <div class="dept-name">Bebidas</div>
+            <div class="dept-vals">R$ 1.492 <span class="muted">de R$ 1.433</span></div>
+            <div class="dept-bar-wrap">
+              <div class="dept-bar dept-bar-green" style="width:100.0%"></div>
+            </div>
+          </div>
+          <div class="dept-pct dept-pct-green">104%</div>
+        </div>
+        <div class="dept-row">
+          <div class="dept-info">
+            <div class="dept-name">Congelados</div>
+            <div class="dept-vals">R$ 733 <span class="muted">de R$ 688</span></div>
+            <div class="dept-bar-wrap">
+              <div class="dept-bar dept-bar-green" style="width:100.0%"></div>
+            </div>
+          </div>
+          <div class="dept-pct dept-pct-green">107%</div>
+        </div>
+        <div class="dept-row">
+          <div class="dept-info">
+            <div class="dept-name">Padaria</div>
+            <div class="dept-vals">R$ 1.401 <span class="muted">de R$ 1.281</span></div>
+            <div class="dept-bar-wrap">
+              <div class="dept-bar dept-bar-green" style="width:100.0%"></div>
+            </div>
+          </div>
+          <div class="dept-pct dept-pct-green">109%</div>
+        </div>
+        <div class="dept-row">
+          <div class="dept-info">
+            <div class="dept-name">Frios & Laticínios</div>
+            <div class="dept-vals">R$ 3.033 <span class="muted">de R$ 2.473</span></div>
+            <div class="dept-bar-wrap">
+              <div class="dept-bar dept-bar-green" style="width:100.0%"></div>
+            </div>
+          </div>
+          <div class="dept-pct dept-pct-green">123%</div>
+        </div>
+        <div class="dept-row">
+          <div class="dept-info">
+            <div class="dept-name">Mercearia</div>
+            <div class="dept-vals">R$ 4.734 <span class="muted">de R$ 3.839</span></div>
+            <div class="dept-bar-wrap">
+              <div class="dept-bar dept-bar-green" style="width:100.0%"></div>
+            </div>
+          </div>
+          <div class="dept-pct dept-pct-green">123%</div>
+        </div>
+        <div class="dept-row">
+          <div class="dept-info">
+            <div class="dept-name">Bazar, Higiene & Limpeza</div>
+            <div class="dept-vals">R$ 137 <span class="muted">de R$ 109</span></div>
+            <div class="dept-bar-wrap">
+              <div class="dept-bar dept-bar-green" style="width:100.0%"></div>
+            </div>
+          </div>
+          <div class="dept-pct dept-pct-green">126%</div>
+        </div>
+        <div class="dept-row">
+          <div class="dept-info">
+            <div class="dept-name">Hortifruti — Frutas</div>
+            <div class="dept-vals">R$ 3.249 <span class="muted">de R$ 2.389</span></div>
+            <div class="dept-bar-wrap">
+              <div class="dept-bar dept-bar-green" style="width:100.0%"></div>
+            </div>
+          </div>
+          <div class="dept-pct dept-pct-green">136%</div>
+        </div>
+        <div class="dept-row">
+          <div class="dept-info">
+            <div class="dept-name">Hortifruti — Legumes & Granjeiros</div>
+            <div class="dept-vals">R$ 2.647 <span class="muted">de R$ 1.925</span></div>
+            <div class="dept-bar-wrap">
+              <div class="dept-bar dept-bar-green" style="width:100.0%"></div>
+            </div>
+          </div>
+          <div class="dept-pct dept-pct-green">138%</div>
+        </div>
+        <div class="dept-row">
+          <div class="dept-info">
+            <div class="dept-name">Hortifruti — Hortaliças</div>
+            <div class="dept-vals">R$ 687 <span class="muted">de R$ 494</span></div>
+            <div class="dept-bar-wrap">
+              <div class="dept-bar dept-bar-green" style="width:100.0%"></div>
+            </div>
+          </div>
+          <div class="dept-pct dept-pct-green">139%</div>
+        </div>
+        <div class="dept-row">
+          <div class="dept-info">
+            <div class="dept-name">Carnes, Aves & Pescados</div>
+            <div class="dept-vals">R$ 1.120 <span class="muted">de R$ 624</span></div>
+            <div class="dept-bar-wrap">
+              <div class="dept-bar dept-bar-green" style="width:100.0%"></div>
+            </div>
+          </div>
+          <div class="dept-pct dept-pct-green">180%</div>
+        </div>
+</section>
+
+
+        <section class="section">
+          <h2 class="section-title">⚔️ Tornados — onde ganhamos e perdemos vs sexta L4W</h2>
+          <div class="section-sub">Delta R$ vs média mesmo sexta · SKU em ≥ 3 das 4 semanas disponíveis · base 4/4 sem.</div>
+          
+          <div class="tornado-filtro">
+            <label for="tornadoDeptSelect">Departamento</label>
+            <select id="tornadoDeptSelect" class="ritmo-select"><option value="__ALL__" selected>🏪 Loja toda</option><option value="BAZAR_HIG_LIMP">Bazar, Higiene & Limpeza</option><option value="BEBIDAS">Bebidas</option><option value="CARNES_AVES_PESCADOS">Carnes, Aves & Pescados</option><option value="CONGELADOS">Congelados</option><option value="FRIOS_LATICINIOS">Frios & Laticínios</option><option value="GRAN_MESA">Gran Mesa</option><option value="GRANEL">Granel</option><option value="HORTI_FRUTAS">Hortifruti — Frutas</option><option value="HORTI_HORTALICAS">Hortifruti — Hortaliças</option><option value="HORTI_LEG_GRANJEIROS">Hortifruti — Legumes & Granjeiros</option><option value="MERCEARIA">Mercearia</option><option value="PADARIA">Padaria</option></select>
+          </div>
+          <div class="tornado-grid">
+            <div class="tornado-side">
+              <h3 class="tornado-title tornado-title-loss">🔴 <span id="tornadoLossTitle">Top 10 Perdedores</span></h3>
+              <div id="tornadoLoss">
+        <div class="tornado-row">
+          <div class="tornado-desc">SALADA FRUTAS PCS KG</div>
+          <div class="tornado-cod">cód 392</div>
+          <div class="tornado-bar-wrap">
+            <div class="tornado-bar tornado-bar-red" style="width:92.6%"></div>
+          </div>
+          <div class="tornado-vals">
+            <span class="tornado-hoje">hoje R$ 138</span>
+            <span class="tornado-base">base R$ 467</span>
+          </div>
+          <div class="tornado-delta tornado-delta-red">−R$ 329</div>
+        </div>
+        <div class="tornado-row">
+          <div class="tornado-desc">FILE TILAPIA L DOURA</div>
+          <div class="tornado-cod">cód 4454</div>
+          <div class="tornado-bar-wrap">
+            <div class="tornado-bar tornado-bar-red" style="width:33.7%"></div>
+          </div>
+          <div class="tornado-vals">
+            <span class="tornado-hoje">hoje R$ 0</span>
+            <span class="tornado-base">base R$ 120</span>
+          </div>
+          <div class="tornado-delta tornado-delta-red">−R$ 120</div>
+        </div>
+        <div class="tornado-row">
+          <div class="tornado-desc">ESCOND AIPIM CARNE DESF GRANKG</div>
+          <div class="tornado-cod">cód 572</div>
+          <div class="tornado-bar-wrap">
+            <div class="tornado-bar tornado-bar-red" style="width:28.3%"></div>
+          </div>
+          <div class="tornado-vals">
+            <span class="tornado-hoje">hoje R$ 0</span>
+            <span class="tornado-base">base R$ 101</span>
+          </div>
+          <div class="tornado-delta tornado-delta-red">−R$ 101</div>
+        </div>
+        <div class="tornado-row">
+          <div class="tornado-desc">BEBIDA LACTEA YOPRO 23G UHT CH</div>
+          <div class="tornado-cod">cód 51237</div>
+          <div class="tornado-bar-wrap">
+            <div class="tornado-bar tornado-bar-red" style="width:23.7%"></div>
+          </div>
+          <div class="tornado-vals">
+            <span class="tornado-hoje">hoje R$ 0</span>
+            <span class="tornado-base">base R$ 84</span>
+          </div>
+          <div class="tornado-delta tornado-delta-red">−R$ 84</div>
+        </div>
+        <div class="tornado-row">
+          <div class="tornado-desc">REFRIG COCA COLA S A</div>
+          <div class="tornado-cod">cód 3627</div>
+          <div class="tornado-bar-wrap">
+            <div class="tornado-bar tornado-bar-red" style="width:19.5%"></div>
+          </div>
+          <div class="tornado-vals">
+            <span class="tornado-hoje">hoje R$ 0</span>
+            <span class="tornado-base">base R$ 69</span>
+          </div>
+          <div class="tornado-delta tornado-delta-red">−R$ 69</div>
+        </div>
+        <div class="tornado-row">
+          <div class="tornado-desc">OVOS BCO GDE C30</div>
+          <div class="tornado-cod">cód 6152</div>
+          <div class="tornado-bar-wrap">
+            <div class="tornado-bar tornado-bar-red" style="width:17.7%"></div>
+          </div>
+          <div class="tornado-vals">
+            <span class="tornado-hoje">hoje R$ 169</span>
+            <span class="tornado-base">base R$ 232</span>
+          </div>
+          <div class="tornado-delta tornado-delta-red">−R$ 63</div>
+        </div>
+        <div class="tornado-row">
+          <div class="tornado-desc">QJ PAR FAIXA AZUL CI</div>
+          <div class="tornado-cod">cód 3979</div>
+          <div class="tornado-bar-wrap">
+            <div class="tornado-bar tornado-bar-red" style="width:17.5%"></div>
+          </div>
+          <div class="tornado-vals">
+            <span class="tornado-hoje">hoje R$ 0</span>
+            <span class="tornado-base">base R$ 62</span>
+          </div>
+          <div class="tornado-delta tornado-delta-red">−R$ 62</div>
+        </div>
+        <div class="tornado-row">
+          <div class="tornado-desc">MANDIOQUINHA VACUO 5</div>
+          <div class="tornado-cod">cód 123</div>
+          <div class="tornado-bar-wrap">
+            <div class="tornado-bar tornado-bar-red" style="width:16.1%"></div>
+          </div>
+          <div class="tornado-vals">
+            <span class="tornado-hoje">hoje R$ 0</span>
+            <span class="tornado-base">base R$ 57</span>
+          </div>
+          <div class="tornado-delta tornado-delta-red">−R$ 57</div>
+        </div>
+        <div class="tornado-row">
+          <div class="tornado-desc">UVA THOMPSON 500G</div>
+          <div class="tornado-cod">cód 92</div>
+          <div class="tornado-bar-wrap">
+            <div class="tornado-bar tornado-bar-red" style="width:15.0%"></div>
+          </div>
+          <div class="tornado-vals">
+            <span class="tornado-hoje">hoje R$ 35</span>
+            <span class="tornado-base">base R$ 88</span>
+          </div>
+          <div class="tornado-delta tornado-delta-red">−R$ 53</div>
+        </div>
+        <div class="tornado-row">
+          <div class="tornado-desc">SUPERCOFFEE TO GO LINGUA DE GA</div>
+          <div class="tornado-cod">cód 50798</div>
+          <div class="tornado-bar-wrap">
+            <div class="tornado-bar tornado-bar-red" style="width:14.6%"></div>
+          </div>
+          <div class="tornado-vals">
+            <span class="tornado-hoje">hoje R$ 0</span>
+            <span class="tornado-base">base R$ 52</span>
+          </div>
+          <div class="tornado-delta tornado-delta-red">−R$ 52</div>
+        </div></div>
+            </div>
+            <div class="tornado-side">
+              <h3 class="tornado-title tornado-title-win">🟢 <span id="tornadoWinTitle">Top 10 Campeões</span></h3>
+              <div id="tornadoWin">
+        <div class="tornado-row">
+          <div class="tornado-desc">BRIGAD COLHER GOODIE</div>
+          <div class="tornado-cod">cód 4604</div>
+          <div class="tornado-bar-wrap">
+            <div class="tornado-bar tornado-bar-green" style="width:100.0%"></div>
+          </div>
+          <div class="tornado-vals">
+            <span class="tornado-hoje">hoje R$ 844</span>
+            <span class="tornado-base">base R$ 489</span>
+          </div>
+          <div class="tornado-delta tornado-delta-green">+R$ 355</div>
+        </div>
+        <div class="tornado-row">
+          <div class="tornado-desc">MARACUJA AZEDO KG</div>
+          <div class="tornado-cod">cód 55</div>
+          <div class="tornado-bar-wrap">
+            <div class="tornado-bar tornado-bar-green" style="width:67.1%"></div>
+          </div>
+          <div class="tornado-vals">
+            <span class="tornado-hoje">hoje R$ 387</span>
+            <span class="tornado-base">base R$ 149</span>
+          </div>
+          <div class="tornado-delta tornado-delta-green">+R$ 239</div>
+        </div>
+        <div class="tornado-row">
+          <div class="tornado-desc">CERV AMSTEL LT 350ML</div>
+          <div class="tornado-cod">cód 3075</div>
+          <div class="tornado-bar-wrap">
+            <div class="tornado-bar tornado-bar-green" style="width:53.9%"></div>
+          </div>
+          <div class="tornado-vals">
+            <span class="tornado-hoje">hoje R$ 247</span>
+            <span class="tornado-base">base R$ 55</span>
+          </div>
+          <div class="tornado-delta tornado-delta-green">+R$ 192</div>
+        </div>
+        <div class="tornado-row">
+          <div class="tornado-desc">KIWI KG</div>
+          <div class="tornado-cod">cód 36</div>
+          <div class="tornado-bar-wrap">
+            <div class="tornado-bar tornado-bar-green" style="width:50.1%"></div>
+          </div>
+          <div class="tornado-vals">
+            <span class="tornado-hoje">hoje R$ 274</span>
+            <span class="tornado-base">base R$ 96</span>
+          </div>
+          <div class="tornado-delta tornado-delta-green">+R$ 178</div>
+        </div>
+        <div class="tornado-row">
+          <div class="tornado-desc">LIMAO TAHITI KG</div>
+          <div class="tornado-cod">cód 44</div>
+          <div class="tornado-bar-wrap">
+            <div class="tornado-bar tornado-bar-green" style="width:45.0%"></div>
+          </div>
+          <div class="tornado-vals">
+            <span class="tornado-hoje">hoje R$ 316</span>
+            <span class="tornado-base">base R$ 156</span>
+          </div>
+          <div class="tornado-delta tornado-delta-green">+R$ 160</div>
+        </div>
+        <div class="tornado-row">
+          <div class="tornado-desc">QJ MUSS TIROLEZ KG</div>
+          <div class="tornado-cod">cód 506</div>
+          <div class="tornado-bar-wrap">
+            <div class="tornado-bar tornado-bar-green" style="width:40.4%"></div>
+          </div>
+          <div class="tornado-vals">
+            <span class="tornado-hoje">hoje R$ 247</span>
+            <span class="tornado-base">base R$ 103</span>
+          </div>
+          <div class="tornado-delta tornado-delta-green">+R$ 143</div>
+        </div>
+        <div class="tornado-row">
+          <div class="tornado-desc">ALHO KG</div>
+          <div class="tornado-cod">cód 101</div>
+          <div class="tornado-bar-wrap">
+            <div class="tornado-bar tornado-bar-green" style="width:38.6%"></div>
+          </div>
+          <div class="tornado-vals">
+            <span class="tornado-hoje">hoje R$ 195</span>
+            <span class="tornado-base">base R$ 58</span>
+          </div>
+          <div class="tornado-delta tornado-delta-green">+R$ 137</div>
+        </div>
+        <div class="tornado-row">
+          <div class="tornado-desc">BROWNIE DE POTE GOOD</div>
+          <div class="tornado-cod">cód 4606</div>
+          <div class="tornado-bar-wrap">
+            <div class="tornado-bar tornado-bar-green" style="width:35.8%"></div>
+          </div>
+          <div class="tornado-vals">
+            <span class="tornado-hoje">hoje R$ 171</span>
+            <span class="tornado-base">base R$ 43</span>
+          </div>
+          <div class="tornado-delta tornado-delta-green">+R$ 127</div>
+        </div>
+        <div class="tornado-row">
+          <div class="tornado-desc">CAJU KG</div>
+          <div class="tornado-cod">cód 19</div>
+          <div class="tornado-bar-wrap">
+            <div class="tornado-bar tornado-bar-green" style="width:30.0%"></div>
+          </div>
+          <div class="tornado-vals">
+            <span class="tornado-hoje">hoje R$ 198</span>
+            <span class="tornado-base">base R$ 92</span>
+          </div>
+          <div class="tornado-delta tornado-delta-green">+R$ 107</div>
+        </div>
+        <div class="tornado-row">
+          <div class="tornado-desc">PAO TRADICIONAL KG</div>
+          <div class="tornado-cod">cód 1</div>
+          <div class="tornado-bar-wrap">
+            <div class="tornado-bar tornado-bar-green" style="width:29.8%"></div>
+          </div>
+          <div class="tornado-vals">
+            <span class="tornado-hoje">hoje R$ 740</span>
+            <span class="tornado-base">base R$ 634</span>
+          </div>
+          <div class="tornado-delta tornado-delta-green">+R$ 106</div>
+        </div></div>
+            </div>
+          </div>
+        </section>
+        <script>window.__TORNADO_UNIVERSO__ = [{"cod": 4604, "desc": "BRIGAD COLHER GOODIE", "dept": "FRIOS_LATICINIOS", "venda_hoje": 843.95, "venda_baseline": 488.61, "delta_rs": 355.34}, {"cod": 392, "desc": "SALADA FRUTAS PCS KG", "dept": "GRAN_MESA", "venda_hoje": 138.06, "venda_baseline": 466.93, "delta_rs": -328.87}, {"cod": 55, "desc": "MARACUJA AZEDO KG", "dept": "HORTI_FRUTAS", "venda_hoje": 387.42, "venda_baseline": 148.91, "delta_rs": 238.51}, {"cod": 3075, "desc": "CERV AMSTEL LT 350ML", "dept": "BEBIDAS", "venda_hoje": 246.57, "venda_baseline": 55.0, "delta_rs": 191.57}, {"cod": 36, "desc": "KIWI KG", "dept": "HORTI_FRUTAS", "venda_hoje": 274.23, "venda_baseline": 96.3, "delta_rs": 177.93}, {"cod": 44, "desc": "LIMAO TAHITI KG", "dept": "HORTI_FRUTAS", "venda_hoje": 315.71, "venda_baseline": 155.91, "delta_rs": 159.79}, {"cod": 506, "desc": "QJ MUSS TIROLEZ KG", "dept": "FRIOS_LATICINIOS", "venda_hoje": 246.59, "venda_baseline": 103.19, "delta_rs": 143.4}, {"cod": 101, "desc": "ALHO KG", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 194.71, "venda_baseline": 57.61, "delta_rs": 137.11}, {"cod": 4606, "desc": "BROWNIE DE POTE GOOD", "dept": "FRIOS_LATICINIOS", "venda_hoje": 170.53, "venda_baseline": 43.35, "delta_rs": 127.18}, {"cod": 4454, "desc": "FILE TILAPIA L DOURA", "dept": "CARNES_AVES_PESCADOS", "venda_hoje": 0.0, "venda_baseline": 119.76, "delta_rs": -119.76}, {"cod": 19, "desc": "CAJU KG", "dept": "HORTI_FRUTAS", "venda_hoje": 198.34, "venda_baseline": 91.63, "delta_rs": 106.71}, {"cod": 1, "desc": "PAO TRADICIONAL KG", "dept": "PADARIA", "venda_hoje": 739.88, "venda_baseline": 634.11, "delta_rs": 105.77}, {"cod": 43, "desc": "LIMAO SICILIANO KG", "dept": "HORTI_FRUTAS", "venda_hoje": 225.27, "venda_baseline": 122.14, "delta_rs": 103.13}, {"cod": 572, "desc": "ESCOND AIPIM CARNE DESF GRANKG", "dept": "GRAN_MESA", "venda_hoje": 0.0, "venda_baseline": 100.52, "delta_rs": -100.52}, {"cod": 6739, "desc": "BRIGAD BRANCO GOODIE", "dept": "FRIOS_LATICINIOS", "venda_hoje": 134.68, "venda_baseline": 34.97, "delta_rs": 99.72}, {"cod": 171, "desc": "TOMATE GRAPE 180G", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 144.93, "venda_baseline": 57.63, "delta_rs": 87.3}, {"cod": 51237, "desc": "BEBIDA LACTEA YOPRO 23G UHT CH", "dept": "FRIOS_LATICINIOS", "venda_hoje": 0.0, "venda_baseline": 84.17, "delta_rs": -84.17}, {"cod": 214, "desc": "COUVE FLOR UND", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 137.97, "venda_baseline": 54.75, "delta_rs": 83.22}, {"cod": 2553, "desc": "MANTEIGA DAVACA C SA", "dept": "FRIOS_LATICINIOS", "venda_hoje": 112.71, "venda_baseline": 35.93, "delta_rs": 76.78}, {"cod": 5049, "desc": "WRAP FRANGO PARMESAO", "dept": "GRAN_MESA", "venda_hoje": 149.5, "venda_baseline": 74.08, "delta_rs": 75.42}, {"cod": 2447, "desc": "SUCO MORANGO 500ML", "dept": "GRAN_MESA", "venda_hoje": 90.3, "venda_baseline": 16.12, "delta_rs": 74.17}, {"cod": 3627, "desc": "REFRIG COCA COLA S A", "dept": "BEBIDAS", "venda_hoje": 0.0, "venda_baseline": 69.15, "delta_rs": -69.15}, {"cod": 106, "desc": "BATATA DOCE KG", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 98.15, "venda_baseline": 30.07, "delta_rs": 68.08}, {"cod": 2457, "desc": "SUCO LARANJA 1000ML", "dept": "GRAN_MESA", "venda_hoje": 128.88, "venda_baseline": 62.2, "delta_rs": 66.68}, {"cod": 6152, "desc": "OVOS BCO GDE C30", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 168.63, "venda_baseline": 231.53, "delta_rs": -62.9}, {"cod": 3979, "desc": "QJ PAR FAIXA AZUL CI", "dept": "FRIOS_LATICINIOS", "venda_hoje": 0.0, "venda_baseline": 62.2, "delta_rs": -62.2}, {"cod": 140, "desc": "VAGEM KG", "dept": "HORTI_HORTALICAS", "venda_hoje": 80.34, "venda_baseline": 19.46, "delta_rs": 60.88}, {"cod": 15, "desc": "BANANA PRATA KG", "dept": "HORTI_FRUTAS", "venda_hoje": 302.75, "venda_baseline": 243.84, "delta_rs": 58.91}, {"cod": 123, "desc": "MANDIOQUINHA VACUO 5", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 0.0, "venda_baseline": 57.25, "delta_rs": -57.25}, {"cod": 2374, "desc": "REFRIG G ANTARCTICA", "dept": "BEBIDAS", "venda_hoje": 88.69, "venda_baseline": 33.82, "delta_rs": 54.87}, {"cod": 92, "desc": "UVA THOMPSON 500G", "dept": "HORTI_FRUTAS", "venda_hoje": 35.13, "venda_baseline": 88.46, "delta_rs": -53.33}, {"cod": 50798, "desc": "SUPERCOFFEE TO GO LINGUA DE GA", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 52.02, "delta_rs": -52.02}, {"cod": 3359, "desc": "FILE PTO FGO SADIA B", "dept": "CARNES_AVES_PESCADOS", "venda_hoje": 0.0, "venda_baseline": 51.41, "delta_rs": -51.41}, {"cod": 51547, "desc": "PAO DE MEL GOODIES  65G", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 45.44, "delta_rs": -45.44}, {"cod": 3072, "desc": "REFRIG COCA COLA S A", "dept": "BEBIDAS", "venda_hoje": 0.0, "venda_baseline": 45.12, "delta_rs": -45.12}, {"cod": 4324, "desc": "GALETO ASSADO GRAN K", "dept": "GRAN_MESA", "venda_hoje": 112.61, "venda_baseline": 157.47, "delta_rs": -44.86}, {"cod": 3074, "desc": "CERV HEINEKEN LN 330", "dept": "BEBIDAS", "venda_hoje": 0.0, "venda_baseline": 44.79, "delta_rs": -44.79}, {"cod": 2471, "desc": "REFRIG COCA COLA PET", "dept": "BEBIDAS", "venda_hoje": 0.0, "venda_baseline": 44.72, "delta_rs": -44.72}, {"cod": 52, "desc": "MANGA PALMER KG", "dept": "HORTI_FRUTAS", "venda_hoje": 0.0, "venda_baseline": 44.58, "delta_rs": -44.58}, {"cod": 138, "desc": "TOMATE ITALIANO KG", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 89.75, "venda_baseline": 45.24, "delta_rs": 44.51}, {"cod": 51617, "desc": "PUXA DE AMENDOIM 60G", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 43.8, "delta_rs": -43.8}, {"cod": 4297, "desc": "MOLHO TOM BASILICO G", "dept": "GRAN_MESA", "venda_hoje": 86.74, "venda_baseline": 44.85, "delta_rs": 41.89}, {"cod": 111, "desc": "CEBOLA KG", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 171.91, "venda_baseline": 130.58, "delta_rs": 41.33}, {"cod": 2470, "desc": "REFRIG COCA COLA PET", "dept": "BEBIDAS", "venda_hoje": 0.0, "venda_baseline": 39.87, "delta_rs": -39.87}, {"cod": 68, "desc": "MORANGO 250G", "dept": "HORTI_FRUTAS", "venda_hoje": 267.5, "venda_baseline": 229.23, "delta_rs": 38.27}, {"cod": 324, "desc": "CASTANHA CAJU NAT KG", "dept": "GRANEL", "venda_hoje": 24.58, "venda_baseline": 62.58, "delta_rs": -38.0}, {"cod": 5910, "desc": "SANDUICHE NATURAL FR", "dept": "GRAN_MESA", "venda_hoje": 75.6, "venda_baseline": 37.8, "delta_rs": 37.8}, {"cod": 60, "desc": "MELAO ESPANHOL KG", "dept": "HORTI_FRUTAS", "venda_hoje": 47.39, "venda_baseline": 9.74, "delta_rs": 37.65}, {"cod": 663, "desc": "ESCOND AIPIM CARNE SOL GRANKG", "dept": "GRAN_MESA", "venda_hoje": 117.4, "venda_baseline": 79.81, "delta_rs": 37.59}, {"cod": 51381, "desc": "VINHO CONCHA YTORO SAUV.BLANK.", "dept": "BEBIDAS", "venda_hoje": 0.0, "venda_baseline": 37.49, "delta_rs": -37.49}, {"cod": 39, "desc": "LARANJA NAVELINA KG", "dept": "HORTI_FRUTAS", "venda_hoje": 62.36, "venda_baseline": 25.16, "delta_rs": 37.2}, {"cod": 51581, "desc": "SALAME PERDIGAO FAT 100G", "dept": "FRIOS_LATICINIOS", "venda_hoje": 55.16, "venda_baseline": 18.28, "delta_rs": 36.88}, {"cod": 66, "desc": "MELAO REY KG", "dept": "HORTI_FRUTAS", "venda_hoje": 30.88, "venda_baseline": 67.61, "delta_rs": -36.73}, {"cod": 50988, "desc": "ENERG LEGACY TROPICAL F 355ML", "dept": "BEBIDAS", "venda_hoje": 0.0, "venda_baseline": 36.22, "delta_rs": -36.22}, {"cod": 5158, "desc": "QJ MINAS PD DAVACA K", "dept": "FRIOS_LATICINIOS", "venda_hoje": 0.0, "venda_baseline": 36.08, "delta_rs": -36.08}, {"cod": 2029, "desc": "IOG NAT NESTLE INT 1", "dept": "FRIOS_LATICINIOS", "venda_hoje": 18.27, "venda_baseline": 53.32, "delta_rs": -35.05}, {"cod": 2148, "desc": "DOCE LEITE FLORMEL ZERO", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 34.9, "delta_rs": -34.9}, {"cod": 6675, "desc": "FGO DESFIADO GRAN ME", "dept": "GRAN_MESA", "venda_hoje": 127.84, "venda_baseline": 93.38, "delta_rs": 34.47}, {"cod": 5377, "desc": "MORT OURO PERD 200G", "dept": "FRIOS_LATICINIOS", "venda_hoje": 47.97, "venda_baseline": 13.79, "delta_rs": 34.17}, {"cod": 4110, "desc": "ABACAXI PEROLA DOCE", "dept": "HORTI_FRUTAS", "venda_hoje": 0.0, "venda_baseline": 33.94, "delta_rs": -33.94}, {"cod": 6, "desc": "ABACAXI PEROLA UN", "dept": "HORTI_FRUTAS", "venda_hoje": 120.89, "venda_baseline": 86.95, "delta_rs": 33.94}, {"cod": 51461, "desc": "OVO CAIPIRA COM 12UN", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 45.96, "venda_baseline": 12.13, "delta_rs": 33.83}, {"cod": 760, "desc": "PAO DELICIA GRAN KG", "dept": "PADARIA", "venda_hoje": 75.24, "venda_baseline": 41.63, "delta_rs": 33.61}, {"cod": 468, "desc": "CASTANHA CAJU SALGAD", "dept": "GRANEL", "venda_hoje": 0.0, "venda_baseline": 33.36, "delta_rs": -33.36}, {"cod": 50756, "desc": "ENERG LEGACY TANG 355ML", "dept": "BEBIDAS", "venda_hoje": 0.0, "venda_baseline": 33.36, "delta_rs": -33.36}, {"cod": 759, "desc": "PAO DELICIA RECHEIO GRAN KG", "dept": "PADARIA", "venda_hoje": 96.18, "venda_baseline": 63.36, "delta_rs": 32.82}, {"cod": 51522, "desc": "CHOCOLATE GAROTO CROCANTE 25G", "dept": "MERCEARIA", "venda_hoje": 43.11, "venda_baseline": 10.78, "delta_rs": 32.33}, {"cod": 96, "desc": "ABOBORA MARANHAO KG", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 50.72, "venda_baseline": 18.43, "delta_rs": 32.29}, {"cod": 3958, "desc": "SOPA GRAN MESA 450ML", "dept": "GRAN_MESA", "venda_hoje": 53.7, "venda_baseline": 21.79, "delta_rs": 31.91}, {"cod": 5048, "desc": "WRAP FRANGO CHIPOTLE", "dept": "GRAN_MESA", "venda_hoje": 89.1, "venda_baseline": 58.3, "delta_rs": 30.79}, {"cod": 16, "desc": "BANANA TERRA KG", "dept": "HORTI_FRUTAS", "venda_hoje": 164.69, "venda_baseline": 134.21, "delta_rs": 30.48}, {"cod": 5735, "desc": "FEIJAO TROPEIRO GRAN", "dept": "GRAN_MESA", "venda_hoje": 57.64, "venda_baseline": 27.43, "delta_rs": 30.21}, {"cod": 51600, "desc": "CERVEJA PRAYA GFA 330ML", "dept": "BEBIDAS", "venda_hoje": 0.0, "venda_baseline": 30.16, "delta_rs": -30.16}, {"cod": 51353, "desc": "PIPOCA ART PRO MAIS PURA QUEIJ", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 30.12, "delta_rs": -30.12}, {"cod": 209, "desc": "BROCOLIS NINJA UND", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 86.34, "venda_baseline": 116.17, "delta_rs": -29.83}, {"cod": 230, "desc": "TOMILHO UND", "dept": "HORTI_HORTALICAS", "venda_hoje": 59.22, "venda_baseline": 29.61, "delta_rs": 29.61}, {"cod": 2510, "desc": "PAO PLUS VITA INT 48", "dept": "PADARIA", "venda_hoje": 0.0, "venda_baseline": 29.38, "delta_rs": -29.38}, {"cod": 51572, "desc": "BAR PROT DUX CARAMELO SALG 60G", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 29.23, "delta_rs": -29.23}, {"cod": 2364, "desc": "QJ MINAS FR JLMASTER LGT", "dept": "FRIOS_LATICINIOS", "venda_hoje": 0.0, "venda_baseline": 29.08, "delta_rs": -29.08}, {"cod": 2469, "desc": "REFRIG COCA COLA LT", "dept": "BEBIDAS", "venda_hoje": 32.72, "venda_baseline": 61.77, "delta_rs": -29.05}, {"cod": 3908, "desc": "CAFE MELITTA TRAD VC", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 29.03, "delta_rs": -29.03}, {"cod": 502, "desc": "WRAP CARNE BARBECUE", "dept": "GRAN_MESA", "venda_hoje": 28.9, "venda_baseline": 57.84, "delta_rs": -28.94}, {"cod": 6355, "desc": "QJ MUSS SADIA FAT 15", "dept": "FRIOS_LATICINIOS", "venda_hoje": 166.27, "venda_baseline": 137.51, "delta_rs": 28.76}, {"cod": 2375, "desc": "REFRIG G ANTARCTICA", "dept": "BEBIDAS", "venda_hoje": 0.0, "venda_baseline": 28.32, "delta_rs": -28.32}, {"cod": 4811, "desc": "KOMB GULA FIT MOR LIM", "dept": "BEBIDAS", "venda_hoje": 0.0, "venda_baseline": 28.27, "delta_rs": -28.27}, {"cod": 466, "desc": "CASTANHA CARAMELIZAD", "dept": "GRANEL", "venda_hoje": 0.0, "venda_baseline": 28.21, "delta_rs": -28.21}, {"cod": 54, "desc": "MANGA TOMMY KG", "dept": "HORTI_FRUTAS", "venda_hoje": 87.92, "venda_baseline": 60.56, "delta_rs": 27.36}, {"cod": 573, "desc": "ESCOND BATATA DOCE FGO GRAN KG", "dept": "GRAN_MESA", "venda_hoje": 95.73, "venda_baseline": 68.69, "delta_rs": 27.04}, {"cod": 50633, "desc": "LEITE LIQ BETANIA INT 1LT", "dept": "MERCEARIA", "venda_hoje": 37.95, "venda_baseline": 10.92, "delta_rs": 27.03}, {"cod": 3637, "desc": "CHOC LOLLO 28G", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 26.07, "delta_rs": -26.07}, {"cod": 2405, "desc": "LEITE LIQ DESN LEITI", "dept": "MERCEARIA", "venda_hoje": 45.56, "venda_baseline": 19.7, "delta_rs": 25.86}, {"cod": 84, "desc": "TANGERINA IMPORTADA", "dept": "HORTI_FRUTAS", "venda_hoje": 143.55, "venda_baseline": 118.39, "delta_rs": 25.16}, {"cod": 347, "desc": "PIMENTA DEDO DE MOCA", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 36.81, "venda_baseline": 11.82, "delta_rs": 24.99}, {"cod": 50810, "desc": "BATATA PALITO MCCAIN AIRFRYER", "dept": "CONGELADOS", "venda_hoje": 0.0, "venda_baseline": 24.9, "delta_rs": -24.9}, {"cod": 5120, "desc": "AGUA MIN INDAIA S GA", "dept": "BEBIDAS", "venda_hoje": 0.0, "venda_baseline": 24.31, "delta_rs": -24.31}, {"cod": 57, "desc": "MELANCIA KG", "dept": "HORTI_FRUTAS", "venda_hoje": 0.0, "venda_baseline": 24.17, "delta_rs": -24.17}, {"cod": 108, "desc": "BATATA INGLESA KG", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 196.66, "venda_baseline": 173.01, "delta_rs": 23.65}, {"cod": 50024, "desc": "CERV STELLA ARTOIS PURO GOLD", "dept": "BEBIDAS", "venda_hoje": 0.0, "venda_baseline": 23.22, "delta_rs": -23.22}, {"cod": 51701, "desc": "WAFER BOLD CHOCOLATE BRANCO", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 23.21, "delta_rs": -23.21}, {"cod": 213, "desc": "COENTRO UND", "dept": "HORTI_HORTALICAS", "venda_hoje": 61.77, "venda_baseline": 38.6, "delta_rs": 23.17}, {"cod": 107, "desc": "BATATA DOCE ROXA KG", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 2.77, "venda_baseline": 25.55, "delta_rs": -22.79}, {"cod": 4931, "desc": "PAO PLUS VITA ARTESA", "dept": "PADARIA", "venda_hoje": 0.0, "venda_baseline": 22.42, "delta_rs": -22.42}, {"cod": 3088, "desc": "REFRIG COCA COLA LT", "dept": "BEBIDAS", "venda_hoje": 0.0, "venda_baseline": 22.41, "delta_rs": -22.41}, {"cod": 9, "desc": "AMEIXA IMPORTADA KG", "dept": "HORTI_FRUTAS", "venda_hoje": 34.76, "venda_baseline": 12.5, "delta_rs": 22.26}, {"cod": 2302, "desc": "IOG V CAMPO WHEY28 C", "dept": "FRIOS_LATICINIOS", "venda_hoje": 0.0, "venda_baseline": 22.02, "delta_rs": -22.02}, {"cod": 51703, "desc": "BISCOI BEL LOTUS BISCOFF SANDW", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 21.9, "delta_rs": -21.9}, {"cod": 326, "desc": "CASTANHA PARA KG", "dept": "GRANEL", "venda_hoje": 0.0, "venda_baseline": 21.67, "delta_rs": -21.67}, {"cod": 508, "desc": "QJ REINO TIROLEZ KG", "dept": "FRIOS_LATICINIOS", "venda_hoje": 0.0, "venda_baseline": 21.64, "delta_rs": -21.64}, {"cod": 112, "desc": "CEBOLA ROXA KG", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 48.07, "venda_baseline": 26.49, "delta_rs": 21.58}, {"cod": 50989, "desc": "ENER LEGACY  FRESH BERRIES 355", "dept": "BEBIDAS", "venda_hoje": 0.0, "venda_baseline": 21.57, "delta_rs": -21.57}, {"cod": 2195, "desc": "CREME LT NESTLE LT 3", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 20.98, "delta_rs": -20.98}, {"cod": 6154, "desc": "OVOS VERM GDE C30", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 22.43, "venda_baseline": 42.8, "delta_rs": -20.37}, {"cod": 113, "desc": "CENOURA KG", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 68.83, "venda_baseline": 89.15, "delta_rs": -20.32}, {"cod": 6009, "desc": "IOG GREGO DANONE ORI", "dept": "FRIOS_LATICINIOS", "venda_hoje": 0.0, "venda_baseline": 19.92, "delta_rs": -19.92}, {"cod": 6151, "desc": "OVOS VERM GDE STA MA", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 39.6, "venda_baseline": 19.8, "delta_rs": 19.8}, {"cod": 3557, "desc": "QJ PRATO TIROLEZ FAT", "dept": "FRIOS_LATICINIOS", "venda_hoje": 15.79, "venda_baseline": 35.53, "delta_rs": -19.74}, {"cod": 699, "desc": "MELAO PELE DE SAPO KG", "dept": "HORTI_FRUTAS", "venda_hoje": 42.63, "venda_baseline": 23.34, "delta_rs": 19.29}, {"cod": 51678, "desc": "CEREAL EM BARRA PINATI NUTS G", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 19.18, "delta_rs": -19.18}, {"cod": 2488, "desc": "CERV HEINEKEN LT 350", "dept": "BEBIDAS", "venda_hoje": 0.0, "venda_baseline": 18.92, "delta_rs": -18.92}, {"cod": 2994, "desc": "BATATA PALHA YOKI TRAD 105G", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 18.74, "delta_rs": -18.74}, {"cod": 2839, "desc": "LEITE COCO DUCOCO VD", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 18.67, "delta_rs": -18.67}, {"cod": 3558, "desc": "CREME RICOTA TIR LIG", "dept": "FRIOS_LATICINIOS", "venda_hoje": 9.43, "venda_baseline": 28.09, "delta_rs": -18.66}, {"cod": 6771, "desc": "PIPOCA ART MAIS PURA", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 18.22, "delta_rs": -18.22}, {"cod": 4722, "desc": "FILE PTO FGO SEARA B", "dept": "CARNES_AVES_PESCADOS", "venda_hoje": 51.8, "venda_baseline": 33.87, "delta_rs": 17.93}, {"cod": 5014, "desc": "PEITO PERU DEF FATIA", "dept": "FRIOS_LATICINIOS", "venda_hoje": 37.58, "venda_baseline": 19.69, "delta_rs": 17.89}, {"cod": 5354, "desc": "ENERG MONSTER ENERGY", "dept": "BEBIDAS", "venda_hoje": 0.0, "venda_baseline": 17.5, "delta_rs": -17.5}, {"cod": 73, "desc": "PERA D ANJOU KG", "dept": "HORTI_FRUTAS", "venda_hoje": 4.12, "venda_baseline": 21.37, "delta_rs": -17.25}, {"cod": 6046, "desc": "HORTELA MIUDO FRESCO", "dept": "HORTI_HORTALICAS", "venda_hoje": 17.04, "venda_baseline": 34.23, "delta_rs": -17.2}, {"cod": 2694, "desc": "AGUA MIN CRYSTAL C G", "dept": "BEBIDAS", "venda_hoje": 0.0, "venda_baseline": 17.19, "delta_rs": -17.19}, {"cod": 6272, "desc": "FLORES COMESTIVEIS B", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 68.22, "venda_baseline": 51.16, "delta_rs": 17.05}, {"cod": 5559, "desc": "IOG YOPRO17 NAT 160G", "dept": "FRIOS_LATICINIOS", "venda_hoje": 0.0, "venda_baseline": 16.74, "delta_rs": -16.74}, {"cod": 6733, "desc": "LAS BOLONHESA SADIA", "dept": "CONGELADOS", "venda_hoje": 0.0, "venda_baseline": 16.24, "delta_rs": -16.24}, {"cod": 526, "desc": "ALFACE CRESPA SUPREM", "dept": "HORTI_HORTALICAS", "venda_hoje": 34.93, "venda_baseline": 18.71, "delta_rs": 16.22}, {"cod": 6588, "desc": "IOG V CAMPO WHEY11 F", "dept": "FRIOS_LATICINIOS", "venda_hoje": 9.79, "venda_baseline": 26.01, "delta_rs": -16.22}, {"cod": 50889, "desc": "BARRA PROTEIN CRISP OVOMALTINE", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 15.99, "delta_rs": -15.99}, {"cod": 2663, "desc": "CREAM CH POLENGHI LI", "dept": "FRIOS_LATICINIOS", "venda_hoje": 0.0, "venda_baseline": 15.99, "delta_rs": -15.99}, {"cod": 409, "desc": "CENOURA GRAN MESA KG", "dept": "GRAN_MESA", "venda_hoje": 28.89, "venda_baseline": 12.92, "delta_rs": 15.97}, {"cod": 4754, "desc": "AGUA MIN INDAIA C GA", "dept": "BEBIDAS", "venda_hoje": 0.0, "venda_baseline": 15.93, "delta_rs": -15.93}, {"cod": 5451, "desc": "ATUM PDC G COSTA NAT", "dept": "MERCEARIA", "venda_hoje": 34.24, "venda_baseline": 18.46, "delta_rs": 15.78}, {"cod": 2759, "desc": "QJ PAR RALADO FAIXA", "dept": "FRIOS_LATICINIOS", "venda_hoje": 0.0, "venda_baseline": 15.73, "delta_rs": -15.73}, {"cod": 6410, "desc": "CAMARAO SECO KG", "dept": "CARNES_AVES_PESCADOS", "venda_hoje": 0.0, "venda_baseline": 15.49, "delta_rs": -15.49}, {"cod": 5182, "desc": "CARNE DO SOL CARAPRE", "dept": "CARNES_AVES_PESCADOS", "venda_hoje": 90.12, "venda_baseline": 74.78, "delta_rs": 15.34}, {"cod": 50759, "desc": "GUARAMIX PET 500ML", "dept": "BEBIDAS", "venda_hoje": 18.95, "venda_baseline": 3.79, "delta_rs": 15.16}, {"cod": 2404, "desc": "LEITE LIQ S DES PIRA 0 LAC", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 15.13, "delta_rs": -15.13}, {"cod": 4638, "desc": "AGUA MIN INDAIA 5L", "dept": "BEBIDAS", "venda_hoje": 0.0, "venda_baseline": 14.99, "delta_rs": -14.99}, {"cod": 3581, "desc": "LEITE PO ITAMBE INT", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 14.46, "delta_rs": -14.46}, {"cod": 2394, "desc": "CERV BUDWEISER LT 35", "dept": "BEBIDAS", "venda_hoje": 0.0, "venda_baseline": 14.37, "delta_rs": -14.37}, {"cod": 535, "desc": "COUVE HIG SUPREMA 1", "dept": "HORTI_HORTALICAS", "venda_hoje": 0.0, "venda_baseline": 14.36, "delta_rs": -14.36}, {"cod": 3812, "desc": "OVOS CAIP AGRANOR C1", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 44.7, "venda_baseline": 30.36, "delta_rs": 14.34}, {"cod": 473, "desc": "BANANA CHIPS ORIG KG", "dept": "GRANEL", "venda_hoje": 29.8, "venda_baseline": 43.99, "delta_rs": -14.19}, {"cod": 51135, "desc": "TRIDENT MAX COOL RASPBERRY 16", "dept": "MERCEARIA", "venda_hoje": 18.87, "venda_baseline": 4.72, "delta_rs": 14.15}, {"cod": 5054, "desc": "BAR PROT COOKIES C B", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 13.87, "delta_rs": -13.87}, {"cod": 5005, "desc": "CALDO VERDE GRAN MES", "dept": "GRAN_MESA", "venda_hoje": 35.8, "venda_baseline": 21.99, "delta_rs": 13.81}, {"cod": 3063, "desc": "FEIJAO CARIOCA KICAL", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 13.79, "delta_rs": -13.79}, {"cod": 5909, "desc": "BATATA PALITO DO CHE", "dept": "CONGELADOS", "venda_hoje": 26.95, "venda_baseline": 13.3, "delta_rs": 13.65}, {"cod": 51041, "desc": "WAFER BENDU CRISPY COOKNCREAM", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 13.64, "delta_rs": -13.64}, {"cod": 133, "desc": "QUIABO KG", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 39.03, "venda_baseline": 25.52, "delta_rs": 13.51}, {"cod": 50087, "desc": "QJ PRATO SADIA FAT 150G", "dept": "FRIOS_LATICINIOS", "venda_hoje": 33.57, "venda_baseline": 20.16, "delta_rs": 13.41}, {"cod": 317, "desc": "MILHO PIPOCA YOKI PR", "dept": "MERCEARIA", "venda_hoje": 6.29, "venda_baseline": 19.54, "delta_rs": -13.25}, {"cod": 164, "desc": "MIX ALFACE CENOURA N", "dept": "HORTI_HORTALICAS", "venda_hoje": 7.49, "venda_baseline": 20.36, "delta_rs": -12.87}, {"cod": 50821, "desc": "AIPIM DESCASCADO RAIZES 1KG", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 10.49, "venda_baseline": 23.28, "delta_rs": -12.79}, {"cod": 2376, "desc": "REFRIG G ANTARCTICA", "dept": "BEBIDAS", "venda_hoje": 0.0, "venda_baseline": 12.68, "delta_rs": -12.68}, {"cod": 3642, "desc": "PIMENTAO VERMELHO KG", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 117.84, "venda_baseline": 105.31, "delta_rs": 12.53}, {"cod": 454, "desc": "MILHO TORRADO MOSTAR", "dept": "GRANEL", "venda_hoje": 34.09, "venda_baseline": 21.77, "delta_rs": 12.33}, {"cod": 5497, "desc": "AGUA MIN INDAIA S GA", "dept": "BEBIDAS", "venda_hoje": 13.96, "venda_baseline": 1.72, "delta_rs": 12.24}, {"cod": 3548, "desc": "QJ COTT TIROLEZ 0LAC", "dept": "FRIOS_LATICINIOS", "venda_hoje": 0.0, "venda_baseline": 12.18, "delta_rs": -12.18}, {"cod": 653, "desc": "COGUMELO SHIMEJI PRETO BDJ", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 47.8, "venda_baseline": 59.84, "delta_rs": -12.04}, {"cod": 98, "desc": "ABOBRINHA KG", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 22.87, "venda_baseline": 10.95, "delta_rs": 11.92}, {"cod": 170, "desc": "RUCULA NATUR 250G", "dept": "HORTI_HORTALICAS", "venda_hoje": 23.58, "venda_baseline": 11.79, "delta_rs": 11.79}, {"cod": 713, "desc": "BISCOITO DE ARROZ SABOR BARBEC", "dept": "GRANEL", "venda_hoje": 0.0, "venda_baseline": 11.67, "delta_rs": -11.67}, {"cod": 200, "desc": "ALECRIM UN", "dept": "HORTI_HORTALICAS", "venda_hoje": 31.12, "venda_baseline": 19.45, "delta_rs": 11.67}, {"cod": 4852, "desc": "LEITE PO PIRACANJUBA INT 200G", "dept": "MERCEARIA", "venda_hoje": 9.49, "venda_baseline": 21.16, "delta_rs": -11.67}, {"cod": 3781, "desc": "CERV ORIGI ANTAR PIL", "dept": "BEBIDAS", "venda_hoje": 50.28, "venda_baseline": 61.75, "delta_rs": -11.47}, {"cod": 51351, "desc": "PRESUNTO COZIDO SADIA FATIADO", "dept": "FRIOS_LATICINIOS", "venda_hoje": 69.25, "venda_baseline": 58.11, "delta_rs": 11.14}, {"cod": 3721, "desc": "FAR MAND BR 1KG ARCO", "dept": "MERCEARIA", "venda_hoje": 2.73, "venda_baseline": 13.57, "delta_rs": -10.84}, {"cod": 2408, "desc": "LEITE LIQ INT PIRAC", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 10.61, "delta_rs": -10.61}, {"cod": 48, "desc": "MAMAO FORMOSA KG", "dept": "HORTI_FRUTAS", "venda_hoje": 27.9, "venda_baseline": 17.45, "delta_rs": 10.45}, {"cod": 4207, "desc": "PASTILHA GAROTO HORT", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 10.3, "delta_rs": -10.3}, {"cod": 6234, "desc": "CHOC GALAK 80G", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 9.97, "delta_rs": -9.97}, {"cod": 3703, "desc": "BLANQUET PERU SADIA", "dept": "FRIOS_LATICINIOS", "venda_hoje": 0.0, "venda_baseline": 9.62, "delta_rs": -9.62}, {"cod": 5951, "desc": "MASSA PENNE RISCOSSA", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 9.49, "delta_rs": -9.49}, {"cod": 5711, "desc": "CHOCO WHEYFER 6G CHO", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 9.29, "delta_rs": -9.29}, {"cod": 3099, "desc": "POLENGUINHO TRAD 17G", "dept": "FRIOS_LATICINIOS", "venda_hoje": 12.35, "venda_baseline": 3.13, "delta_rs": 9.22}, {"cod": 42, "desc": "LIMA PERSIA KG", "dept": "HORTI_FRUTAS", "venda_hoje": 0.0, "venda_baseline": 9.21, "delta_rs": -9.21}, {"cod": 50774, "desc": "IOG ACTIVIA AVEIA", "dept": "FRIOS_LATICINIOS", "venda_hoje": 0.0, "venda_baseline": 8.99, "delta_rs": -8.99}, {"cod": 599, "desc": "FAROFA GALETO GRAN MESA KG", "dept": "GRAN_MESA", "venda_hoje": 46.22, "venda_baseline": 37.24, "delta_rs": 8.98}, {"cod": 439, "desc": "SEMENTE CHIA KG", "dept": "GRANEL", "venda_hoje": 8.07, "venda_baseline": 16.81, "delta_rs": -8.74}, {"cod": 464, "desc": "CACAU EM PO PREM KG", "dept": "GRANEL", "venda_hoje": 0.0, "venda_baseline": 8.66, "delta_rs": -8.66}, {"cod": 2483, "desc": "AGUA MIN CRYSTAL S G", "dept": "BEBIDAS", "venda_hoje": 0.0, "venda_baseline": 8.37, "delta_rs": -8.37}, {"cod": 2261, "desc": "CHOC BATON AO LEITE", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 8.37, "delta_rs": -8.37}, {"cod": 50285, "desc": "PIPOCA ART MAIS PURA", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 8.21, "delta_rs": -8.21}, {"cod": 40, "desc": "LARANJA PERA KG", "dept": "HORTI_FRUTAS", "venda_hoje": 50.51, "venda_baseline": 58.3, "delta_rs": -7.79}, {"cod": 4, "desc": "ABACATE KG", "dept": "HORTI_FRUTAS", "venda_hoje": 29.59, "venda_baseline": 37.12, "delta_rs": -7.54}, {"cod": 2299, "desc": "IOG V CAMPO LACFREE", "dept": "FRIOS_LATICINIOS", "venda_hoje": 0.0, "venda_baseline": 7.43, "delta_rs": -7.43}, {"cod": 3884, "desc": "BOLINHO BAUD DUPLO C", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 7.4, "delta_rs": -7.4}, {"cod": 120, "desc": "GENGIBRE KG", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 26.61, "venda_baseline": 19.27, "delta_rs": 7.34}, {"cod": 4741, "desc": "CERV SPATEN LT 350ML", "dept": "BEBIDAS", "venda_hoje": 10.97, "venda_baseline": 17.97, "delta_rs": -7.0}, {"cod": 3394, "desc": "MAMAO PAPAYA KG", "dept": "HORTI_FRUTAS", "venda_hoje": 130.43, "venda_baseline": 123.44, "delta_rs": 6.99}, {"cod": 50118, "desc": "ARROZ BCO TIO MINGO", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 6.98, "delta_rs": -6.98}, {"cod": 5290, "desc": "BAR SUP ZERO AM 24G", "dept": "MERCEARIA", "venda_hoje": 16.86, "venda_baseline": 9.97, "delta_rs": 6.88}, {"cod": 3117, "desc": "IOG NAT ITAMBE 170G", "dept": "FRIOS_LATICINIOS", "venda_hoje": 3.9, "venda_baseline": 10.72, "delta_rs": -6.82}, {"cod": 522, "desc": "SALSA SUPREMA 100G", "dept": "HORTI_HORTALICAS", "venda_hoje": 0.0, "venda_baseline": 6.63, "delta_rs": -6.63}, {"cod": 50506, "desc": "BISC RECH PIRAQUE MOR 76G", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 6.59, "delta_rs": -6.59}, {"cod": 51350, "desc": "BEB JUNGLE MARACUJA 500ML", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 6.59, "delta_rs": -6.59}, {"cod": 2456, "desc": "SUCO LARANJA 500ML", "dept": "GRAN_MESA", "venda_hoje": 12.9, "venda_baseline": 19.35, "delta_rs": -6.45}, {"cod": 228, "desc": "SALSA UND", "dept": "HORTI_HORTALICAS", "venda_hoje": 17.85, "venda_baseline": 11.53, "delta_rs": 6.32}, {"cod": 5582, "desc": "ENERG MONSTER ULTRA", "dept": "BEBIDAS", "venda_hoje": 29.97, "venda_baseline": 23.71, "delta_rs": 6.25}, {"cod": 2257, "desc": "CHOC TALENTO CAST PA", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 6.24, "delta_rs": -6.24}, {"cod": 752, "desc": "BOLO GRAN MILHO KG", "dept": "PADARIA", "venda_hoje": 17.56, "venda_baseline": 23.61, "delta_rs": -6.05}, {"cod": 2191, "desc": "BISC PASSAT LEITE 15", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 5.99, "delta_rs": -5.99}, {"cod": 2845, "desc": "FILTRO PAPEL MELITTA", "dept": "BAZAR_HIG_LIMP", "venda_hoje": 0.0, "venda_baseline": 5.64, "delta_rs": -5.64}, {"cod": 5601, "desc": "BOMB SONHO VALSA 20G", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 5.6, "delta_rs": -5.6}, {"cod": 50664, "desc": "CERV DEVASSA P MALTE 350ML", "dept": "BEBIDAS", "venda_hoje": 0.0, "venda_baseline": 5.5, "delta_rs": -5.5}, {"cod": 2982, "desc": "SALADA CAPRESE PCS KG", "dept": "GRAN_MESA", "venda_hoje": 43.15, "venda_baseline": 37.72, "delta_rs": 5.43}, {"cod": 437, "desc": "LEMON PEPPER KG", "dept": "GRANEL", "venda_hoje": 12.19, "venda_baseline": 6.8, "delta_rs": 5.39}, {"cod": 4481, "desc": "PACOQUITA SANTA H 18", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 5.25, "delta_rs": -5.25}, {"cod": 215, "desc": "COUVE FOLHA UND", "dept": "HORTI_HORTALICAS", "venda_hoje": 0.0, "venda_baseline": 5.23, "delta_rs": -5.23}, {"cod": 222, "desc": "MANJERICAO UND", "dept": "HORTI_HORTALICAS", "venda_hoje": 6.41, "venda_baseline": 11.52, "delta_rs": -5.11}, {"cod": 465, "desc": "AMENDOIM SALSA E CEB", "dept": "GRANEL", "venda_hoje": 3.74, "venda_baseline": 8.63, "delta_rs": -4.89}, {"cod": 83, "desc": "TANGERINA PONKAN KG", "dept": "HORTI_FRUTAS", "venda_hoje": 10.19, "venda_baseline": 15.07, "delta_rs": -4.88}, {"cod": 3391, "desc": "AGUA TON ANTARC DIET", "dept": "BEBIDAS", "venda_hoje": 0.0, "venda_baseline": 4.74, "delta_rs": -4.74}, {"cod": 250, "desc": "BETERRABA KG", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 2.96, "venda_baseline": 7.52, "delta_rs": -4.56}, {"cod": 3976, "desc": "FAR TRIGO D BENTA TR", "dept": "MERCEARIA", "venda_hoje": 5.99, "venda_baseline": 10.31, "delta_rs": -4.32}, {"cod": 390, "desc": "MAMAO PCS KG", "dept": "GRAN_MESA", "venda_hoje": 16.82, "venda_baseline": 12.53, "delta_rs": 4.29}, {"cod": 51410, "desc": "BISCOITO WAFER VITARELLA BRIGA", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 4.19, "delta_rs": -4.19}, {"cod": 4854, "desc": "SUPERCOFFEE TO GO VA", "dept": "MERCEARIA", "venda_hoje": 8.99, "venda_baseline": 13.05, "delta_rs": -4.06}, {"cod": 126, "desc": "PEPINO KG", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 9.5, "venda_baseline": 5.54, "delta_rs": 3.96}, {"cod": 131, "desc": "PIMENTAO VERDE KG", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 30.98, "venda_baseline": 27.07, "delta_rs": 3.91}, {"cod": 127, "desc": "PEPINO JAPONES KG", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 3.12, "venda_baseline": 6.96, "delta_rs": -3.84}, {"cod": 5075, "desc": "FER PO QUIM D BENTA", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 3.74, "delta_rs": -3.74}, {"cod": 51251, "desc": "BEIJU ESPECIAL RECHEADO COCO", "dept": "PADARIA", "venda_hoje": 16.79, "venda_baseline": 20.52, "delta_rs": -3.73}, {"cod": 4095, "desc": "AMENDOIM TORRADO KG", "dept": "GRANEL", "venda_hoje": 0.0, "venda_baseline": 3.64, "delta_rs": -3.64}, {"cod": 2196, "desc": "CREME LT NESTLE 200G", "dept": "MERCEARIA", "venda_hoje": 31.45, "venda_baseline": 28.09, "delta_rs": 3.36}, {"cod": 4485, "desc": "CHOC TWIX ORIGINAL 8", "dept": "MERCEARIA", "venda_hoje": 8.99, "venda_baseline": 12.28, "delta_rs": -3.29}, {"cod": 50235, "desc": "GOMA P FRESH SPEARMINT", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 3.29, "delta_rs": -3.29}, {"cod": 51575, "desc": "SUCO DE UVA E MAC?", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 3.27, "delta_rs": -3.27}, {"cod": 513, "desc": "BATATA APERITIVO KG", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 0.0, "venda_baseline": 3.14, "delta_rs": -3.14}, {"cod": 275, "desc": "PAO FORMA INT LIMIAR", "dept": "PADARIA", "venda_hoje": 9.49, "venda_baseline": 6.47, "delta_rs": 3.02}, {"cod": 3913, "desc": "BOMB SERENATA DE AMO", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 2.98, "delta_rs": -2.98}, {"cod": 4215, "desc": "CALDO MAGGI CARNE 57", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 2.84, "delta_rs": -2.84}, {"cod": 530, "desc": "CEBOLINHA SUPREMA 10", "dept": "HORTI_HORTALICAS", "venda_hoje": 3.79, "venda_baseline": 6.63, "delta_rs": -2.84}, {"cod": 50092, "desc": "REFRIG PEPSI ZERO 350ML", "dept": "BEBIDAS", "venda_hoje": 9.87, "venda_baseline": 7.07, "delta_rs": 2.8}, {"cod": 767, "desc": "SACOLA RECICLAVEL M", "dept": "BAZAR_HIG_LIMP", "venda_hoje": 25.73, "venda_baseline": 23.04, "delta_rs": 2.69}, {"cod": 3589, "desc": "ACUCAR CRISTAL CAETE", "dept": "MERCEARIA", "venda_hoje": 9.81, "venda_baseline": 7.13, "delta_rs": 2.68}, {"cod": 51225, "desc": "SUPERCOFFEE TO GO STICK DOCE D", "dept": "MERCEARIA", "venda_hoje": 28.47, "venda_baseline": 25.8, "delta_rs": 2.67}, {"cod": 2555, "desc": "REQ CREM DAVACA TRAD", "dept": "FRIOS_LATICINIOS", "venda_hoje": 26.37, "venda_baseline": 23.82, "delta_rs": 2.55}, {"cod": 6584, "desc": "SALGADOS DIVERSOS KG", "dept": "PADARIA", "venda_hoje": 56.05, "venda_baseline": 58.56, "delta_rs": -2.51}, {"cod": 50120, "desc": "NESCAU ACHOC PO LT 200G", "dept": "MERCEARIA", "venda_hoje": 9.99, "venda_baseline": 7.49, "delta_rs": 2.5}, {"cod": 2475, "desc": "SCHWEPPES CITRUS LT", "dept": "BEBIDAS", "venda_hoje": 4.99, "venda_baseline": 7.49, "delta_rs": -2.5}, {"cod": 333, "desc": "AMEIXA SEM CAROCO KG", "dept": "GRANEL", "venda_hoje": 34.22, "venda_baseline": 31.73, "delta_rs": 2.49}, {"cod": 5232, "desc": "EXT TOM PALMEIRON 27", "dept": "MERCEARIA", "venda_hoje": 0.0, "venda_baseline": 2.47, "delta_rs": -2.47}, {"cod": 528, "desc": "ALFACE ROXA SUPREMA", "dept": "HORTI_HORTALICAS", "venda_hoje": 9.58, "venda_baseline": 7.18, "delta_rs": 2.4}, {"cod": 5791, "desc": "MANTEIGA AVIACAO C S", "dept": "FRIOS_LATICINIOS", "venda_hoje": 15.03, "venda_baseline": 17.34, "delta_rs": -2.31}, {"cod": 2978, "desc": "ABOBRINHA SPAGHETTI", "dept": "GRAN_MESA", "venda_hoje": 16.42, "venda_baseline": 14.27, "delta_rs": 2.15}, {"cod": 2192, "desc": "BISC RECH PASSAT CHO", "dept": "MERCEARIA", "venda_hoje": 4.29, "venda_baseline": 6.44, "delta_rs": -2.15}, {"cod": 532, "desc": "CHEIRO VERDE SUPREMA", "dept": "HORTI_HORTALICAS", "venda_hoje": 7.58, "venda_baseline": 5.62, "delta_rs": 1.96}, {"cod": 139, "desc": "TOMATE SALADA KG", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 67.74, "venda_baseline": 65.8, "delta_rs": 1.94}, {"cod": 2697, "desc": "PIPOCA MAGRELA FIT O", "dept": "MERCEARIA", "venda_hoje": 23.96, "venda_baseline": 22.17, "delta_rs": 1.79}, {"cod": 45, "desc": "MACA NACIONAL KG", "dept": "HORTI_FRUTAS", "venda_hoje": 44.04, "venda_baseline": 42.25, "delta_rs": 1.79}, {"cod": 3474, "desc": "GATORADE UVA 500ML", "dept": "BEBIDAS", "venda_hoje": 6.99, "venda_baseline": 8.74, "delta_rs": -1.75}, {"cod": 109, "desc": "BERINJELA KG", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 2.67, "venda_baseline": 4.35, "delta_rs": -1.68}, {"cod": 50371, "desc": "MARG QUALY C SAL 250G", "dept": "FRIOS_LATICINIOS", "venda_hoje": 6.39, "venda_baseline": 7.99, "delta_rs": -1.6}, {"cod": 50644, "desc": "MILHO VERDE FUGINI SCH 170G", "dept": "MERCEARIA", "venda_hoje": 10.58, "venda_baseline": 9.0, "delta_rs": 1.58}, {"cod": 2381, "desc": "CERV BRAHMA DUPLO M", "dept": "BEBIDAS", "venda_hoje": 9.98, "venda_baseline": 11.28, "delta_rs": -1.3}, {"cod": 50397, "desc": "BAR SUP ZERO MORANGO 24G", "dept": "MERCEARIA", "venda_hoje": 7.98, "venda_baseline": 6.8, "delta_rs": 1.18}, {"cod": 527, "desc": "ALFACE LISA SUPREMA", "dept": "HORTI_HORTALICAS", "venda_hoje": 20.83, "venda_baseline": 19.74, "delta_rs": 1.09}, {"cod": 115, "desc": "CHUCHU KG", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 12.3, "venda_baseline": 13.33, "delta_rs": -1.03}, {"cod": 130, "desc": "PIMENTAO AMARELO KG", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 89.82, "venda_baseline": 88.8, "delta_rs": 1.02}, {"cod": 2865, "desc": "COENTRO SUPREMA 100G", "dept": "HORTI_HORTALICAS", "venda_hoje": 22.74, "venda_baseline": 21.79, "delta_rs": 0.95}, {"cod": 2473, "desc": "REFRIG FANTA LAR C L", "dept": "BEBIDAS", "venda_hoje": 3.39, "venda_baseline": 2.54, "delta_rs": 0.85}, {"cod": 5908, "desc": "GOMA P FRESH MINT 8", "dept": "MERCEARIA", "venda_hoje": 3.29, "venda_baseline": 2.47, "delta_rs": 0.82}, {"cod": 5408, "desc": "SUP BAR ORIG CHOC LE", "dept": "MERCEARIA", "venda_hoje": 7.58, "venda_baseline": 6.97, "delta_rs": 0.61}, {"cod": 227, "desc": "RUCULA UND", "dept": "HORTI_HORTALICAS", "venda_hoje": 7.18, "venda_baseline": 6.58, "delta_rs": 0.6}, {"cod": 51563, "desc": "WHEY PROT DUX CHOC BCO 30G", "dept": "MERCEARIA", "venda_hoje": 16.49, "venda_baseline": 15.99, "delta_rs": 0.5}, {"cod": 50824, "desc": "ABOBORA DESC CUBOS RAIZES 500G", "dept": "HORTI_LEG_GRANJEIROS", "venda_hoje": 7.99, "venda_baseline": 7.49, "delta_rs": 0.5}, {"cod": 507, "desc": "QJ PRATO TIROLEZ ZERO LIGHT", "dept": "FRIOS_LATICINIOS", "venda_hoje": 30.06, "venda_baseline": 29.7, "delta_rs": 0.36}, {"cod": 46, "desc": "MACA VERDE IMPORTADA", "dept": "HORTI_FRUTAS", "venda_hoje": 17.64, "venda_baseline": 17.98, "delta_rs": -0.34}, {"cod": 3308, "desc": "ENERG RED BULL EDITIONS WHITE", "dept": "BEBIDAS", "venda_hoje": 11.79, "venda_baseline": 11.49, "delta_rs": 0.3}, {"cod": 211, "desc": "CEBOLINHA UND", "dept": "HORTI_HORTALICAS", "venda_hoje": 6.18, "venda_baseline": 6.02, "delta_rs": 0.16}, {"cod": 2373, "desc": "AGUA H2OH LIMAO 500M", "dept": "BEBIDAS", "venda_hoje": 11.58, "venda_baseline": 11.64, "delta_rs": -0.06}, {"cod": 539, "desc": "HORTELA SUPREMA 100G", "dept": "HORTI_HORTALICAS", "venda_hoje": 3.29, "venda_baseline": 3.29, "delta_rs": 0.0}, {"cod": 5355, "desc": "REFRIG SPRITE ORIG L", "dept": "BEBIDAS", "venda_hoje": 3.99, "venda_baseline": 3.99, "delta_rs": 0.0}, {"cod": 50581, "desc": "CHOC NESTLE CRUNCH 80G", "dept": "MERCEARIA", "venda_hoje": 13.79, "venda_baseline": 13.79, "delta_rs": 0.0}, {"cod": 3373, "desc": "REQ CREM DAVACA LIGH", "dept": "FRIOS_LATICINIOS", "venda_hoje": 9.49, "venda_baseline": 9.49, "delta_rs": 0.0}]; window.__TORNADO_TOPN__ = 10; window.__TORNADO_TOPN_DEPT__ = 5;</script>
+
+<div style="padding: 16px;">
+  <button onclick="shareWhatsapp()" class="share-btn">📱 Compartilhar resumo no WhatsApp</button>
+</div>
+
+<div class="footer">
+  Painel de Guerra Gran Hortifruti — motor v7 (MAPE 11%) · render v11 (dropdown + cup1 baseline + tornados)<br>
+  Atualizado em 21/08/2026 às 21:13
+</div>
+
+</div>
+
+<script>
+function shareWhatsapp() {
+  const txt = `🎯 *PAINEL DE GUERRA GRAN* — Sexta, 21 de Agosto de 2026\n\n` +
+              `💰 Venda: *R$ 21.583* (de R$ 17.790 esperado)\n` +
+              `🎯 Alvo do dia: R$ 17.790\n` +
+              `📊 vs sexta passado: R$ 18.087\n\n` +
+              `EQUIPE NOTA 10! Vamos manter!`;
+  window.open('https://wa.me/?text=' + encodeURIComponent(txt), '_blank');
+}
+
+// === v11: Ritmo intra-dia com dropdown 4 KPIs ===
+const SERIES = {"faturamento": {"real": [64.0, 728.0, 2058.0, 3068.0, 4214.0, 6001.0, 7035.0, 8447.0, 10402.0, 16117.0, 17576.0, 18856.0, 20243.0, 20993.0, 21583.0, 21583.0], "baseline": [274.0, 1114.0, 2015.0, 2958.0, 4036.0, 5500.0, 7207.0, 8352.0, 9354.0, 10282.0, 11578.0, 13435.0, 15407.0, 16767.0, 17598.0, 17790.0], "label_real": "Real acumulado", "label_baseline": "Alvo (motor v7)", "tooltip_prefix": "R$ ", "tooltip_format": "rs", "y_format": "rs"}, "ticket_medio": {"real": [12.76, 20.21, 30.71, 32.29, 37.29, 41.97, 41.14, 42.45, 48.16, 65.78, 63.91, 58.74, 56.08, 55.83, 55.48, 55.48], "baseline": [18.38, 29.29, 32.67, 38.33, 40.35, 43.28, 44.43, 46.68, 45.92, 50.24, 50.48, 51.74, 51.12, 50.38, 50.35, 50.48], "label_real": "Ticket M\u00e9dio real", "label_baseline": "Baseline L4W sexta", "tooltip_prefix": "R$ ", "tooltip_format": "rs2", "y_format": "rs2"}, "n_cupons": {"real": [5, 36, 67, 95, 113, 143, 171, 199, 216, 245, 275, 321, 361, 376, 389, 389], "baseline": [6.0, 34.0, 63.0, 89.0, 109.0, 135.0, 168.0, 188.0, 204.0, 222.0, 244.0, 281.0, 306.0, 327.0, 336.0, 337.0], "label_real": "Cupons real", "label_baseline": "Baseline L4W sexta", "tooltip_prefix": "", "tooltip_format": "int", "y_format": "int"}, "itens_cupom": {"real": [1.6, 2.81, 3.45, 3.65, 3.95, 4.06, 3.89, 3.77, 3.76, 4.41, 4.3, 4.08, 4.01, 4.01, 4.04, 4.04], "baseline": [2.48, 2.9, 3.3, 3.56, 3.73, 3.78, 3.81, 3.82, 3.78, 3.89, 3.94, 4.02, 4.03, 4.02, 4.0, 4.02], "label_real": "Itens/Cupom real", "label_baseline": "Baseline L4W sexta", "tooltip_prefix": "", "tooltip_format": "dec2", "y_format": "dec2"}};
+const CHART_LABELS = ["06h", "07h", "08h", "09h", "10h", "11h", "12h", "13h", "14h", "15h", "16h", "17h", "18h", "19h", "20h", "21h"];
+
+function fmtTooltip(val, fmt) {
+  if (fmt === 'rs')   return 'R$ ' + Math.round(val).toLocaleString('pt-BR');
+  if (fmt === 'rs2')  return 'R$ ' + val.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+  if (fmt === 'int')  return Math.round(val).toLocaleString('pt-BR');
+  if (fmt === 'dec2') return val.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+  return val;
+}
+function fmtYTick(val, fmt) {
+  if (fmt === 'rs')   return 'R$ ' + (val >= 1000 ? (val/1000).toFixed(0) + 'k' : val);
+  if (fmt === 'rs2')  return 'R$ ' + val.toFixed(2);
+  if (fmt === 'int')  return Math.round(val);
+  if (fmt === 'dec2') return val.toFixed(2);
+  return val;
+}
+
+const ctxRitmo = document.getElementById('chartRitmo').getContext('2d');
+let chartRitmoInstance = null;
+
+function renderRitmo(kpiKey) {
+  const s = SERIES[kpiKey];
+  document.getElementById('legendaReal').textContent = s.label_real;
+  document.getElementById('legendaBaseline').textContent = s.label_baseline;
+  if (chartRitmoInstance) chartRitmoInstance.destroy();
+  chartRitmoInstance = new Chart(ctxRitmo, {
+    type: 'line',
+    data: {
+      labels: CHART_LABELS,
+      datasets: [
+        {
+          label: s.label_baseline, data: s.baseline,
+          borderColor: '#8b8f86', backgroundColor: 'rgba(139, 143, 134, 0.15)',
+          borderDash: [6, 4], fill: true, tension: 0.35, pointRadius: 0, borderWidth: 2,
+        },
+        {
+          label: s.label_real, data: s.real,
+          borderColor: '#1e4d2b', backgroundColor: 'rgba(30, 77, 43, 0.05)',
+          fill: false, tension: 0.35, pointRadius: 4, pointHoverRadius: 7,
+          pointBackgroundColor: '#1e4d2b', borderWidth: 3,
+        },
+      ],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(30, 77, 43, 0.95)', titleFont: { size: 13 },
+          bodyFont: { size: 13, weight: 'bold' }, padding: 10,
+          callbacks: { label: function(c) { return c.dataset.label + ': ' + fmtTooltip(c.parsed.y, s.tooltip_format); } }
+        }
+      },
+      scales: {
+        y: { beginAtZero: true,
+              ticks: { callback: function(v) { return fmtYTick(v, s.y_format); }, font: { size: 11 } },
+              grid: { color: '#e7f0e9' } },
+        x: { ticks: { font: { size: 10 }, maxRotation: 0 }, grid: { display: false } }
+      }
+    }
+  });
+}
+renderRitmo('faturamento');
+document.getElementById('ritmoKpiSelect').addEventListener('change', function(e) {
+  renderRitmo(e.target.value);
+});
+
+/* === v12: filtro de departamento no Tornado (client-side) === */
+(function() {
+  var sel = document.getElementById('tornadoDeptSelect');
+  if (!sel || !window.__TORNADO_UNIVERSO__) return;
+  var UNIVERSO = window.__TORNADO_UNIVERSO__;
+  var TOPN = window.__TORNADO_TOPN__ || 10;
+  var TOPN_DEPT = window.__TORNADO_TOPN_DEPT__ || 5;
+
+  function fmtBr(x) {
+    return Math.round(x).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  }
+  function rowHtml(item, maxAbs, kind) {
+    var delta = item.delta_rs;
+    var pctBar = maxAbs > 0 ? Math.min(100, (Math.abs(delta) / maxAbs) * 100) : 0;
+    var cor = kind === 'win' ? 'green' : 'red';
+    var sign = delta > 0 ? '+' : '−';
+    return '<div class="tornado-row">'
+      + '<div class="tornado-desc">' + item.desc + '</div>'
+      + '<div class="tornado-cod">cód ' + item.cod + '</div>'
+      + '<div class="tornado-bar-wrap"><div class="tornado-bar tornado-bar-' + cor + '" style="width:' + pctBar.toFixed(1) + '%"></div></div>'
+      + '<div class="tornado-vals"><span class="tornado-hoje">hoje R$ ' + fmtBr(item.venda_hoje) + '</span>'
+      + '<span class="tornado-base">base R$ ' + fmtBr(item.venda_baseline) + '</span></div>'
+      + '<div class="tornado-delta tornado-delta-' + cor + '">' + sign + 'R$ ' + fmtBr(Math.abs(delta)) + '</div>'
+      + '</div>';
+  }
+  function aplicar(dept) {
+    var ehLoja = (dept === '__ALL__');
+    var n = ehLoja ? TOPN : TOPN_DEPT;
+    var base = ehLoja ? UNIVERSO : UNIVERSO.filter(function(r) { return r.dept === dept; });
+    var perd = base.filter(function(r) { return r.delta_rs < 0; })
+                   .sort(function(a, b) { return a.delta_rs - b.delta_rs; }).slice(0, n);
+    var camp = base.filter(function(r) { return r.delta_rs > 0; })
+                   .sort(function(a, b) { return b.delta_rs - a.delta_rs; }).slice(0, n);
+    var maxAbs = 0;
+    camp.forEach(function(c) { if (c.delta_rs > maxAbs) maxAbs = c.delta_rs; });
+    perd.forEach(function(p) { if (Math.abs(p.delta_rs) > maxAbs) maxAbs = Math.abs(p.delta_rs); });
+    document.getElementById('tornadoLoss').innerHTML = perd.length
+      ? perd.map(function(p) { return rowHtml(p, maxAbs, 'loss'); }).join('')
+      : '<p class="tornado-empty">Sem perdedores significativos.</p>';
+    document.getElementById('tornadoWin').innerHTML = camp.length
+      ? camp.map(function(c) { return rowHtml(c, maxAbs, 'win'); }).join('')
+      : '<p class="tornado-empty">Sem campeões significativos.</p>';
+    document.getElementById('tornadoLossTitle').textContent = 'Top ' + perd.length + ' Perdedores';
+    document.getElementById('tornadoWinTitle').textContent = 'Top ' + camp.length + ' Campeões';
+  }
+  sel.addEventListener('change', function(e) { aplicar(e.target.value); });
+})();
+</script>
+
+</body>
+</html>
